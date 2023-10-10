@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "834723212018",
+    "project_id": "e-report-27c7e",
+    "storage_bucket": "e-report-27c7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834723212018:android:007b04da7fd1b04ca57e6b",
+        "android_client_info": {
+          "package_name": "com.example.ereport_mobile_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAz1er9yTJGhcl_D_2YVgHoMiAoPrdmBv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

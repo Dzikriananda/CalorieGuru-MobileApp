@@ -1,15 +1,21 @@
+import 'dart:async';
 import 'package:ereport_mobile_app/src/core/constants/images.dart';
+import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/constants/global.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
+import 'package:ereport_mobile_app/src/data/auth/auth.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/login_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/login_form_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget{
   final bool isVisible;
   const SignInForm({super.key,required this.isVisible});
-
 
   @override
   State<SignInForm> createState() => _SignInState();
@@ -17,10 +23,44 @@ class SignInForm extends StatefulWidget{
 
 class _SignInState extends State<SignInForm>{
   final _formKey = GlobalKey<FormState>();
+  final User? user = Auth().currentUser;
+  late StreamSubscription<User?> auth;
 
+
+  String _email = "dzikri@gmail.com";
+  String _pwd = "12345678";
+
+  Future<void> checkUID() async {
+    var uid = await Auth().getCurrentUID();
+    print("uid : $uid");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // final uid = Auth().getCurrentUID();
+    auth = Auth().authStateChanges.listen((event) {
+      print("event: $event");
+    });
+    print("user : $user");
+    checkUID();
+  }
+
+  void changeScreen(ResultState state,Function disposeFunc){
+    print("state changescreen $state");
+    if(state == ResultState.logged ){
+      print("state changescreen moving...$state");
+      disposeFunc();
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context){
+    final viewModel = Provider.of<LoginViewModel>(context, listen: true);
+    changeScreen(viewModel.state,()=>viewModel.dispose());
     return Scaffold(
         body: SingleChildScrollView(
           child: SafeArea(
@@ -37,8 +77,8 @@ class _SignInState extends State<SignInForm>{
                         children: [
                           Image.asset(
                               DefaultImages.logo,
-                              // height: 120,
-                              // width: 120,
+                              height: 150,
+                              width: 150,
                           ),
                           Text(
                               TextStrings.appTitle,
@@ -76,20 +116,26 @@ class _SignInState extends State<SignInForm>{
                                     if (!val!.isValidEmail) return TextStrings.invalidEmailWarning;
                                   },
                                   isPassword: false,
+                                  onSubmited: (value){
+                                    viewModel.setEmail = value;
+                                  },
                                 ),
                                 const SizedBox(height: 15),
                                 CustomFormField(
                                   hintText: 'Password',
                                   validator: (val) {
-                                    if (!val!.isNotNull) return TextStrings.invalidPasswordWarning;
+                                    if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
                                   },
                                   isPassword: true,
+                                  onSubmited: (value){
+                                    viewModel.setPwd = value;
+                                  },
                                 ),
                                 const SizedBox(height: 30),
                                 ElevatedButton(
                                   onPressed: () {
                                     if(_formKey.currentState!.validate()){
-                                      Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
+                                      viewModel.signIn();
                                     }
                                   },
                                   child: Text("Login",style: LoginButtonText),
@@ -113,10 +159,20 @@ class _SignInState extends State<SignInForm>{
                   AnimatedOpacity(
                     opacity: widget.isVisible ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 500),
-                    child:  Text(
-                        TextStrings.signinHelp,
-                        style: Theme.of(context).textTheme.bodySmall
-                    ),
+                    child:  RichText(
+                      text: TextSpan(
+                        text: TextStrings.signinregister_first,
+                        style: registerOptionText,
+                        children: [
+                          TextSpan(
+                              text: TextStrings.signinregister_second,
+                              style: TextStyle(color: Colors.blue),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => Navigator.of(context).pushNamed('/registerScreen')
+                          ),
+                        ],
+                      ),
+                    )
                   )
                 ],
               ),

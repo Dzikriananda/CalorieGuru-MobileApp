@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/splash_screen_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +32,25 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     playLocalAsset();
-    Future.delayed(Duration(seconds: 2), () { // <-- Delay here
-        Navigator.pushReplacementNamed(context, '/loginScreen',);
+
+  }
+
+  @override
+  void didChangeDependencies() async {
+    await Future.delayed(Duration(seconds: 2), () { // <-- Delay here
     });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final viewmodel = Provider.of<SplashScreenViewModel>(context, listen: false);
+      if(viewmodel.state == ResultState.unLogged){
+        Navigator.pushReplacementNamed(context, '/loginScreen');
+        viewmodel.dispose();
+      }
+      else if(viewmodel.state == ResultState.logged){
+        Navigator.pushReplacementNamed(context, '/bottomNavigation');
+        viewmodel.dispose();
+      }
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -53,8 +70,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: [
                       Image.asset(
                           DefaultImages.logo,
-                          // height: 120,
-                          // width: 120,
+                          height: 150,
+                          width: 150,
                       ),
                       Text(TextStrings.appTitle, style: splashScreenText),
                     ],

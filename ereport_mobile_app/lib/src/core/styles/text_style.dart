@@ -80,6 +80,15 @@ const TextStyle listItemText = TextStyle(
     decoration: TextDecoration.none
 );
 
+const TextStyle registerOptionText = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: onBackgroundColor,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
 const TextStyle containerOptionText = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 16,

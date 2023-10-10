@@ -26,9 +26,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool showAlert = false;
 
   List<String> image = [
-    'https://disk.mediaindonesia.com/thumbs/1800x1200/news/2022/11/de3a94b12c4f87ca3b3a66dff43ea07d.jpg',
-    'https://news.unair.ac.id/wp-content/uploads/2019/09/Ilustrasi-oleh-fmipaunj.jpg',
-    'https://d1bpj0tv6vfxyp.cloudfront.net/articles/27788_30-3-2021_23-25-59.jpeg',
+    "https://plus.unsplash.com/premium_photo-1674375348357-a25140a68bbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNhciUyMHJlcGFpciUyMHNob3B8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
+    "https://images.unsplash.com/photo-1596986952526-3be237187071?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FyJTIwcmVwYWlyJTIwc2hvcHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80",
+    "https://ichoose.ph/blogs/wp-content/uploads/2016/01/car-repair.jpg"
   ];
 
   @override
@@ -120,14 +120,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                       ),
                                       Container(
                                         child: Text(
-                                          "Petrolab Cabang Balikpapan",
+                                          "Sigma Speed Bengkel",
                                           style: petrolabTextTheme.titleMedium,
                                         ),
                                         width: MediaQuery. of(context). size. width * 0.6,
                                       ),
                                       Container(
                                         child: Text(
-                                          "IoT Engineer & Programmer",
+                                          "Head Admin",
                                           style: petrolabTextTheme.bodyMedium,
                                         ),
                                         width: MediaQuery. of(context). size. width * 0.6,

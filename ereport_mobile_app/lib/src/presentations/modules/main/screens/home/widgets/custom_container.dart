@@ -36,11 +36,11 @@ class _CustomContainerState extends State<CustomContainer> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 8, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(23, 8, 0, 0),
                     child: SvgPicture.asset(
                       widget.icon.path,
                       width: 40,
-                      colorFilter: const ColorFilter.mode(onPrimaryContainer, BlendMode.srcIn),
+                      // colorFilter: const ColorFilter.mode(onPrimaryContainer, BlendMode.srcIn),
                     )
                 ),
               ),

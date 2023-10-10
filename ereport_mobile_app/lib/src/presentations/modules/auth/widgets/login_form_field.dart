@@ -10,12 +10,14 @@ class CustomFormField extends StatefulWidget {
     required this.hintText,
     this.inputFormatters,
     this.validator,
-    required this.isPassword
+    required this.isPassword,
+    required this.onSubmited
   }) : super(key: key);
 
   final String hintText;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
+  final Function(String) onSubmited;
   late bool isPassword;
 
   @override
@@ -36,7 +38,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
             hintText: widget.hintText,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
-              borderSide: BorderSide(color: backgroundColor)
+              borderSide: BorderSide.none
             ),
             filled: true,
             fillColor: backgroundColor,
@@ -51,6 +53,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
             ) : null
         ),
         obscureText: (widget.isPassword? true : false)? hideText: false,
+        onChanged: widget.onSubmited,
       ),
     );
   }
@@ -63,9 +66,7 @@ extension extString on String {
   }
 
   bool get isValidPassword{
-    final passwordRegExp =
-    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\><*~]).{8,}/pre>');
-    return passwordRegExp.hasMatch(this);
+    return this.length>6;
   }
 
   bool get isNotNull{
