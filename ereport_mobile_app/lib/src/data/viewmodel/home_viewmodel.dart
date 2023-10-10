@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class HomeViewModel extends ChangeNotifier {

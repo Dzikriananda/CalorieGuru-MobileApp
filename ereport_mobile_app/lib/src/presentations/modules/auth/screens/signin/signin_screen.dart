@@ -11,7 +11,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
 
-  late bool isConnected;
+  // late bool isConnected;
   bool _visible = false;
 
   @override
