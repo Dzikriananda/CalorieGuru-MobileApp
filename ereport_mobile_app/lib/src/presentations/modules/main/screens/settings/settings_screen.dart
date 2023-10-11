@@ -52,7 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         provider.dispose();
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/loginScreen', (Route<dynamic> route) => false);
+            .pushNamedAndRemoveUntil('/authScreen', (Route<dynamic> route) => false);
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       });
     }

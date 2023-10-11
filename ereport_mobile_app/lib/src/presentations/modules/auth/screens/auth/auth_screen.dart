@@ -2,20 +2,20 @@ import 'package:ereport_mobile_app/src/core/constants/global.dart';
 import 'package:ereport_mobile_app/src/core/constants/images.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
-import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/register/widgets/register_form.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/auth/widgets/register_form.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
-import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/signin/widgets/signin_form.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/auth/widgets/signin_form.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _AuthScreenState extends State<AuthScreen> {
 
   bool _visible = false;
   bool isRegister = false;
