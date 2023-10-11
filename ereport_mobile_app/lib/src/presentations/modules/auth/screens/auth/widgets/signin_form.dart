@@ -85,7 +85,9 @@ class _SignInState extends State<SignInForm>{
                 const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
+                    print("menekan login");
                     if(_formKey.currentState!.validate()){
+                      print("berhasil login");
                       viewModel.signIn();
                     }
                   },

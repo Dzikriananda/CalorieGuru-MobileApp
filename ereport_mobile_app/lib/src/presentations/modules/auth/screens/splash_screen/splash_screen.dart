@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final viewmodel = Provider.of<SplashScreenViewModel>(context, listen: false);
       if(viewmodel.state == ResultState.unLogged){
-        Navigator.pushReplacementNamed(context, '/loginScreen');
+        Navigator.pushReplacementNamed(context, '/authScreen');
         viewmodel.dispose();
       }
       else if(viewmodel.state == ResultState.logged){

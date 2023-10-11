@@ -88,9 +88,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
+                    print("menekan register");
                     if(_formKey.currentState!.validate() && (firstPassword == secondPassword)){
                       //signIn();
-                      Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
+                      // Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
+                      print("mi sukses isi dua");
                     }
                   },
                   child: Text("Register",style: LoginButtonText),
