@@ -1,46 +1,31 @@
-import 'dart:async';
 import 'package:ereport_mobile_app/src/core/constants/images.dart';
-import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
-import 'package:ereport_mobile_app/src/core/constants/global.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
-import 'package:ereport_mobile_app/src/data/auth/auth.dart';
-import 'package:ereport_mobile_app/src/data/viewmodel/login_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class SignInForm extends StatefulWidget{
-  const SignInForm({super.key});
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({super.key});
 
   @override
-  State<SignInForm> createState() => _SignInState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _SignInState extends State<SignInForm>{
+class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
 
+  late String email;
+  late String firstPassword;
+  late String secondPassword;
+
   @override
-  void initState() {
+  void initState(){
     super.initState();
   }
 
-  void changeScreen(ResultState state,Function disposeFunc){
-    if(state == ResultState.logged ){
-      disposeFunc();
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
-      });
-    }
-  }
-
   @override
-  Widget build(BuildContext context){
-    final viewModel = Provider.of<LoginViewModel>(context, listen: true);
-    changeScreen(viewModel.state,()=>viewModel.dispose());
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
@@ -53,43 +38,62 @@ class _SignInState extends State<SignInForm>{
       child: Column(
         children: [
           SizedBox(height: 10),
-          Text("Login", style: LoginScreenText),
+          Text("Register", style: LoginScreenText),
           const SizedBox(height: 30),
           Form(
             key: _formKey,
             child: Column(
               children: [
                 CustomFormField(
-                  hintText: 'Email',
+                  hintText: 'Enter Your Email',
                   validator: (val) {
                     if (!val!.isValidEmail) return TextStrings.invalidEmailWarning;
                   },
                   isPassword: false,
                   icon: Icon(Icons.email),
                   onSubmited: (value){
-                    viewModel.setEmail = value;
+                    setState(() {
+                      email = value;
+                    });
                   },
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
-                  hintText: 'Password',
+                  hintText: 'Enter Your Password',
                   validator: (val) {
                     if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
                   },
                   isPassword: true,
                   icon: Icon(Icons.lock),
                   onSubmited: (value){
-                    viewModel.setPwd = value;
+                    setState(() {
+                      firstPassword = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 15),
+                CustomFormField(
+                  hintText: 'Reenter Password',
+                  validator: (val) {
+                    if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
+                  },
+                  isPassword: true,
+                  icon: Icon(Icons.lock),
+                  onSubmited: (value){
+                    setState(() {
+                      secondPassword = value;
+                    });
                   },
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
-                    if(_formKey.currentState!.validate()){
-                      viewModel.signIn();
+                    if(_formKey.currentState!.validate() && (firstPassword == secondPassword)){
+                      //signIn();
+                      Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
                     }
                   },
-                  child: Text("Login",style: LoginButtonText),
+                  child: Text("Register",style: LoginButtonText),
                   style: ElevatedButton.styleFrom(
                     primary: primaryColor,
                     shape: RoundedRectangleBorder(
@@ -100,9 +104,11 @@ class _SignInState extends State<SignInForm>{
                 const SizedBox(height: 15),
               ],
             ),
+
           ),
         ],
       ),
     );
   }
 }
+

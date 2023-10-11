@@ -2,7 +2,7 @@ import 'package:ereport_mobile_app/src/core/constants/images.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
-import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/login_form_field.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -75,6 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   if (!val!.isValidEmail) return TextStrings.invalidEmailWarning;
                                 },
                                 isPassword: false,
+                                icon: Icon(Icons.email),
                                 onSubmited: (value){
                                   setState(() {
                                     email = value;
@@ -88,6 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
                                 },
                                 isPassword: true,
+                                icon: Icon(Icons.lock),
                                 onSubmited: (value){
                                   setState(() {
                                     firstPassword = value;
@@ -101,6 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
                                 },
                                 isPassword: true,
+                                icon: Icon(Icons.lock),
                                 onSubmited: (value){
                                   setState(() {
                                     secondPassword = value;

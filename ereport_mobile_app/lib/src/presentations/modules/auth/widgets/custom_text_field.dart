@@ -11,7 +11,8 @@ class CustomFormField extends StatefulWidget {
     this.inputFormatters,
     this.validator,
     required this.isPassword,
-    required this.onSubmited
+    required this.onSubmited,
+    required this.icon
   }) : super(key: key);
 
   final String hintText;
@@ -19,6 +20,7 @@ class CustomFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final Function(String) onSubmited;
   late bool isPassword;
+  final Icon icon;
 
   @override
   State<CustomFormField> createState() => _CustomFormFieldState();
@@ -42,7 +44,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
             ),
             filled: true,
             fillColor: backgroundColor,
-            prefixIcon: widget.isPassword? Icon(Icons.lock) : Icon(Icons.email),
+            prefixIcon: widget.icon,
             suffixIcon: widget.isPassword? IconButton(
                 icon: Icon(Icons.remove_red_eye_sharp),
                 onPressed: (){
