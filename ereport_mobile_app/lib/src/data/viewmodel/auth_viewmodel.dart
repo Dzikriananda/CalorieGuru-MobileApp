@@ -5,14 +5,22 @@ import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
-class LoginViewModel extends ChangeNotifier {
+class AuthViewModel extends ChangeNotifier {
 
-  ResultState _state = ResultState.loading;
+  ResultState _state = ResultState.started;
 
   ResultState get state => _state;
 
   String? _email;
   String? _pwd;
+  String? _pwd2;
+  String? _errorMessage;
+
+  String? get errorMessage => _errorMessage;
+
+  set setViewModelState(ResultState state){
+    _state = state;
+  }
 
   set setEmail(String email){
     _email = email;
@@ -22,8 +30,13 @@ class LoginViewModel extends ChangeNotifier {
     _pwd = pwd;
   }
 
+  set setPwd2(String pwd){
+    _pwd2 = pwd;
+  }
+
+
   void dispose(){
-    _state = ResultState.loading;
+    _state = ResultState.started;
     // notifyListeners();
   }
 
@@ -40,6 +53,25 @@ class LoginViewModel extends ChangeNotifier {
     on FirebaseAuthException catch(e){
       print("gagal login");
       print('error $e');
+      _errorMessage = e.toString();
+      _state = ResultState.error;
+      notifyListeners();
+    }
+  }
+
+  Future<void> signUp() async{
+    try{
+      _state = ResultState.loading;
+      notifyListeners();
+      await Auth().createUserWithEmailAndPassword(email: _email!, password: _pwd!);
+      print("sukses register");
+      _state = ResultState.hasData;
+      notifyListeners();
+    }
+    on FirebaseAuthException catch(e){
+      print("gagal register");
+      print('error $e');
+      _errorMessage = e.toString();
       _state = ResultState.error;
       notifyListeners();
     }
