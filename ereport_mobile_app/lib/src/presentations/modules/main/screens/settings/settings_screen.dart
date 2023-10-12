@@ -27,13 +27,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  void logOut(){
-  }
-
   final snackBar = SnackBar(
     content: const Text('Notification'),
     backgroundColor: primaryColor,
-    duration: Duration(seconds: 6),
+    duration: const Duration(seconds: 6),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
     ),
@@ -43,6 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       onPressed: () {},
     ),
   );
+
 
   @override
   Widget build(BuildContext context) {

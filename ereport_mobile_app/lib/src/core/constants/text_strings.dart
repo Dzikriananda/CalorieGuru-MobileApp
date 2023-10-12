@@ -7,7 +7,7 @@ class TextStrings {
   static const signinregister_first = "Dont have an Account?";
   static const signinregister_second = " Register";
   static const register_first = "Do You have an Account?";
-  static const register_second = " Sign In?";
+  static const register_second = " Sign In";
   static const invalidEmailWarning = "Enter valid email";
   static const invalidPasswordWarning = "Enter valid password";
   static const homeBottomNavItem = "Home";

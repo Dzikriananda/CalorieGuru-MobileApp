@@ -110,7 +110,7 @@ const TextStyle homeScreenReportText = TextStyle(
 const TextStyle splashScreenText = TextStyle(
  fontFamily: 'Poppins',
  fontSize: 25,
- fontWeight: FontWeight.w900,
+ fontWeight: FontWeight.w600,
  color: onBackgroundColor,
  letterSpacing: 0,
  decoration: TextDecoration.none

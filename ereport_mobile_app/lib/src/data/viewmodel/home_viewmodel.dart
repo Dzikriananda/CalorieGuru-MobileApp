@@ -1,14 +1,18 @@
+import 'package:ereport_mobile_app/src/data/auth/auth.dart';
+import 'package:ereport_mobile_app/src/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
 
 class HomeViewModel extends ChangeNotifier {
 
   ResultState _state = ResultState.loading;
 
   ResultState get state => _state;
+  final Auth auth = Auth();
+  final Firestore firestore = Firestore();
 
 
   void checkNetwork() async {
@@ -24,6 +28,12 @@ class HomeViewModel extends ChangeNotifier {
       notifyListeners();
     }
 
+  }
+
+  Future<void> getUserData() async {
+    final UID = await auth.getCurrentUID();
+    final LocalUser? thisUser = await firestore.getUserData(UID!);
+    print(thisUser!);
   }
 
 }

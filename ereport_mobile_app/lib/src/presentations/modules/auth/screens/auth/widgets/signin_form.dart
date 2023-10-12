@@ -6,7 +6,7 @@ import 'package:ereport_mobile_app/src/core/constants/global.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
-import 'package:ereport_mobile_app/src/data/viewmodel/login_viewmodel.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -28,6 +28,8 @@ class _SignInState extends State<SignInForm>{
     super.initState();
   }
 
+
+
   void changeScreen(ResultState state,Function disposeFunc){
     if(state == ResultState.logged ){
       disposeFunc();
@@ -39,7 +41,7 @@ class _SignInState extends State<SignInForm>{
 
   @override
   Widget build(BuildContext context){
-    final viewModel = Provider.of<LoginViewModel>(context, listen: true);
+    final viewModel = Provider.of<AuthViewModel>(context, listen: true);
     changeScreen(viewModel.state,()=>viewModel.dispose());
     return Container(
       decoration: BoxDecoration(

@@ -2,11 +2,14 @@ import 'package:ereport_mobile_app/src/core/classes/icons.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
 import 'package:ereport_mobile_app/src/data/data_source/local/icon_data.dart';
+import 'package:ereport_mobile_app/src/data/models/user_model.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/global_widgets/alert_dialog.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/grid_view_builder.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/list_view_builder.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   List<CustomIcon> reportIcon = icons;
   bool showAlert = false;
 
+
   List<String> image = [
     "https://plus.unsplash.com/premium_photo-1674375348357-a25140a68bbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNhciUyMHJlcGFpciUyMHNob3B8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
     "https://images.unsplash.com/photo-1596986952526-3be237187071?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FyJTIwcmVwYWlyJTIwc2hvcHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80",
@@ -38,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +51,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       context.read<HomeViewModel>().checkNetwork();
     });
   }
+
+
 
   bool _isThereCurrentDialogShowing(BuildContext context) => ModalRoute.of(context)?.isCurrent != true;
 
@@ -83,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeViewModel>().getUserData();
       scrollController.jumpTo(scrollController.position.maxScrollExtent/2);
     });
     return AnnotatedRegion(

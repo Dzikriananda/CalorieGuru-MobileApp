@@ -2,7 +2,7 @@ import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/app_theme.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
-import 'package:ereport_mobile_app/src/data/viewmodel/login_viewmodel.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/settings_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/splash_screen_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/auth/auth_screen.dart';
@@ -14,7 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
+import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<SplashScreenViewModel>(create: (context) => SplashScreenViewModel(),lazy: false),
         ChangeNotifierProvider<HomeViewModel>(create: (context) => HomeViewModel(),lazy: false),
-        ChangeNotifierProvider<LoginViewModel>(create: (context) => LoginViewModel()),
+        ChangeNotifierProvider<AuthViewModel>(create: (context) => AuthViewModel()),
         ChangeNotifierProvider<SettingsViewModel>(create: (context) => SettingsViewModel(),lazy: false),
 
       ],
