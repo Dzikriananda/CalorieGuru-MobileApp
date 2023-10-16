@@ -1,5 +1,5 @@
 class TextStrings {
-  static const appTitle = "Bengkel e-Report";
+  static const appTitle = "MyEatingPal";
   static const signin = "Sign In";
   static const signinSubheader = "Please sign in";
   static const welcomeTitle = "Welcome";
@@ -13,6 +13,15 @@ class TextStrings {
   static const homeBottomNavItem = "Home";
   static const settingsBottomNavItem = "Settings";
   static const loggedOutText = "You Have Succesfully Logged Out";
+  static const loadingText = "Loading";
+  static const firstOnboarding_1 = "Welcome !";
+  static const firstOnboarding_2 = "Lets be a Part of our community and";
+  static const firstOnboarding_3 = "Lets Get Started !";
+  static const secondOnboarding_1 = "Remember !";
+  static const secondOnboarding_2 = "Everything you eat and drink matters";
+
+
+
 
 
 }

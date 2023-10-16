@@ -42,7 +42,8 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final viewmodel = Provider.of<SplashScreenViewModel>(context, listen: false);
       if(viewmodel.state == ResultState.unLogged){
-        Navigator.pushReplacementNamed(context, '/authScreen');
+        // Navigator.pushReplacementNamed(context, '/authScreen');
+        Navigator.pushReplacementNamed(context, '/onBoardingScreen');
         viewmodel.dispose();
       }
       else if(viewmodel.state == ResultState.logged){
@@ -73,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           height: 150,
                           width: 150,
                       ),
-                      Text(TextStrings.appTitle, style: splashScreenText),
+                      // Text(TextStrings.appTitle, style: splashScreenText),
                     ],
                   ),
                 ),

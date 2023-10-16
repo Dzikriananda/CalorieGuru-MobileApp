@@ -116,10 +116,10 @@ class _AuthScreenState extends State<AuthScreen> {
                             height: 150,
                             width: 150,
                           ),
-                          const Text(
-                              TextStrings.appTitle,
-                              style: splashScreenText
-                          ),
+                          // const Text(
+                          //     TextStrings.appTitle,
+                          //     style: splashScreenText
+                          // ),
                         ],
                       ),
                     ),
