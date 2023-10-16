@@ -17,6 +17,10 @@ class AuthViewModel extends ChangeNotifier {
   String? _errorMessage;
 
   String? get errorMessage => _errorMessage;
+  String? get password => _pwd;
+  String? get password_2 => _pwd2;
+
+
 
   set setViewModelState(ResultState state){
     _state = state;

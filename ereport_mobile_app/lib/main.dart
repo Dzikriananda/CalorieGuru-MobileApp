@@ -6,6 +6,7 @@ import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/settings_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/splash_screen_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/auth/auth_screen.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/onboarding_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/splash_screen/splash_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/bottom_navigation.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/list/list_screen.dart';
@@ -62,6 +63,13 @@ class MyApp extends StatelessWidget {
             return PageRouteBuilder(
                 settings: settings, // Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
                 pageBuilder: (_, __, ___) => AuthScreen(),
+                transitionDuration: Duration(seconds: 2)
+            );
+          }
+          if (settings.name == "/onBoardingScreen") {
+            return PageRouteBuilder(
+                settings: settings, // Pass this to make popUntil(), pushNamedAndRemoveUntil(), works
+                pageBuilder: (_, __, ___) => OnBoardingScreen(),
                 transitionDuration: Duration(seconds: 2)
             );
           }

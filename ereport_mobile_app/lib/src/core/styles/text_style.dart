@@ -137,8 +137,18 @@ const TextStyle LoginButtonText = TextStyle(
 const TextStyle LoginScreenText = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 35,
-    fontWeight: FontWeight.w900,
+    fontWeight: FontWeight.w600,
     color: onPrimaryContainer,
     letterSpacing: 0,
     decoration: TextDecoration.none
 );
+
+const TextStyle onBoardingWelcomeText= TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 40,
+    fontWeight: FontWeight.w800,
+    letterSpacing: 0.15,
+    color: onBackgroundColor,
+    decoration: TextDecoration.none
+);
+

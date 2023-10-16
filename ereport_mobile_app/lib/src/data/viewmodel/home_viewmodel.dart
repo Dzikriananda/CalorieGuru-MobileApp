@@ -13,6 +13,9 @@ class HomeViewModel extends ChangeNotifier {
   ResultState get state => _state;
   final Auth auth = Auth();
   final Firestore firestore = Firestore();
+  LocalUser? _user;
+
+  LocalUser? get getUser => _user;
 
 
   void checkNetwork() async {
@@ -31,9 +34,15 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<void> getUserData() async {
+    // print("menjalankan getUserDATA");
     final UID = await auth.getCurrentUID();
     final LocalUser? thisUser = await firestore.getUserData(UID!);
-    print(thisUser!);
+    _user = thisUser!;
+    notifyListeners();
+  }
+
+  void testFungsi() {
+    print("menjalankan getUserDATA");
   }
 
 }

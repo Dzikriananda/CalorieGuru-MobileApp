@@ -2,8 +2,10 @@ import 'package:ereport_mobile_app/src/core/constants/images.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -14,10 +16,6 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
-
-  late String email;
-  late String firstPassword;
-  late String secondPassword;
 
   @override
   void initState(){
@@ -52,9 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   isPassword: false,
                   icon: Icon(Icons.email),
                   onSubmited: (value){
-                    setState(() {
-                      email = value;
-                    });
+                    Provider.of<AuthViewModel>(context, listen: false).setEmail=value;
                   },
                 ),
                 const SizedBox(height: 15),
@@ -67,7 +63,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   icon: Icon(Icons.lock),
                   onSubmited: (value){
                     setState(() {
-                      firstPassword = value;
+                      Provider.of<AuthViewModel>(context, listen: false).setPwd=value;
                     });
                   },
                 ),
@@ -81,7 +77,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   icon: Icon(Icons.lock),
                   onSubmited: (value){
                     setState(() {
-                      secondPassword = value;
+                      Provider.of<AuthViewModel>(context, listen: false).setPwd2=value;
                     });
                   },
                 ),
@@ -89,11 +85,14 @@ class _RegisterFormState extends State<RegisterForm> {
                 ElevatedButton(
                   onPressed: () {
                     print("menekan register");
-                    if(_formKey.currentState!.validate() && (firstPassword == secondPassword)){
-                      //signIn();
-                      // Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
-                      print("mi sukses isi dua");
-                    }
+                    Navigator.pushReplacementNamed(context, '/onBoardingScreen');
+                    // if(_formKey.currentState!.validate() && (
+                    //     Provider.of<AuthViewModel>(context, listen: false).password == Provider.of<AuthViewModel>(context, listen: false).password_2)
+                    // ){
+                    //   Provider.of<AuthViewModel>(context, listen: false).signUp();
+                    //   // Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
+                    //   print("mi sukses isi dua");
+                    // }
                   },
                   child: Text("Register",style: LoginButtonText),
                   style: ElevatedButton.styleFrom(

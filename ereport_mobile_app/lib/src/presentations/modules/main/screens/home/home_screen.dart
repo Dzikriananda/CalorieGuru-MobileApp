@@ -1,5 +1,6 @@
 import 'package:ereport_mobile_app/src/core/classes/icons.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
@@ -48,7 +49,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     SchedulerBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeViewModel>().getUserData();
       context.read<HomeViewModel>().checkNetwork();
+      scrollController.jumpTo(scrollController.position.maxScrollExtent/2);
     });
   }
 
@@ -89,11 +92,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         }
       });
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<HomeViewModel>().getUserData();
-      scrollController.jumpTo(scrollController.position.maxScrollExtent/2);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   print("memanggil getuser data sekali"); // ini berkali2 anjer
+    //   // context.read<HomeViewModel>().getUserData(); //gara2 ini
+    //   // scrollController.jumpTo(scrollController.position.maxScrollExtent/2);
+    // });
+    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {print(timeStamp);});
     return AnnotatedRegion(
+        value: SystemUiOverlayStyle(
+          statusBarColor: primaryColor,
+        ),
         child: Scaffold(
             body: SafeArea(
               child: Stack(
@@ -104,47 +112,52 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       SizedBox(height: 15),
                       Padding(
                         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: Container(
-                            child: Row(
-                              children: [
-                                SizedBox(width: 20),
-                                ClipOval(
-                                  child: SizedBox.fromSize(
-                                    size: Size.fromRadius(48), // Image radius
-                                    child: Image.network('https://www.w3schools.com/howto/img_avatar.png', fit: BoxFit.cover),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        child: Text(
-                                          "Dzikri Ananda Fernando",
-                                          style: petrolabTextTheme.titleLarge,
-                                        ),
-                                        width: MediaQuery. of(context). size. width * 0.6,
+                        child: Consumer<HomeViewModel>(
+                          builder: (context, viewModel, child){
+                            LocalUser? appUser = viewModel.getUser;
+                            return Container(
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 20),
+                                    ClipOval(
+                                      child: SizedBox.fromSize(
+                                        size: Size.fromRadius(48), // Image radius
+                                        child: Image.network('https://www.w3schools.com/howto/img_avatar.png', fit: BoxFit.cover),
                                       ),
-                                      Container(
-                                        child: Text(
-                                          "Sigma Speed Bengkel",
-                                          style: petrolabTextTheme.titleMedium,
-                                        ),
-                                        width: MediaQuery. of(context). size. width * 0.6,
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          "Head Admin",
-                                          style: petrolabTextTheme.bodyMedium,
-                                        ),
-                                        width: MediaQuery. of(context). size. width * 0.6,
-                                      ),
-                                    ]
-                                ),
-                              ],
-                            )
-                        ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: MediaQuery. of(context). size. width * 0.6,
+                                            child: Text(
+                                              appUser != null ? "Hi, ${appUser.name}" : TextStrings.loadingText,
+                                              style: petrolabTextTheme.titleLarge,
+                                            ),
+                                          ),
+                                          Container(
+                                            width: MediaQuery. of(context). size. width * 0.6,
+                                            child: Text(
+                                              appUser != null ? appUser.workPlace : TextStrings.loadingText,
+                                              style: petrolabTextTheme.titleMedium,
+                                            ),
+                                          ),
+                                          Container(
+                                            width: MediaQuery. of(context). size. width * 0.6,
+                                            child: Text(
+                                              appUser != null ? appUser.position : TextStrings.loadingText,
+                                              style: petrolabTextTheme.bodyMedium,
+                                            ),
+                                          ),
+                                        ]
+                                    ),
+                                  ],
+                                )
+                            );
+                          },
+                        )
                       ),
                       const SizedBox(height: 10),
                       Container(
@@ -177,9 +190,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 ],
               )
             )
-        ),
-        value: SystemUiOverlayStyle(
-          statusBarColor: primaryColor,
         ),
     );
   }
