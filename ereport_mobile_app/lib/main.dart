@@ -3,10 +3,12 @@ import 'package:ereport_mobile_app/src/core/styles/app_theme.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/register_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/settings_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/splash_screen_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/auth/auth_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/onboarding_screen.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/register/preregister_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/splash_screen/splash_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/bottom_navigation.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/list/list_screen.dart';
@@ -15,16 +17,15 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
-
+import 'package:ereport_mobile_app/src/data/data_source/remote/api_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final auth = Auth();
-  auth.authStateChanges.listen((event) {print("status di main : $event");});
-  //InternetConnectionManager().init();
+  // final auth = Auth();
+  // // auth.authStateChanges.listen((event) {print("status di main : $event");});
+  // // //InternetConnectionManager().init();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then(
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<HomeViewModel>(create: (context) => HomeViewModel(),lazy: false),
         ChangeNotifierProvider<AuthViewModel>(create: (context) => AuthViewModel()),
         ChangeNotifierProvider<SettingsViewModel>(create: (context) => SettingsViewModel(),lazy: false),
-
+        ChangeNotifierProvider<RegisterViewModel>(create: (context) => RegisterViewModel(),lazy: false),
       ],
       child: MaterialApp(
         title: TextStrings.appTitle,
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => const SplashScreen(),
           '/bottomNavigation' : (context) => const BottomNavigation(),
           '/listScreen' : (context) => ListScreenActivity(),
+          '/registerScreen' : (context) => PreRegisterScreen(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == "/authScreen") {

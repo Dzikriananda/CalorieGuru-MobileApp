@@ -1,13 +1,10 @@
 import 'package:ereport_mobile_app/src/core/constants/global.dart';
 import 'package:ereport_mobile_app/src/core/constants/images.dart';
-import 'package:ereport_mobile_app/src/core/styles/color.dart';
-import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/widgets/first_onboarding_widget.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/widgets/next_button_widget.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/widgets/second_onboarding_widget.dart';
 import 'package:flutter/material.dart';
 
-typedef MyBuilder = void Function(BuildContext context, void Function() methodA);
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -17,7 +14,6 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  late void Function() myMethod;
   bool isTapped = false;
   bool isVisible = false;
   int currentPages = 0;
@@ -49,16 +45,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void onPressedNext(){
     hideWidget();
-    if(currentPages < 1){
+    if(currentPages == 1){
+      Navigator.pushReplacementNamed(context, '/authScreen');
+    }
+    else{
       Future.delayed(Duration(milliseconds: 500), () { // <-- Delay here
         setState(() {
-          currentPages++;
+          if(currentPages != 1) currentPages++;
           isVisible = true;
         });
       });
-    } else{
-      Navigator.pushReplacementNamed(context, '/authScreen');
     }
+
   }
 
   Future<bool> onPressedBack() async {

@@ -42,5 +42,4 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
 
-
 }

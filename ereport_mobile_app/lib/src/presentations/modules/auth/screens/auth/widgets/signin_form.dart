@@ -31,7 +31,7 @@ class _SignInState extends State<SignInForm>{
 
 
   void changeScreen(ResultState state,Function disposeFunc){
-    if(state == ResultState.logged ){
+    if(state == ResultState.logged){
       disposeFunc();
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
@@ -62,6 +62,7 @@ class _SignInState extends State<SignInForm>{
             child: Column(
               children: [
                 CustomFormField(
+                  backgroundColor: backgroundColor,
                   hintText: 'Email',
                   validator: (val) {
                     if (!val!.isValidEmail) return TextStrings.invalidEmailWarning;
@@ -74,6 +75,7 @@ class _SignInState extends State<SignInForm>{
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  backgroundColor: backgroundColor,
                   hintText: 'Password',
                   validator: (val) {
                     if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
