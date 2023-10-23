@@ -8,7 +8,6 @@ import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/auth/widgets/register_form.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/auth/widgets/signin_form.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +23,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   bool _visible = false;
   bool isRegister = false;
+  bool isFromSplashScreen = true;
 
   @override
   void initState(){
@@ -40,13 +40,17 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void changeForm(){
-    setState(() => _visible = false);
+    setState(() {
+      _visible = false;
+      isFromSplashScreen = false;
+    });
     Future.delayed(Duration(milliseconds: 500), () { // <-- Delay here
       setState(() {
         isRegister = !isRegister;
         _visible = true;
       });
     });
+
   }
 
   void showSnackBar(String? errormessage, Function setStatus){
@@ -131,7 +135,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       AnimatedOpacity(
                           opacity: _visible ? 1.0 : 0.0,
                           duration: const Duration(milliseconds: 500),
-                          child: isRegister ? RegisterForm() : SignInForm()
+                          child: isRegister ? RegisterForm() : SignInForm(isFromSplash: isFromSplashScreen)
                       ),
                       Visibility(
                           visible: viewModel.state == ResultState.loading,

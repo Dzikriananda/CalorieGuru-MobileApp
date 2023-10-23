@@ -24,6 +24,7 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
   bool _visible1 = false;
   bool _visible2 = false;
 
+
   bool onPressed(){
     if(Provider.of<RegisterViewModel>(context,listen: false).birthdate == null){
       setState(() {
@@ -60,6 +61,7 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                       children: [
                         CustomFormField(
                           backgroundColor: primaryContainer,
+                          isEnabled: true,
                           hintText: "Full Name",
                           icon: Icon(Icons.person),
                           isPassword: false,
@@ -70,6 +72,7 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                         ),
                         CustomFormField(
                           backgroundColor: primaryContainer,
+                          isEnabled: true,
                           hintText: "Weight (in Kg)",
                           icon: Icon(Icons.monitor_weight_outlined),
                           isPassword: false,
@@ -84,6 +87,7 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                         ),
                         CustomFormField(
                           backgroundColor: primaryContainer,
+                          isEnabled: true,
                           hintText: "Height (in Cm)",
                           icon: Icon(Icons.height),
                           isPassword: false,
