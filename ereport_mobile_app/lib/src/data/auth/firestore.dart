@@ -7,6 +7,8 @@ class Firestore {
   Future<LocalUser?> getUserData(String UID) async {
     final docRef = db.collection("user");
 
+    // docRef.snapshots().map((event) => event.docs.map((e) => LocalUser.fromMap(e.data())));
+
     try{
       final querySnapshot = await docRef.where("UID", isEqualTo: UID).get();
       for (var docSnapshot in querySnapshot.docs) {

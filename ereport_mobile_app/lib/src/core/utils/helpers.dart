@@ -1,13 +1,20 @@
 
-import 'dart:async';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-
+import "dart:core";
+import 'package:age_calculator/age_calculator.dart';
 
 
 Future<bool> checkConnection() async {
   final bool isConnected = await InternetConnectionChecker().hasConnection;
   return isConnected;
 }
+
+int calculateAge(String bod) {
+    final birthdate = DateTime.parse(bod);
+    final int age = AgeCalculator.age(birthdate).years;
+    return age;
+}
+
 
 // final StreamSubscription<InternetConnectionStatus> listener =
 // InternetConnectionChecker().onStatusChange.listen(

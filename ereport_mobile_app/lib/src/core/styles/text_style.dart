@@ -152,3 +152,29 @@ const TextStyle onBoardingWelcomeText= TextStyle(
     decoration: TextDecoration.none
 );
 
+const TextStyle registerOnBoardingWelcomeText= TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 25,
+    fontWeight: FontWeight.w800,
+    letterSpacing: 0.15,
+    color: onBackgroundColor,
+    decoration: TextDecoration.none
+);
+
+const TextStyle calorieText= TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 25,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.15,
+    color: onBackgroundColor,
+    decoration: TextDecoration.none
+);
+
+const TextStyle calorieTextSecond= TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 30,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.15,
+    color: Colors.orange,
+    decoration: TextDecoration.none
+);

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ereport_mobile_app/src/core/classes/icons.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
@@ -29,6 +30,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   List<CustomIcon> reportIcon = icons;
   bool showAlert = false;
 
+  final db = FirebaseFirestore.instance;
+
+  Future<void> addData()async {
+    final city = <String, String>{
+      "name": "Yakapta",
+      "state": "CA",
+      "country": "USA"
+    };
+    try{
+      await db
+          .collection("cities")
+          .add(city);
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
 
   List<String> image = [
     "https://plus.unsplash.com/premium_photo-1674375348357-a25140a68bbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNhciUyMHJlcGFpciUyMHNob3B8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
@@ -47,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    addData();
     WidgetsBinding.instance.addObserver(this);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       context.read<HomeViewModel>().getUserData();
@@ -101,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return AnnotatedRegion(
         value: SystemUiOverlayStyle(
           statusBarColor: primaryColor,
+            systemNavigationBarColor: primaryColor
         ),
         child: Scaffold(
             body: SafeArea(

@@ -43,6 +43,7 @@ class _RegisterFormState extends State<RegisterForm> {
             child: Column(
               children: [
                 CustomFormField(
+                  backgroundColor: backgroundColor,
                   hintText: 'Enter Your Email',
                   validator: (val) {
                     if (!val!.isValidEmail) return TextStrings.invalidEmailWarning;
@@ -55,6 +56,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  backgroundColor: backgroundColor,
                   hintText: 'Enter Your Password',
                   validator: (val) {
                     if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
@@ -69,6 +71,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  backgroundColor: backgroundColor,
                   hintText: 'Reenter Password',
                   validator: (val) {
                     if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
@@ -85,7 +88,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ElevatedButton(
                   onPressed: () {
                     print("menekan register");
-                    Navigator.pushReplacementNamed(context, '/onBoardingScreen');
+                    Navigator.pushReplacementNamed(context, '/registerScreen');
                     // if(_formKey.currentState!.validate() && (
                     //     Provider.of<AuthViewModel>(context, listen: false).password == Provider.of<AuthViewModel>(context, listen: false).password_2)
                     // ){
