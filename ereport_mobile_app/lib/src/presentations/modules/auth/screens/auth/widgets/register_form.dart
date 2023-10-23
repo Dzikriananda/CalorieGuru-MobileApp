@@ -16,11 +16,14 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
+  bool isEnabled = true;
+
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,7 @@ class _RegisterFormState extends State<RegisterForm> {
             child: Column(
               children: [
                 CustomFormField(
+                  isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Enter Your Email',
                   validator: (val) {
@@ -56,6 +60,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Enter Your Password',
                   validator: (val) {
@@ -71,6 +76,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Reenter Password',
                   validator: (val) {

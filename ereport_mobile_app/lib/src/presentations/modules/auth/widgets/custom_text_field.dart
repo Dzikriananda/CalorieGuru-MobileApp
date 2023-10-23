@@ -13,7 +13,8 @@ class CustomFormField extends StatefulWidget {
     required this.isPassword,
     required this.onSubmited,
     required this.icon,
-    required this.backgroundColor
+    required this.backgroundColor,
+    required this.isEnabled
   }) : super(key: key);
 
   final String hintText;
@@ -23,6 +24,7 @@ class CustomFormField extends StatefulWidget {
   late bool isPassword;
   final Icon icon;
   final Color backgroundColor;
+  final bool isEnabled;
 
   @override
   State<CustomFormField> createState() => _CustomFormFieldState();
@@ -36,6 +38,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        enabled: widget.isEnabled,
         inputFormatters: widget.inputFormatters,
         validator: widget.validator,
         decoration:  InputDecoration(

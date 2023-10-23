@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget{
-  const SignInForm({super.key});
+  final bool isFromSplash;
+  const SignInForm({super.key,required this.isFromSplash});
 
   @override
   State<SignInForm> createState() => _SignInState();
@@ -22,10 +23,27 @@ class SignInForm extends StatefulWidget{
 
 class _SignInState extends State<SignInForm>{
   final _formKey = GlobalKey<FormState>();
+  bool isEnabled = false;
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
+    enableTextField();
+  }
+
+  Future<void> enableTextField() async{ //harus didelay agar tidakoverflow saat buka keyboard awal2
+    if(widget.isFromSplash){
+      Future.delayed(Duration(milliseconds: 1600),(){
+        setState(() {
+          isEnabled = true;
+        });
+      });
+    }
+    else{
+      setState(() {
+        isEnabled = true;
+      });
+    }
   }
 
 
@@ -62,6 +80,7 @@ class _SignInState extends State<SignInForm>{
             child: Column(
               children: [
                 CustomFormField(
+                  isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Email',
                   validator: (val) {
@@ -75,6 +94,7 @@ class _SignInState extends State<SignInForm>{
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Password',
                   validator: (val) {

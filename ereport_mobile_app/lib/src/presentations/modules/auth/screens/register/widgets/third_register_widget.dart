@@ -16,6 +16,9 @@ class _ThirdRegisterWidgetState extends State<ThirdRegisterWidget> {
   Widget build(BuildContext context) {
     return Consumer<RegisterViewModel>(
         builder: (context,viewmodel,child){
+          if(viewmodel.state == ResultState.loading){
+
+          }
           return Center(
             child: (viewmodel.state == ResultState.loading)? Column(
               children: [
@@ -30,7 +33,7 @@ class _ThirdRegisterWidgetState extends State<ThirdRegisterWidget> {
               children: [
                 Text('Congratulations!', style: petrolabTextTheme.headlineMedium,textAlign: TextAlign.center),
                 SizedBox(height: 50),
-                Text('Your plan is ready and youre a step\ncloser to maintain your weight',style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
+                Text('Your plan is ready and youre a step\ncloser to maintain youre weight',style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
                 SizedBox(height: 50),
                 Padding(
                   padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
