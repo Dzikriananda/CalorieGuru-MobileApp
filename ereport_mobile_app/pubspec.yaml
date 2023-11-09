@@ -46,9 +46,11 @@ dependencies:
   fluttertoast: ^8.2.2
   firebase_core: ^2.17.0
   firebase_auth: ^4.10.1
-  cloud_firestore: ^4.9.3
+  cloud_firestore: ^4.11.0
   intl: ^0.18.1
   age_calculator: ^1.0.0
+  percent_indicator: ^4.2.3
+  system_info_plus: ^0.0.5
 
 flutter_icons:
   android: "launcher_icon"

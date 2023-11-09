@@ -14,17 +14,26 @@ class CustomFormField extends StatefulWidget {
     required this.onSubmited,
     required this.icon,
     required this.backgroundColor,
-    required this.isEnabled
+    required this.isEnabled,
+    required this.initialValue,
+    required this.maxLines,
+    required this.hasUnderline,
+    this.textfieldController
   }) : super(key: key);
+
 
   final String hintText;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
   final Function(String) onSubmited;
   late bool isPassword;
-  final Icon icon;
+  final Icon? icon;
   final Color backgroundColor;
   final bool isEnabled;
+  final String? initialValue;
+  final int maxLines;
+  final bool hasUnderline;
+  final TextEditingController? textfieldController;
 
   @override
   State<CustomFormField> createState() => _CustomFormFieldState();
@@ -38,11 +47,27 @@ class _CustomFormFieldState extends State<CustomFormField> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        initialValue: widget.initialValue,
         enabled: widget.isEnabled,
         inputFormatters: widget.inputFormatters,
         validator: widget.validator,
+        minLines: 1,
+        maxLines: widget.maxLines,
         decoration:  InputDecoration(
-            hintText: widget.hintText,
+            // hintText: widget.hintText,
+            enabledBorder: widget.hasUnderline ? const UnderlineInputBorder(
+              borderSide: BorderSide(color: onPrimaryContainer),
+            ) : null,
+            focusedBorder: widget.hasUnderline ? const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue, width: 2),
+            ) : null,
+            focusedErrorBorder: widget.hasUnderline ? const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue, width: 2),
+            ) : null,
+            errorBorder:  widget.hasUnderline ? const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.red, width: 2),
+            ) : null,
+            labelText: widget.hintText,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide.none
@@ -61,6 +86,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
         ),
         obscureText: (widget.isPassword? true : false)? hideText: false,
         onChanged: widget.onSubmited,
+        controller: widget.textfieldController,
       ),
     );
   }
@@ -88,5 +114,8 @@ extension extString on String {
   bool get isNotNull{
     return this.length!=0;
   }
+
+  String toCapitalized() => length > 0 ?'${this[0].toUpperCase()}${substring(1).toLowerCase()}':'';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
 
 }

@@ -1,8 +1,11 @@
 import 'package:ereport_mobile_app/src/core/constants/global.dart';
 import 'package:ereport_mobile_app/src/core/constants/images.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
+import 'package:ereport_mobile_app/src/data/models/user.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/widgets/first_onboarding_widget.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/widgets/next_button_widget.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/widgets/second_onboarding_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
@@ -43,7 +46,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     });
   }
 
+  // Future<void> updateData() async {
+  //   final userData = UserModel(null,"mardoto","9 april 2002",false,154,50,"level_1",null);
+  //   Firestore().updateUser("EVNoueQVL9Q3Ee7qpH3ALVUxteg2", userData);
+  // }
+
   void onPressedNext(){
+    // updateData();
     hideWidget();
     if(currentPages == 1){
       Navigator.pushReplacementNamed(context, '/authScreen');

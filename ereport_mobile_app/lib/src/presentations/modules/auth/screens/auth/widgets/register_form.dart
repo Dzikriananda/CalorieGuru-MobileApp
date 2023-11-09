@@ -7,6 +7,8 @@ import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../../core/constants/result_state.dart';
+
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
 
@@ -24,9 +26,20 @@ class _RegisterFormState extends State<RegisterForm> {
     super.initState();
   }
 
+  void changeScreen(ResultState state,Function disposeFunc){
+    if(state == ResultState.loggedNotFilledData){
+      disposeFunc();
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/registerScreen');
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<AuthViewModel>(context, listen: true);
+    changeScreen(viewModel.state,()=>viewModel.dispose());
+
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
@@ -46,6 +59,9 @@ class _RegisterFormState extends State<RegisterForm> {
             child: Column(
               children: [
                 CustomFormField(
+                  hasUnderline: false,
+                  maxLines: 1,
+                  initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Enter Your Email',
@@ -60,6 +76,9 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  hasUnderline: false,
+                  maxLines: 1,
+                  initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Enter Your Password',
@@ -76,6 +95,9 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  hasUnderline: false,
+                  maxLines: 1,
+                  initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Reenter Password',
@@ -93,15 +115,13 @@ class _RegisterFormState extends State<RegisterForm> {
                 const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
-                    print("menekan register");
-                    Navigator.pushReplacementNamed(context, '/registerScreen');
-                    // if(_formKey.currentState!.validate() && (
-                    //     Provider.of<AuthViewModel>(context, listen: false).password == Provider.of<AuthViewModel>(context, listen: false).password_2)
-                    // ){
-                    //   Provider.of<AuthViewModel>(context, listen: false).signUp();
-                    //   // Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
-                    //   print("mi sukses isi dua");
-                    // }
+                    if(_formKey.currentState!.validate() && (
+                        Provider.of<AuthViewModel>(context, listen: false).password == Provider.of<AuthViewModel>(context, listen: false).password_2)
+                    ){
+                      Provider.of<AuthViewModel>(context, listen: false).signUp();
+                      // Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
+                      print("mi sukses isi dua");
+                    }
                   },
                   child: Text("Register",style: LoginButtonText),
                   style: ElevatedButton.styleFrom(

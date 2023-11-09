@@ -55,12 +55,19 @@ class _SignInState extends State<SignInForm>{
         Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
       });
     }
+    else if(state == ResultState.loggedNotFilledData){
+      disposeFunc();
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        Navigator.of(context).pushNamedAndRemoveUntil('/registerScreen', (Route route) => false);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context){
     final viewModel = Provider.of<AuthViewModel>(context, listen: true);
     changeScreen(viewModel.state,()=>viewModel.dispose());
+
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
@@ -80,6 +87,9 @@ class _SignInState extends State<SignInForm>{
             child: Column(
               children: [
                 CustomFormField(
+                  hasUnderline: false,
+                  maxLines: 1,
+                  initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Email',
@@ -94,6 +104,9 @@ class _SignInState extends State<SignInForm>{
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  hasUnderline: false,
+                  maxLines: 1,
+                  initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
                   hintText: 'Password',

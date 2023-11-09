@@ -6,17 +6,22 @@ import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
 import 'package:ereport_mobile_app/src/data/data_source/local/icon_data.dart';
+import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
+import 'package:ereport_mobile_app/src/data/models/user.dart';
 import 'package:ereport_mobile_app/src/data/models/user_model.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/global_widgets/alert_dialog.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/custom_container.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/grid_view_builder.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/list_view_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-
+import 'package:ereport_mobile_app/src/core/utils/StringExtension.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,34 +31,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
-  ScrollController scrollController = ScrollController();
   List<CustomIcon> reportIcon = icons;
   bool showAlert = false;
 
-  final db = FirebaseFirestore.instance;
-
-  Future<void> addData()async {
-    final city = <String, String>{
-      "name": "Yakapta",
-      "state": "CA",
-      "country": "USA"
-    };
-    try{
-      await db
-          .collection("cities")
-          .add(city);
-    }
-    catch(e){
-      print(e);
-    }
-  }
-
-
-  List<String> image = [
-    "https://plus.unsplash.com/premium_photo-1674375348357-a25140a68bbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNhciUyMHJlcGFpciUyMHNob3B8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-    "https://images.unsplash.com/photo-1596986952526-3be237187071?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FyJTIwcmVwYWlyJTIwc2hvcHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80",
-    "https://ichoose.ph/blogs/wp-content/uploads/2016/01/car-repair.jpg"
-  ];
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -66,23 +46,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    addData();
     WidgetsBinding.instance.addObserver(this);
     SchedulerBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeViewModel>().getListLog();
       context.read<HomeViewModel>().getUserData();
+      context.read<HomeViewModel>().getTodayCalorie();
       context.read<HomeViewModel>().checkNetwork();
-      scrollController.jumpTo(scrollController.position.maxScrollExtent/2);
     });
   }
 
-
-
   bool _isThereCurrentDialogShowing(BuildContext context) => ModalRoute.of(context)?.isCurrent != true;
-
 
   @override
   void dispose() {
-    scrollController.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -91,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return InternetAlertDialog(
+        return CustomAlertDialog(
             onRetry: (){
               context.read<HomeViewModel>().checkNetwork();
               Navigator.of(context).pop(); // Close the dialog./ Close the dialog.
@@ -112,114 +88,251 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         }
       });
     }
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   print("memanggil getuser data sekali"); // ini berkali2 anjer
-    //   // context.read<HomeViewModel>().getUserData(); //gara2 ini
-    //   // scrollController.jumpTo(scrollController.position.maxScrollExtent/2);
-    // });
-    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {print(timeStamp);});
     return AnnotatedRegion(
-        value: SystemUiOverlayStyle(
+        value: const SystemUiOverlayStyle(
           statusBarColor: primaryColor,
             systemNavigationBarColor: primaryColor
         ),
         child: Scaffold(
             body: SafeArea(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Column(
+              child: Consumer<HomeViewModel>(
+                builder: (context,viewmodel,child){
+                  UserModel? appUser = viewmodel.getUser;
+                  return Stack(
+                    alignment: Alignment.center,
                     children: [
-                      SizedBox(height: 15),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: Consumer<HomeViewModel>(
-                          builder: (context, viewModel, child){
-                            LocalUser? appUser = viewModel.getUser;
-                            return Container(
-                                child: Row(
-                                  children: [
-                                    SizedBox(width: 20),
-                                    ClipOval(
-                                      child: SizedBox.fromSize(
-                                        size: Size.fromRadius(48), // Image radius
-                                        child: Image.network('https://www.w3schools.com/howto/img_avatar.png', fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: MediaQuery. of(context). size. width * 0.6,
-                                            child: Text(
-                                              appUser != null ? "Hi, ${appUser.name}" : TextStrings.loadingText,
-                                              style: petrolabTextTheme.titleLarge,
-                                            ),
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 15),
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child:  Container(
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(width: 20),
+                                        ClipOval(
+                                          child: SizedBox.fromSize(
+                                            size: const Size.fromRadius(48), // Image radius
+                                            child: Image.network('https://www.w3schools.com/howto/img_avatar.png', fit: BoxFit.cover),
                                           ),
-                                          Container(
-                                            width: MediaQuery. of(context). size. width * 0.6,
-                                            child: Text(
-                                              appUser != null ? appUser.workPlace : TextStrings.loadingText,
-                                              style: petrolabTextTheme.titleMedium,
-                                            ),
-                                          ),
-                                          Container(
-                                            width: MediaQuery. of(context). size. width * 0.6,
-                                            child: Text(
-                                              appUser != null ? appUser.position : TextStrings.loadingText,
-                                              style: petrolabTextTheme.bodyMedium,
-                                            ),
-                                          ),
-                                        ]
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: MediaQuery. of(context). size. width * 0.6,
+                                                child: Text(
+                                                  appUser != null ? "Hi, ${appUser.name.toString().toCapitalized()}" : TextStrings.loadingText,
+                                                  style: petrolabTextTheme.titleLarge,
+                                                ),
+                                              ),
+                                              Container(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.date_range),
+                                                    SizedBox(width: 5),
+                                                    Text(
+                                                      viewmodel.todayDate,
+                                                      style: petrolabTextTheme.titleMedium,
+                                                    ),
+                                                  ],
+                                                )
+                                              ),
+                                            ]
+                                        ),
+                                      ],
+                                    )
+                                )
+                            ),
+                            const SizedBox(height: 10),
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  color: primaryContainer,
+                                  borderRadius:  BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      blurRadius: 2,
                                     ),
                                   ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        (appUser == null)? TextStrings.loadingText : 'Calorie Budget : ${appUser.calorieNeed!} Kcal',
+                                        style: homeScreenReportText
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        CircularPercentIndicator(
+                                          radius: 90.0,
+                                          lineWidth: 16.0,
+                                          percent: (appUser != null && viewmodel.consumedCalories != null) ? (viewmodel.consumedCalories! / appUser.calorieNeed!) : 0,
+                                          center: Text((appUser == null)? TextStrings.loadingText : '${viewmodel.caloriesLeft} Kcal left',style: homeScreenReportText4,),
+                                          progressColor: primaryColor,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Container(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Icon(Icons.food_bank_rounded,size: 50,color: Colors.blueAccent,),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text('Eaten',style: homeScreenReportText2),
+                                                      Text('${(viewmodel.consumedCalories != null)? viewmodel.consumedCalories!.round() : 0} Kcal',style: homeScreenReportText5),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(height: 20),
+                                              Row(
+                                                children: [
+                                                  Icon(Icons.local_fire_department,size: 50,color: Colors.red,),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text('Burned',style: homeScreenReportText3),
+                                                      Text('150 Kcal',style: homeScreenReportText6),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
                                 )
-                            );
-                          },
-                        )
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: MediaQuery. of(context). size. width * 0.4,
-                        child: ListViewBuilder(scrollController: scrollController,image: image),
-                      ),
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(25, 20, 20, 10),
-                            child: Text(
-                                "Report",
-                                style: homeScreenReportText
                             ),
-                          )
+                            SizedBox(height: 15),
+                            SizedBox(
+                                height: 120,
+                                child: GridViewBuilder(
+                                  icons: reportIcon,
+                                  onTapped: () {
+                                    viewmodel.refreshData();
+                                  },
+                                )
+                            ),
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(22, 0, 0, 5),
+                                  child: Text(
+                                      "Recent Activities",
+                                      style: homeScreenReportText
+                                  ),
+                                )
+                            ),
+                            Container(
+                              height: (viewmodel.listLog.length < 3)? MediaQuery.of(context).size.width * 0.44 : null,
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              decoration: BoxDecoration(
+                                color: primaryContainer,
+                                borderRadius:  BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    blurRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: (viewmodel.listLog.length == 0)? Center(child: Text('No Activity Yet!',style: emptyActivityText))
+                                  : Column(
+                                children: [
+                                  ...viewmodel.listLog.map((e) => recentItem(content: e) ).toList(),
+                                ],
+                              )
+
+                            ),
+                            SizedBox(height: 20)
+                          ],
+                        ),
                       ),
-                      Expanded(
-                          child: GridViewBuilder(
-                            icons: reportIcon,
-                          )
-                      ),
+                      Visibility(
+                        visible: (status == ResultState.loading),
+                        child: const CircularProgressIndicator(
+                          color: Colors.black,
+                        ),
+                      )
                     ],
-                  ),
-                  Visibility(
-                    visible: (status == ResultState.loading),
-                    child: CircularProgressIndicator(
-                      color: Colors.black,
-                    ),
-                  )
-                ],
+                  );
+                },
               )
             )
         ),
     );
   }
+}
 
+class recentItem extends StatelessWidget {
+  ListLogModel content;
+
+  recentItem({Key? key,required this.content}) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+      return Padding(
+          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+          child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius:  BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Flexible(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text((content != null)? "Meal - ${content.instanceType!}" : '',style: listActivityText,textAlign: TextAlign.start),
+                          Text((content != null)? "${content.instanceName!} " : '',style: listActivityText2),
+                        ],
+                      ),
+                    )
+                  ),
+                  Text('(+ ${content.calories} Kcal) ',style: listActivityText2),
+                  // Icon(Icons.fastfood_sharp,size: 40),
+
+                ],
+              ),
+          ),
+      );
+  }
 }
 
 
 
-
+// (viewmodel.listLog.length == 0)? Center(child: Text('No Activity Yet!',style: emptyActivityText))
+//     : Column(
+// children: [
+// ...viewmodel.listLog.map((e) => recentItem(content: '${e.instanceType} - ${e.instanceName} ( + ${e.calories} Kcal)') ).toList(),
+// ],
+// )
 
 
 

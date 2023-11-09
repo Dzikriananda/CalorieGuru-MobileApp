@@ -1,4 +1,5 @@
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
@@ -19,8 +20,6 @@ class AuthViewModel extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
   String? get password => _pwd;
   String? get password_2 => _pwd2;
-
-
 
   set setViewModelState(ResultState state){
     _state = state;
@@ -46,13 +45,34 @@ class AuthViewModel extends ChangeNotifier {
 
 
   Future<void> signIn() async{
+    final streamer = Auth().authStateChanges.listen((event) async {
+      if(event == null) print("gagal login");
+      else {
+        try{
+          final hasData = await Firestore().hasFilledData(event.uid);
+          print("hasil hasdata $hasData");
+          if(hasData != null){
+            if(hasData){
+              _state = ResultState.logged;
+            }
+            else{
+              _state = ResultState.loggedNotFilledData;
+            }
+          }
+          else{
+            _state = ResultState.error;
+          }
+          notifyListeners();
+        }
+        on FirebaseAuthException catch(e){
+          print(e);
+        }
+      }
+    });
     try{
       _state = ResultState.loading;
       notifyListeners();
       await Auth().signInWithEmailAndPassword(email: _email!, password: _pwd!);
-      print("sukses loggin");
-      _state = ResultState.logged;
-      notifyListeners();
     }
     on FirebaseAuthException catch(e){
       print("gagal login");
@@ -61,16 +81,31 @@ class AuthViewModel extends ChangeNotifier {
       _state = ResultState.error;
       notifyListeners();
     }
+    streamer.cancel();
   }
 
   Future<void> signUp() async{
+    _state = ResultState.loading;
+    notifyListeners();
+    final streamer = Auth().authStateChanges.listen((event) async {
+      if(event == null) print("gagal register");
+      else {
+        try{
+          await Firestore().addUser(event.uid);
+          _state = ResultState.loggedNotFilledData;
+          notifyListeners();
+        }
+        on FirebaseAuthException catch(e){
+          print(e);
+        }
+      }
+    });
+
     try{
       _state = ResultState.loading;
       notifyListeners();
       await Auth().createUserWithEmailAndPassword(email: _email!, password: _pwd!);
-      print("sukses register");
-      _state = ResultState.hasData;
-      notifyListeners();
+
     }
     on FirebaseAuthException catch(e){
       print("gagal register");
@@ -79,6 +114,7 @@ class AuthViewModel extends ChangeNotifier {
       _state = ResultState.error;
       notifyListeners();
     }
+    streamer.cancel();
   }
 
 

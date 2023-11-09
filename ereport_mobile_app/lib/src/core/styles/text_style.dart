@@ -89,6 +89,15 @@ const TextStyle registerOptionText = TextStyle(
     decoration: TextDecoration.none
 );
 
+const TextStyle totalCalText = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: onBackgroundColor,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
 const TextStyle containerOptionText = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 16,
@@ -101,11 +110,86 @@ const TextStyle containerOptionText = TextStyle(
 const TextStyle homeScreenReportText = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 25,
-    fontWeight: FontWeight.w900,
-    color: onBackgroundColor,
+    fontWeight: FontWeight.w700,
+    color: onPrimaryContainer,
     letterSpacing: 0,
     decoration: TextDecoration.none
 );
+
+const TextStyle emptyActivityText = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 25,
+    fontWeight: FontWeight.w400,
+    color: Color(0xff5A5A5A),
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
+const TextStyle listActivityText = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: onPrimaryContainer,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
+const TextStyle listActivityText2 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
+const TextStyle homeScreenReportText2 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    fontWeight: FontWeight.w900,
+    color: Colors.blueAccent,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
+
+const TextStyle homeScreenReportText3 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    fontWeight: FontWeight.w900,
+    color: Colors.red,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
+const TextStyle homeScreenReportText4 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: onPrimaryContainer,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
+const TextStyle homeScreenReportText5 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 17,
+    fontWeight: FontWeight.w900,
+    color: Colors.blueAccent,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
+const TextStyle homeScreenReportText6 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 17,
+    fontWeight: FontWeight.w900,
+    color: Colors.red,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
+
 
 const TextStyle splashScreenText = TextStyle(
  fontFamily: 'Poppins',
@@ -152,6 +236,16 @@ const TextStyle onBoardingWelcomeText= TextStyle(
     decoration: TextDecoration.none
 );
 
+
+const TextStyle notFoundText= TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+    letterSpacing: 0.15,
+    color: onBackgroundColor,
+    decoration: TextDecoration.none
+);
+
 const TextStyle registerOnBoardingWelcomeText= TextStyle(
     fontFamily: 'Poppins',
     fontSize: 25,
@@ -176,5 +270,14 @@ const TextStyle calorieTextSecond= TextStyle(
     fontWeight: FontWeight.w500,
     letterSpacing: 0.15,
     color: Colors.orange,
+    decoration: TextDecoration.none
+);
+
+const TextStyle calorieErrorText= TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.15,
+    color: onPrimaryContainer,
     decoration: TextDecoration.none
 );

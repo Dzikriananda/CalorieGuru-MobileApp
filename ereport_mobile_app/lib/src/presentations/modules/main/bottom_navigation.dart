@@ -22,6 +22,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   static const List<Widget> _pages = <Widget>[
     HomeScreen(),
+    Center(),
     SettingsScreen()
   ];
 
@@ -42,6 +43,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 color: onPrimaryColor,
             ),
             label: TextStrings.homeBottomNavItem,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.book,
+              color: onPrimaryColor,
+            ),
+            label: 'History',
           ),
           BottomNavigationBarItem(
             icon: Icon(

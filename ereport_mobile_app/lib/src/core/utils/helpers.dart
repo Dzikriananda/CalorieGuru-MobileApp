@@ -2,6 +2,7 @@
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import "dart:core";
 import 'package:age_calculator/age_calculator.dart';
+import 'package:intl/intl.dart';
 
 
 Future<bool> checkConnection() async {
@@ -14,6 +15,13 @@ int calculateAge(String bod) {
     final int age = AgeCalculator.age(birthdate).years;
     return age;
 }
+
+String getTodayDate(){
+  final result = DateFormat('dd-MM-yyyy').format(DateTime.now());
+  return result;
+}
+
+
 
 
 // final StreamSubscription<InternetConnectionStatus> listener =

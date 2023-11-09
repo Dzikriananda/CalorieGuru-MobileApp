@@ -1,14 +1,14 @@
 import 'dart:ui';
+import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/register_viewmodel.dart';
+import 'package:ereport_mobile_app/src/presentations/global_widgets/alert_dialog.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/register/widgets/first_register_widget.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/register/widgets/second_register_page.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/register/widgets/third_register_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import '../../../../../core/styles/text_style.dart';
-import '../../widgets/custom_text_field.dart';
+
 typedef MyBuilder = void Function(BuildContext context, bool Function() methodFromChild);
 
 
@@ -29,6 +29,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
     "Activity",
     "Your Result"
   ];
+
+  void _showAlertDialog(BuildContext context,Function retry) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+            onRetry: (){
+              retry();
+              Navigator.of(context).pop();
+            }
+        );
+      },
+    );
+  }
+
+  bool _isThereCurrentDialogShowing(BuildContext context) => ModalRoute.of(context)?.isCurrent != true;
+
 
   @override
   void initState(){
@@ -51,6 +68,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Consumer<RegisterViewModel>(
         builder: (context,viewmodel,child){
           var currentPage = viewmodel.page;
+
+          if(viewmodel.state == ResultState.error){
+            void retry = (viewmodel.response == null) ? viewmodel.getCalorieNeed() : viewmodel.updateData();
+            bool isShow = _isThereCurrentDialogShowing(context);
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if(!isShow) _showAlertDialog(context, () => retry);
+            });
+          }
+          else if(viewmodel.state == ResultState.addDataSuccess){
+            viewmodel.dispose();
+            WidgetsBinding.instance!.addPostFrameCallback((_) {
+              Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
+            });
+          }
+
           return Scaffold(
               appBar: AppBar(
                 title: Text(appBarTitle[currentPage],textAlign: TextAlign.center),
@@ -111,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                     elevation: 0,
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     switch(currentPage){
                                       case 0:
                                         {
@@ -126,13 +158,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         {
                                           if (viewmodel.activityLevel != null) {
                                               viewmodel.getCalorieNeed();
-                                              print(currentPage);
                                               viewmodel.nextPage();
                                           }
                                         }
                                         break;
                                       case 2:
-                                        Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
+                                        viewmodel.updateData();
                                         break;
                                     }
                                   },
@@ -140,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               )
                             ],
                           ),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.1,)
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.13,)
                         ],
                       ),
                     )
