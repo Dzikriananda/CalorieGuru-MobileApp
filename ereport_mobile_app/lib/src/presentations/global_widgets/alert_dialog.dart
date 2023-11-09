@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../core/styles/color.dart';
 
-class InternetAlertDialog extends StatefulWidget {
+class CustomAlertDialog extends StatefulWidget {
   final VoidCallback onRetry;
-  InternetAlertDialog({Key? key,required this.onRetry}) : super(key: key);
+  CustomAlertDialog({Key? key,required this.onRetry}) : super(key: key);
 
   @override
-  State<InternetAlertDialog> createState() => _InternetAlertDialogState();
+  State<CustomAlertDialog> createState() => _CustomAlertDialogState();
 }
 
-class _InternetAlertDialogState extends State<InternetAlertDialog> {
+class _CustomAlertDialogState extends State<CustomAlertDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

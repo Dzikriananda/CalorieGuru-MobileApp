@@ -60,6 +60,9 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                     child: Column(
                       children: [
                         CustomFormField(
+                          hasUnderline: true,
+                          maxLines: 1,
+                          initialValue: (viewmodel.name == null)? null : viewmodel.name.toString(),
                           backgroundColor: primaryContainer,
                           isEnabled: true,
                           hintText: "Full Name",
@@ -68,9 +71,14 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                           validator: (val){
                             if(!val!.isNotNull) return TextStrings.invalidNameWarning;
                           },
-                          onSubmited: (value){},
+                          onSubmited: (value){
+                            viewmodel.name = value;
+                          },
                         ),
                         CustomFormField(
+                          hasUnderline: true,
+                          maxLines: 1,
+                          initialValue: (viewmodel.weight == null || viewmodel.weight == '')? null : viewmodel.weight.toString(),
                           backgroundColor: primaryContainer,
                           isEnabled: true,
                           hintText: "Weight (in Kg)",
@@ -82,10 +90,15 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
 
                           },
                           onSubmited: (value){
-                            viewmodel.weight = double.parse(value);
+                            if(value != ''){
+                              viewmodel.weight = double.parse(value);
+                            }
                           },
                         ),
                         CustomFormField(
+                          hasUnderline: true,
+                          maxLines: 1,
+                          initialValue: (viewmodel.height == null || viewmodel.weight == '')? null : viewmodel.height.toString(),
                           backgroundColor: primaryContainer,
                           isEnabled: true,
                           hintText: "Height (in Cm)",
@@ -96,7 +109,9 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                             if (!val!.isValidHeight) return TextStrings.invalidHeightlWarning;
                           },
                           onSubmited: (value){
-                            viewmodel.height = double.parse(value);
+                            if(value != ''){
+                              viewmodel.height = double.parse(value);
+                            }
                           },
                         ),
                       ],

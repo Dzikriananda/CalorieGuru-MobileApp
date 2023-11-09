@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
+import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/splash_screen_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -42,14 +43,15 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final viewmodel = Provider.of<SplashScreenViewModel>(context, listen: false);
       if(viewmodel.state == ResultState.unLogged){
-        // Navigator.pushReplacementNamed(context, '/authScreen');
         Navigator.pushReplacementNamed(context, '/onBoardingScreen');
-        viewmodel.dispose();
       }
       else if(viewmodel.state == ResultState.logged){
         Navigator.pushReplacementNamed(context, '/bottomNavigation');
-        viewmodel.dispose();
       }
+      else if(viewmodel.state == ResultState.loggedNotFilledData){
+        Navigator.pushReplacementNamed(context, '/registerScreen');
+      }
+      viewmodel.dispose();
     });
     super.didChangeDependencies();
   }
@@ -80,9 +82,34 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               SizedBox(height: 50),
-              const Center(child: CircularProgressIndicator(
-                color: Colors.black,
-                )
+              Center(
+                  child: (viewmodel.state == ResultState.error)?
+                      Column(
+                        children: [
+                          Text('Error : ${viewmodel.errorMessage}',style: petrolabTextTheme.bodyLarge),
+                          ElevatedButton(
+                            child: Text("Retry",style: TextStyle(color: onPrimaryColor)),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:  primaryColor,
+                              side: BorderSide(
+                                width: 1.0,
+                                color: primaryColor,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              elevation: 0,
+                              minimumSize: Size(110,36),
+                              maximumSize: Size(110,36),
+                            ),
+                            onPressed: () {
+                            },
+                          ),
+                        ],
+                      ):
+                      CircularProgressIndicator(
+                        color: primaryColor,
+                      )
               ),
             ],
           ),

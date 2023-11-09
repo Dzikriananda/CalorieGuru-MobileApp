@@ -128,7 +128,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 50), //50
                   Stack(
                     alignment: AlignmentDirectional.center,
                     children: [

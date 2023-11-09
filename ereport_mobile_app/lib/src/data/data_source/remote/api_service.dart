@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ereport_mobile_app/src/data/models/get_calorie_response.dart';
+import 'package:ereport_mobile_app/src/data/models/get_meal_calorie_response.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService{
@@ -21,5 +22,28 @@ class ApiService{
 
     return response.body;
   }
+
+  Future<String> checkMealCalorie(String mealName) async {
+    Uri finalUri = Uri.parse('https://api.calorieninjas.com/v1/nutrition?query=$mealName');
+    print(finalUri.toString());
+
+    final response = await http.get(
+      finalUri,
+      headers: <String, String>{
+        'X-Api-Key' : 'UI3fZaxmCMJAYamhD5mH3A==dJaPAKk64d9KcofT'
+      },
+    );
+
+    return response.body;
+
+
+    // double cal = 0;
+    // final list = parsedJson.items;
+    // list.forEach((element) {cal += element.calories;});
+    // print(cal);
+
+    // return response.body;
+  }
+
 
 }

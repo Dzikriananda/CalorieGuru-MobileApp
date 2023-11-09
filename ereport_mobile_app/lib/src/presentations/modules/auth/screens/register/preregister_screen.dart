@@ -30,15 +30,13 @@ class _PreRegisterScreenState extends State<PreRegisterScreen> {
                 height: 150,
                 width: 150,
               ),
-              Text(
-                'Congrats,',
-                style: registerOnBoardingWelcomeText,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                'Your Accounts Has Been Created!',
-                style: registerOnBoardingWelcomeText,
-                textAlign: TextAlign.center,
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Text(
+                  'Congrats,\nYour Accounts Has Been Created!',
+                  style: registerOnBoardingWelcomeText,
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(height : 20),
               Text(
