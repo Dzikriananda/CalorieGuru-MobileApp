@@ -14,6 +14,7 @@ class TextStrings {
   static const invalidHeightlWarning = "Height Must More than 130 and Less then 230 (in Cm)";
   static const invalidPasswordWarning = "Enter valid password";
   static const invalidNullWarning= "This field must not empty";
+  static const invalidCalorieWarning= "Enter valid calorie!";
   static const invalidNullOptionWarning= "This Option must not be empty";
   static const homeBottomNavItem = "Home";
   static const settingsBottomNavItem = "Settings";
@@ -31,8 +32,18 @@ class TextStrings {
   static const addScreen_5 = "Search";
   static const addScreen_6 = "Using Instruction";
   static const addScreen_7 = 'How to use?';
-  static const nutritionDetail_1 = "Sorry, We Couldn't Find Information For That Meal";
-  static const usingInstruction = "With this tool, you can enter your meal and get its calorie value with a single click. You can search for a single meal, such as '1 bowl of porridge,' or a combination of multiple items, for example, '2 bowls of porridge with a Coca-Cola.' However, please remember to manually specify the category of the meal. It's strongly recommended to declare its singularity; for instance, instead of simply 'fried chicken,' type '1 fried chicken' or 'a fried chicken' or 'a plate of pancake'if it's just a single meal.";
+  static const addScreen_8 = "Activity Information";
+  static const addScreenFailedAddNotifName = "Add Log";
+  static const addScreenFailedAddNotifContent = "Adding is Failed! Try Again!";
+  static const addScreen_textfield1_hinttext1 = 'Meal name';
+  static const addScreen_textfield1_hinttext2 = 'Activity name';
+  static const addScreen_textfield2_hinttext1 = 'Calorie (in Kcal)';
+  static const addScreen_textfield2_hinttext2 = 'Burned Calorie (in Kcal)';
+
+  static const notFound_1 = "Sorry, We Couldn't Find Information For That Meal";
+  static const notFound_2 = "Sorry, We Couldn't Find Information For That Activity";
+  static const usingInstruction1 = "With this tool, you can easily determine the calorie value of your meal with a single click. You can search for a single item, like '1 bowl of porridge,' or a combination of multiple items, such as '2 bowls of porridge with a Coca-Cola.' However, please ensure to manually specify the category of the meal. It's strongly recommended to indicate its singularity; for example, instead of 'fried chicken,' type '1 fried chicken,' 'a fried chicken,' or 'a plate of pancake' if it's just a single meal.";
+  static const usingInstruction2 = "With this tool, you can determine the calorie value of your activity with a single click. Enter the basic word or the basic word followed by an affix of your activity (e.g., Walk, Walking, Run, Running). Queries like 'Last night, I ran for 2 hours' would be considered incorrect. However, please ensure to manually specify the category of the Activity. You can also enter the duration of your activity in minutes. If left unfilled, the default duration will be set to 60 minutes.";
 
 
 

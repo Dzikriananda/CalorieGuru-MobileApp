@@ -8,6 +8,7 @@ import 'package:ereport_mobile_app/src/data/data_source/remote/api_service.dart'
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import '../../../../../core/constants/result_state.dart';
+import '../../../../../core/constants/screen_type.dart';
 import '../../../../../core/constants/text_strings.dart';
 import '../../../../../data/auth/auth.dart';
 import '../../../../../data/auth/firestore.dart';
@@ -25,10 +26,9 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
   final bool isUpdate = false;
   final bool isMeal = true;
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController foodNameController = TextEditingController();
-  final TextEditingController calorieController = TextEditingController();
-  String dropdownValue = list.first;
-
+  final TextEditingController textField1Controller = TextEditingController();
+  final TextEditingController textField2Controller = TextEditingController();
+  late String args;
 
   @override
   void initState(){
@@ -37,9 +37,18 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
 
   @override
   void dispose(){
-    foodNameController.dispose();
-    calorieController.dispose();
+    textField1Controller.dispose();
+    textField2Controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    args = ModalRoute.of(context)!.settings.arguments as String;
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      context.read<AddUpdateViewModel>().setLogType(args);
+    });
+    super.didChangeDependencies();
   }
 
   void openDialog(BuildContext context,String title, String content){
@@ -53,7 +62,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
               child:  Text(
                 content,
                 style: petrolabTextTheme.bodyLarge,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.justify,
               ),
             );
           },
@@ -79,30 +88,35 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    final args = ModalRoute.of(context)!.settings.arguments as String;
     return WillPopScope(
         onWillPop: () async {
           if ( context.read<AddUpdateViewModel>().state == ResultState.loading) return false;
-          else return true;
+          else {
+            context.read<AddUpdateViewModel>().disposeViewModel();
+            return true;
+          }
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text('$args', style: TextStyle(color: onPrimaryColor)),
+              title: Text(' Add $args', style: TextStyle(color: onPrimaryColor)),
               backgroundColor: primaryColor,
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
-                if(_formKey.currentState!.validate()){
-                  context.read<AddUpdateViewModel>().setMealName = foodNameController.text;
-                  context.read<AddUpdateViewModel>().setCalorie = calorieController.text;
-                  final result = await context.read<AddUpdateViewModel>().addLog();
-                  if(result){
-                    context.read<AddUpdateViewModel>().disposeViewModel();
-                    Navigator.of(context).pop(true);
-                  }
-                  else{
-                    openDialog(context, 'Adding Log', 'Adding is Failed! Try Again!');
+                if (_formKey.currentState!.validate()) {
+                  final viewmodel = context.read<AddUpdateViewModel>();
+                  viewmodel.setInstanceName = textField1Controller.text;
+                  viewmodel.setCalorie = textField2Controller.text;
+                  viewmodel.checkChoice();
+                  if (viewmodel.isValidChoice!) {
+                    final result = await viewmodel.addLog();
+                    if (result) {
+                      viewmodel.disposeViewModel();
+                      Navigator.of(context).pop(true);
+                    }
+                    else {
+                      openDialog(context, TextStrings.addScreenFailedAddNotifName, TextStrings.addScreenFailedAddNotifContent);
+                    }
                   }
                 }
               },
@@ -113,8 +127,9 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
             ),
             body: Consumer<AddUpdateViewModel>(
               builder: (context,viewmodel,child){
-                calorieController.text = ((viewmodel.calorie != null )? viewmodel.calorie.toString() : '');
-                foodNameController.text = ((viewmodel.mealName != null )? viewmodel.mealName! : '');
+                viewmodel.logType = args;
+                textField2Controller.text = ((viewmodel.calorie != null )? viewmodel.calorie.toString() : '');
+                textField1Controller.text = ((viewmodel.instanceName != null )? viewmodel.instanceName! : '');
                 return Stack(
                   alignment: Alignment.center,
                   children: [
@@ -139,7 +154,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                           child: Padding(
                                             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                                             child: Text(
-                                                TextStrings.addScreen_1,
+                                                (args == ScreenType.Meal.name)? TextStrings.addScreen_1 : TextStrings.addScreen_8,
                                                 style: homeScreenReportText
                                             ),
                                           )
@@ -151,7 +166,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                             CustomFormField(
                                               hasUnderline: true,
                                               backgroundColor: primaryContainer,
-                                              hintText: 'Food name',
+                                              hintText: (args == ScreenType.Meal.name)? TextStrings.addScreen_textfield1_hinttext1 : TextStrings.addScreen_textfield1_hinttext2,
                                               icon: null,
                                               initialValue: null,
                                               isEnabled: true,
@@ -163,54 +178,60 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
 
                                               },
                                               maxLines: 3,
-                                              textfieldController: foodNameController,
+                                              textfieldController: textField1Controller,
                                             ),
                                             CustomFormField(
                                               hasUnderline: true,
                                               backgroundColor: primaryContainer,
-                                              hintText: 'Calorie (in Kcal)',
+                                              hintText: (args == ScreenType.Meal.name)? TextStrings.addScreen_textfield2_hinttext1 : TextStrings.addScreen_textfield2_hinttext2,
                                               icon: null,
                                               initialValue: null,
                                               isEnabled: true,
                                               isPassword: false,
                                               validator: (val) {
                                                 if (!val!.isNotNull) return TextStrings.invalidNullWarning;
+                                                else if(!val.isValidCalorie) return TextStrings.invalidCalorieWarning;
                                               },
                                               onSubmited: (value){
                                               },
                                               maxLines: 1,
-                                              textfieldController: calorieController,
+                                              textfieldController: textField2Controller,
                                             ),
                                           ],
                                         ),
                                       ),
                                       SizedBox(height: 10),
                                       Padding(
-                                        padding: EdgeInsets.fromLTRB(25, 0, 0, 25),
+                                        padding: EdgeInsets.fromLTRB(25, 0, 0, 5),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
                                             Text(TextStrings.addScreen_2,style: petrolabTextTheme.titleLarge,),
-                                            DropdownMenu<String>(
-                                              initialSelection: list.first,
-                                              onSelected: (String? value) {
-                                                viewmodel.setDropDown = value!;
-                                              },
-                                              menuStyle: MenuStyle(
-                                                backgroundColor: MaterialStateProperty.all<Color>(primaryContainer),
+                                            SizedBox(
+                                              child: DropdownMenu<String>(
+                                                initialSelection: viewmodel.list.first,
+                                                onSelected: (String? value) {
+                                                  viewmodel.setDropDown = value!;
+                                                },
+                                                menuStyle: MenuStyle(
+                                                  backgroundColor: MaterialStateProperty.all<Color>(primaryContainer),
+                                                ),
+                                                dropdownMenuEntries: viewmodel.list.map<DropdownMenuEntry<String>>((String value) {
+                                                  return DropdownMenuEntry<String>(value: value, label: value);
+                                                }).toList(),
                                               ),
-                                              dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
-                                                return DropdownMenuEntry<String>(value: value, label: value);
-                                              }).toList(),
-                                            ),
+                                            )
                                           ],
                                         ),
+                                      ),
+                                      Visibility(
+                                          visible: (viewmodel.isValidChoice != null) ? ((viewmodel.isValidChoice!) ? false : true) : false,
+                                          child: Text('You Must Choose an Item!',style: chooseItemTextError)
                                       )
                                     ],
                                   )
                               ),
                             ),
-                            SizedBox(height: 0),
                             Padding(
                               padding: EdgeInsets.all(10),
                               child: Container(
@@ -249,9 +270,31 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                           minLines: 1,
                                           maxLines: 3,
                                           onChanged: (value){
-                                            viewmodel.setQueryMealName = value;
+                                            viewmodel.setQuery = value;
                                           },
                                         ),
+                                      ),
+                                      Visibility(
+                                          visible: (args == ScreenType.Exercise.name) ? true : false,
+                                          child:  Padding(
+                                            padding: EdgeInsets.all(8),
+                                            child:  TextField(
+                                              decoration:  InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      borderSide: BorderSide.none
+                                                  ),
+                                                  filled: true,
+                                                  labelText: 'Duration (In minutes , optional)',
+                                                  fillColor: backgroundColor,
+                                                  prefixIcon: Icon(Icons.timer_rounded)
+                                              ),
+                                              maxLines: 1,
+                                              onChanged: (value){
+                                                viewmodel.setQuery2 = value;
+                                              },
+                                            ),
+                                          ),
                                       ),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -265,10 +308,17 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               ),
                                             ),
                                             onPressed: () async {
-                                              if(viewmodel.searchMealQuery != null && viewmodel.searchMealQuery != ''){
-                                                await viewmodel.getMealCalorie();
-                                                var result = await Navigator.pushNamed(context, '/calorieDetailScreen',arguments: viewmodel.response);
-                                                if(result == true ) viewmodel.setInformation();
+                                              if(viewmodel.searchQuery != null && viewmodel.searchQuery != ''){
+                                                if(args == ScreenType.Meal.name) {
+                                                  await viewmodel.getMealCalorie();
+                                                  final result = await Navigator.pushNamed(context, '/calorieDetailScreen',arguments: viewmodel.response);
+                                                  if(result == true) viewmodel.setInformation(null);
+                                                }
+                                                else {
+                                                  await viewmodel.getActivityCalorie();
+                                                  final result = await Navigator.pushNamed(context, '/burnedCalorieDetailScreen',arguments: viewmodel.response2);
+                                                  if(result != null) viewmodel.setInformation(result as int?);
+                                                }
                                               }
 
                                             },
@@ -283,7 +333,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              openDialog(context,TextStrings.addScreen_6, TextStrings.usingInstruction);
+                                              openDialog(context,TextStrings.addScreen_6, (args == ScreenType.Meal.name) ? TextStrings.usingInstruction1 : TextStrings.usingInstruction2);
                                             },
                                             child: Text(TextStrings.addScreen_7),
                                           ),

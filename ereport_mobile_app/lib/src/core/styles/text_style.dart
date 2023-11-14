@@ -281,3 +281,12 @@ const TextStyle calorieErrorText= TextStyle(
     color: onPrimaryContainer,
     decoration: TextDecoration.none
 );
+
+const TextStyle chooseItemTextError = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    letterSpacing: 0.15,
+    color: Colors.red,
+    decoration: TextDecoration.none
+);

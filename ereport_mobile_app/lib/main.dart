@@ -13,6 +13,7 @@ import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/regist
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/splash_screen/splash_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/bottom_navigation.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/add_update/list_screen.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/burned_calorie_detail/burned_calorie_detail_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/calorie_detail/calorie_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
           '/listScreen' : (context) => AddUpdateScreen(),
           '/registerScreen' : (context) => PreRegisterScreen(),
           '/calorieDetailScreen': (context) => CalorieDetailScreen(),
+          '/burnedCalorieDetailScreen': (context) => BurnedCalorieDetailScreen()
         },
         onGenerateRoute: (settings) {
           if (settings.name == "/authScreen") {

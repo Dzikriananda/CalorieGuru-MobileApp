@@ -84,7 +84,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
                 },
             ) : null
         ),
-        obscureText: (widget.isPassword? true : false)? hideText: false,
+        obscureText: (widget.isPassword ? true : false) ? hideText : false,
         onChanged: widget.onSubmited,
         controller: widget.textfieldController,
       ),
@@ -109,6 +109,11 @@ extension extString on String {
   bool get isValidHeight{
     return (double.parse(this) > 130.0) && (double.parse(this) < 230.0);
 
+  }
+
+  bool get isValidCalorie{
+    final value = double.tryParse(this);
+    return (value != null);
   }
 
   bool get isNotNull{
