@@ -32,7 +32,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     backgroundColor: primaryColor,
     duration: const Duration(seconds: 6),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20.0),
+          topLeft: Radius.circular(20.0),
+          ),
     ),
     action: SnackBarAction(
       label: TextStrings.loggedOutText,

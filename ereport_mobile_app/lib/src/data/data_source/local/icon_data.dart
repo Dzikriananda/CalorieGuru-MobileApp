@@ -3,6 +3,8 @@ import 'package:ereport_mobile_app/src/core/classes/icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/screen_type.dart';
+
 // List<CustomIcon> icons = [
 //   CustomIcon('Oil', 'assets/icons/oil.svg'),
 //   CustomIcon('New Oil', 'assets/icons/new_oil.svg'),
@@ -23,6 +25,6 @@ import 'package:flutter/material.dart';
 // ];
 
 List<CustomIcon> icons = [
-    CustomIcon.fromIcon('Add Meal', Icon(Icons.add,size: 30,)),
-    CustomIcon.fromIcon('Add Exercise/Burn', Icon(Icons.sports_gymnastics,size: 30)),
+    CustomIcon.fromIcon(ScreenType.Meal.name, Icon(Icons.add,size: 30,)),
+    CustomIcon.fromIcon(ScreenType.Exercise.name, Icon(Icons.sports_gymnastics,size: 30)),
 ];

@@ -53,7 +53,7 @@ class Firestore {
     }
   }
 
-  Future<void> addLog(String uid,Map<String,dynamic> log) async {
+  Future<void> addLog(bool isMeal,String uid,Map<String,dynamic> log) async {
     const dataSource = Source.server;
     final docRef = db.collection("log");
     int number = 0;
@@ -74,14 +74,25 @@ class Firestore {
         final user = await getUserData(uid);
         print(user!.calorieNeed);
         final calorieNeed = user!.calorieNeed;
-        await todayLog.doc(number.toString()).set({'no':number,'calorieBudget':calorieNeed,'consumedCalories':0});
+        await todayLog.doc(number.toString()).set({'no':number,'calorieBudget':calorieNeed,'consumedCalories':0.0,'burnedCalories':0.0});
       }
       number++;
       await todayLog.doc(number.toString()).set({'no':number,...log});
       final docZero = await todayLog.doc('0').get();
-      final beforeCalorie = docZero.data()!['consumedCalories'];
-      final afterCalorie = beforeCalorie + log['calories'];
-      await todayLog.doc('0').update({'consumedCalories':afterCalorie});
+      if (isMeal) {
+        final beforeCalorie = docZero.data()!['consumedCalories'];
+        final afterCalorieString = beforeCalorie + log['calories'];
+        final value = afterCalorieString.toStringAsFixed(1);
+        final afterCalorie = double.parse(value);
+        await todayLog.doc('0').update({'consumedCalories':afterCalorie});
+      }
+      else {
+        final beforeCalorie = docZero.data()!['burnedCalories'];
+        final afterCalorieString = beforeCalorie + log['calories'];
+        final value = afterCalorieString.toStringAsFixed(1);
+        final afterCalorie = double.parse(value);
+        await todayLog.doc('0').update({'burnedCalories':afterCalorie});
+      }
     } catch(e){
       print("error while adding : $e");
     }
