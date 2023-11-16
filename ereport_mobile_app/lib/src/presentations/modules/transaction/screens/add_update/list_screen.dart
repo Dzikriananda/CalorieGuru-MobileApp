@@ -1,5 +1,6 @@
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
+import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/add_update_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,12 +24,13 @@ class AddUpdateScreen extends StatefulWidget {
 
 class _AddUpdateScreenState extends State<AddUpdateScreen> {
 
-  final bool isUpdate = false;
-  final bool isMeal = true;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController textField1Controller = TextEditingController();
   final TextEditingController textField2Controller = TextEditingController();
-  late String args;
+  late String screenName;
+  late bool isUpdate;
+  late Map<String,dynamic> args;
+  LogModel? data;
 
   @override
   void initState(){
@@ -44,9 +46,15 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
 
   @override
   void didChangeDependencies() {
-    args = ModalRoute.of(context)!.settings.arguments as String;
+    args = ModalRoute.of(context)!.settings.arguments as Map<String,dynamic>;
+    screenName = args['name'];
+    isUpdate = args['isUpdate'];
+    data = args['data'];
     WidgetsBinding.instance.addPostFrameCallback((_){
-      context.read<AddUpdateViewModel>().setLogType(args);
+      final viewModel = context.read<AddUpdateViewModel>();
+      viewModel.setLogType(screenName);
+      viewModel.screenType = isUpdate;
+      if(isUpdate) viewModel.setDataForUpdate(args['data']);
     });
     super.didChangeDependencies();
   }
@@ -98,36 +106,76 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text(' Add $args', style: TextStyle(color: onPrimaryColor)),
+              title: Text(TextStrings.addScreen_9(screenName,isUpdate), style: TextStyle(color: onPrimaryColor)),
               backgroundColor: primaryColor,
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  final viewmodel = context.read<AddUpdateViewModel>();
-                  viewmodel.setInstanceName = textField1Controller.text;
-                  viewmodel.setCalorie = textField2Controller.text;
-                  viewmodel.checkChoice();
-                  if (viewmodel.isValidChoice!) {
-                    final result = await viewmodel.addLog();
-                    if (result) {
-                      viewmodel.disposeViewModel();
-                      Navigator.of(context).pop(true);
+            floatingActionButton: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Visibility(
+                  visible: isUpdate,
+                  child: FloatingActionButton(
+                      heroTag: null,
+                      onPressed: () async {
+                        final viewmodel = context.read<AddUpdateViewModel>();
+                        final result = await viewmodel.deleteLog(data!.no!);
+                          if (result) {
+                            viewmodel.disposeViewModel();
+                            Navigator.of(context).pop(true);
+                          }
+                          else {
+                            openDialog(context, TextStrings.updateScreenFailedDeleteNotifName, TextStrings.updateScreenFailedDeleteNotifContent);
+                          }
+                      },
+                      shape: CircleBorder(),
+                      foregroundColor: onPrimaryColor,
+                      backgroundColor: primaryColor,
+                      child: const Icon(Icons.delete_forever),
+                    ),
+                ),
+                SizedBox(height: 10),
+                FloatingActionButton(
+                  heroTag: null,
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      final viewmodel = context.read<AddUpdateViewModel>();
+                      viewmodel.setInstanceName = textField1Controller.text;
+                      viewmodel.setCalorie = textField2Controller.text;
+                      viewmodel.checkChoice();
+                      if (viewmodel.isValidChoice!) {
+                        if(!isUpdate) {
+                          final result = await viewmodel.addLog();
+                          if (result) {
+                            viewmodel.disposeViewModel();
+                            Navigator.of(context).pop(true);
+                          }
+                          else {
+                            openDialog(context, TextStrings.addScreenFailedAddNotifName, TextStrings.addScreenFailedAddNotifContent);
+                          }
+                        }
+                        else {
+                          final result = await viewmodel.updateLog(data!.no!);
+                          if (result) {
+                            viewmodel.disposeViewModel();
+                            Navigator.of(context).pop(true);
+                          }
+                          else {
+                            openDialog(context, TextStrings.updateScreenFailedUpdateNotifName, TextStrings.updateScreenFailedUpdateNotifContent);
+                          }
+                        }
+                      }
                     }
-                    else {
-                      openDialog(context, TextStrings.addScreenFailedAddNotifName, TextStrings.addScreenFailedAddNotifContent);
-                    }
-                  }
-                }
-              },
-              shape: CircleBorder(),
-              foregroundColor: onPrimaryColor,
-              backgroundColor: primaryColor,
-              child: const Icon(Icons.check),
+                  },
+                  shape: CircleBorder(),
+                  foregroundColor: onPrimaryColor,
+                  backgroundColor: primaryColor,
+                  child: const Icon(Icons.check),
+                ),
+              ],
             ),
             body: Consumer<AddUpdateViewModel>(
               builder: (context,viewmodel,child){
-                viewmodel.logType = args;
+                viewmodel.logType = screenName;
                 textField2Controller.text = ((viewmodel.calorie != null )? viewmodel.calorie.toString() : '');
                 textField1Controller.text = ((viewmodel.instanceName != null )? viewmodel.instanceName! : '');
                 return Stack(
@@ -154,7 +202,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                           child: Padding(
                                             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                                             child: Text(
-                                                (args == ScreenType.Meal.name)? TextStrings.addScreen_1 : TextStrings.addScreen_8,
+                                                (screenName == ScreenType.Meal.name)? TextStrings.addScreen_1 : TextStrings.addScreen_8,
                                                 style: homeScreenReportText
                                             ),
                                           )
@@ -166,7 +214,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                             CustomFormField(
                                               hasUnderline: true,
                                               backgroundColor: primaryContainer,
-                                              hintText: (args == ScreenType.Meal.name)? TextStrings.addScreen_textfield1_hinttext1 : TextStrings.addScreen_textfield1_hinttext2,
+                                              hintText: (screenName == ScreenType.Meal.name)? TextStrings.addScreen_textfield1_hinttext1 : TextStrings.addScreen_textfield1_hinttext2,
                                               icon: null,
                                               initialValue: null,
                                               isEnabled: true,
@@ -183,7 +231,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                             CustomFormField(
                                               hasUnderline: true,
                                               backgroundColor: primaryContainer,
-                                              hintText: (args == ScreenType.Meal.name)? TextStrings.addScreen_textfield2_hinttext1 : TextStrings.addScreen_textfield2_hinttext2,
+                                              hintText: (screenName == ScreenType.Meal.name)? TextStrings.addScreen_textfield2_hinttext1 : TextStrings.addScreen_textfield2_hinttext2,
                                               icon: null,
                                               initialValue: null,
                                               isEnabled: true,
@@ -209,7 +257,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                             Text(TextStrings.addScreen_2,style: petrolabTextTheme.titleLarge,),
                                             SizedBox(
                                               child: DropdownMenu<String>(
-                                                initialSelection: viewmodel.list.first,
+                                                initialSelection: viewmodel.list[viewmodel.index],
                                                 onSelected: (String? value) {
                                                   viewmodel.setDropDown = value!;
                                                 },
@@ -226,7 +274,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                       ),
                                       Visibility(
                                           visible: (viewmodel.isValidChoice != null) ? ((viewmodel.isValidChoice!) ? false : true) : false,
-                                          child: Text('You Must Choose an Item!',style: chooseItemTextError)
+                                          child: Text(TextStrings.addScreen_10,style: chooseItemTextError)
                                       )
                                     ],
                                   )
@@ -263,7 +311,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                                   borderSide: BorderSide.none
                                               ),
                                               filled: true,
-                                              labelText: TextStrings.addScreen_4,
+                                              labelText: TextStrings.addScreen_4(screenName),
                                               fillColor: backgroundColor,
                                               prefixIcon: Icon(Icons.search)
                                           ),
@@ -275,7 +323,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                         ),
                                       ),
                                       Visibility(
-                                          visible: (args == ScreenType.Exercise.name) ? true : false,
+                                          visible: (screenName == ScreenType.Exercise.name) ? true : false,
                                           child:  Padding(
                                             padding: EdgeInsets.all(8),
                                             child:  TextField(
@@ -309,7 +357,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                             ),
                                             onPressed: () async {
                                               if(viewmodel.searchQuery != null && viewmodel.searchQuery != ''){
-                                                if(args == ScreenType.Meal.name) {
+                                                if(screenName == ScreenType.Meal.name) {
                                                   await viewmodel.getMealCalorie();
                                                   final result = await Navigator.pushNamed(context, '/calorieDetailScreen',arguments: viewmodel.response);
                                                   if(result == true) viewmodel.setInformation(null);
@@ -333,7 +381,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              openDialog(context,TextStrings.addScreen_6, (args == ScreenType.Meal.name) ? TextStrings.usingInstruction1 : TextStrings.usingInstruction2);
+                                              openDialog(context,TextStrings.addScreen_6, (screenName == ScreenType.Meal.name) ? TextStrings.usingInstruction1 : TextStrings.usingInstruction2);
                                             },
                                             child: Text(TextStrings.addScreen_7),
                                           ),

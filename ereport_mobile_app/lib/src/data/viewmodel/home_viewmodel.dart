@@ -20,7 +20,7 @@ class HomeViewModel extends ChangeNotifier {
   double? _consumedCalories;
   double? _burnedCalories;
   double? _caloriesLeft;
-  List<ListLogModel> _listLog = [];
+  List<LogModel> _listLog = [];
   UserModel? _user;
 
   UserModel? get getUser => _user;
@@ -28,7 +28,7 @@ class HomeViewModel extends ChangeNotifier {
   double? get consumedCalories => _consumedCalories;
   double? get burnedCalories => _burnedCalories;
   double? get caloriesLeft => _caloriesLeft;
-  List<ListLogModel> get listLog => _listLog;
+  List<LogModel> get listLog => _listLog;
 
 
 
@@ -45,10 +45,10 @@ class HomeViewModel extends ChangeNotifier {
     String? uid = await auth.getCurrentUID();
     final result = await firestore.getTodayCalorie(uid!);
     if(result != null){
-      _consumedCalories = result['consumedCalories'];
-      _burnedCalories = result['burnedCalories'];
+      _consumedCalories = double.parse(result['consumedCalories'].toString());
+      _burnedCalories = double.parse(result['burnedCalories'].toString());
       print("${result['calorieBudget']} - $_consumedCalories + $_burnedCalories");
-      _caloriesLeft = result['calorieBudget'] - result['consumedCalories'] + result['burnedCalories'];
+      _caloriesLeft = result['calorieBudget'] - _consumedCalories + _burnedCalories;
       print(_caloriesLeft);
       notifyListeners();
     }

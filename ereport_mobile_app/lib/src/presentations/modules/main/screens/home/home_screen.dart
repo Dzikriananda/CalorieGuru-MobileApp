@@ -15,6 +15,7 @@ import 'package:ereport_mobile_app/src/presentations/global_widgets/alert_dialog
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/custom_container.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/grid_view_builder.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/list_view_builder.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/recent_item_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -100,7 +101,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               child: Consumer<HomeViewModel>(
                 builder: (context,viewmodel,child){
                   UserModel? appUser = viewmodel.getUser;
-                  print('kal left ${viewmodel.caloriesLeft}');
                   return Stack(
                     alignment: Alignment.center,
                     children: [
@@ -268,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               child: (viewmodel.listLog.length == 0)? Center(child: Text('No Activity Yet!',style: emptyActivityText))
                                   : Column(
                                 children: [
-                                  ...viewmodel.listLog.map((e) => recentItem(content: e) ).toList(),
+                                  ...viewmodel.listLog.map((e) => RecentItem(content: e,onTapped: () => viewmodel.refreshData()) ).toList(),
                                 ],
                               )
 
@@ -293,53 +293,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 }
 
-class recentItem extends StatelessWidget {
-  ListLogModel content;
 
-  recentItem({Key? key,required this.content}) : super(key: key);
-
-
-  @override
-  Widget build(BuildContext context) {
-      return Padding(
-          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-          child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius:  BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    blurRadius: 2,
-                  ),
-                ],
-              ),
-              padding: EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Flexible(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text((content != null)? "${content.type!} - ${content.instanceType!}" : '',style: listActivityText,textAlign: TextAlign.start),
-                          Text((content != null)? "${content.instanceName!} " : '',style: listActivityText2),
-                        ],
-                      ),
-                    )
-                  ),
-                  const SizedBox(width: 5),
-                  Text((content.type == 'Meal') ? '+${content.calories} Kcal ' : '-${content.calories} Kcal ',style: listActivityText2),
-                  // Icon(Icons.fastfood_sharp,size: 40),
-
-                ],
-              ),
-          ),
-      );
-  }
-}
 
 
 

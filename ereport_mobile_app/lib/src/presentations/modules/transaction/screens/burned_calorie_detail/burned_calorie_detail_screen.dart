@@ -28,13 +28,13 @@ class BurnedCalorieDetailScreen extends StatelessWidget {
         body: SafeArea(
             child: SingleChildScrollView(
               child:  Padding(
-                  padding: EdgeInsets.fromLTRB(5, 15, 5, 0),
+                  padding: const EdgeInsets.fromLTRB(5, 15, 5, 0),
                   child: args.isNotEmpty? Scrollbar(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(20),
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(15)),
                             color: primaryContainer,
                           ),
@@ -57,9 +57,7 @@ class BurnedCalorieDetailScreen extends StatelessWidget {
                                                 OutlinedButton(
                                                   child: Text('Use This'),
                                                   onPressed: () {
-                                                    print(e.key);
                                                     Navigator.pop(context,e.key);
-
                                                   },
                                                 )
                                             ),
@@ -68,7 +66,6 @@ class BurnedCalorieDetailScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-
                             ],
                           )
                       ),
