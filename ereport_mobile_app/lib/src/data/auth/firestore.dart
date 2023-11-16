@@ -53,7 +53,7 @@ class Firestore {
     }
   }
 
-  Future<void> addLog(bool isMeal,String uid,Map<String,dynamic> log) async {
+  Future<bool> addLog(bool isMeal,String uid,Map<String,dynamic> log) async {
     const dataSource = Source.server;
     final docRef = db.collection("log");
     int number = 0;
@@ -93,7 +93,9 @@ class Firestore {
         final afterCalorie = double.parse(value);
         await todayLog.doc('0').update({'burnedCalories':afterCalorie});
       }
+      return true;
     } catch(e){
+      return false;
       print("error while adding : $e");
     }
   }
@@ -116,10 +118,10 @@ class Firestore {
     }
   }
 
-  Future<List<ListLogModel>> getListLog(String uid) async {
+  Future<List<LogModel>> getListLog(String uid) async {
     const dataSource = Source.server;
     final docRef = db.collection("log");
-    List<ListLogModel> logList=[];
+    List<LogModel> logList=[];
     int i = 0;
     String? docId;
     try{
@@ -127,11 +129,10 @@ class Firestore {
       for (var docSnapshot in querySnapshot.docs) {
         docId = docSnapshot.id;
       }
-      print('mendapatkan firebase');
       final todayLog = await docRef.doc(docId).collection(getTodayDate()).get();
       for (var docSnapshot in todayLog.docs) {
         if(i!=0){
-          logList.add(ListLogModel.fromMap(docSnapshot.data()));
+          logList.add(LogModel.fromMap(docSnapshot.data()));
         }
         i++;
       }
@@ -175,6 +176,70 @@ class Firestore {
       }
     } catch(e){
       print("error while fetching : $e");
+    }
+
+
+  }
+
+  Future<bool> updateLog(String uid,int no,Map<String,dynamic> data,bool isMeal) async {
+    const dataSource = Source.server;
+    final docRef = db.collection("log");
+    String? docId;
+    try{
+      final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
+      for (var docSnapshot in querySnapshot.docs) {
+        docId = docSnapshot.id;
+      }
+      final task1 = await docRef.doc(docId).collection(getTodayDate()).doc('0').get();
+      final task2 = await docRef.doc(docId).collection(getTodayDate()).doc('$no').get();
+      final calorieBefore = task2.data()!['calories'];
+      if(isMeal) {
+        final consumedCaloriesBefore = task1.data()!['consumedCalories'];
+        await docRef.doc(docId).collection(getTodayDate()).doc('$no').update(data);
+        final consumedCaloriesAfter = consumedCaloriesBefore - (calorieBefore - data['calories']);
+        await docRef.doc(docId).collection(getTodayDate()).doc('0').update({'consumedCalories' : consumedCaloriesAfter});
+      }
+      else {
+        final burnedCaloriesBefore = task1.data()!['burnedCalories'];
+        await docRef.doc(docId).collection(getTodayDate()).doc('$no').update(data);
+        final burnedCaloriesAfter = burnedCaloriesBefore - (calorieBefore - data['calories']);
+        await docRef.doc(docId).collection(getTodayDate()).doc('0').update({'burnedCalories' : burnedCaloriesAfter});
+      }
+      return true;
+    } catch(e) {
+      print("error while fetching sukses isi 3: $e");
+      return false;
+    }
+  }
+
+  Future<bool> deleteLog(String uid,int no,bool isMeal) async {
+    const dataSource = Source.server;
+    final docRef = db.collection("log");
+    String? docId;
+    try{
+      final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
+      for (var docSnapshot in querySnapshot.docs) {
+        docId = docSnapshot.id;
+      }
+      final task1 = await docRef.doc(docId).collection(getTodayDate()).doc('0').get();
+      final task2 = await docRef.doc(docId).collection(getTodayDate()).doc('$no').get();
+      final calorieBefore = task2.data()!['calories'];
+      if(isMeal) {
+        final consumedCaloriesBefore = task1.data()!['consumedCalories'];
+        await docRef.doc(docId).collection(getTodayDate()).doc('$no').delete();
+        final consumedCaloriesAfter = consumedCaloriesBefore - calorieBefore;
+        await docRef.doc(docId).collection(getTodayDate()).doc('0').update({'consumedCalories' : consumedCaloriesAfter});
+      }
+      else {
+        final burnedCaloriesBefore = task1.data()!['burnedCalories'];
+        await docRef.doc(docId).collection(getTodayDate()).doc('$no').delete();
+        final burnedCaloriesAfter = burnedCaloriesBefore - calorieBefore;
+        await docRef.doc(docId).collection(getTodayDate()).doc('0').update({'burnedCalories' : burnedCaloriesAfter});
+      }
+      return true;
+    } catch(e) {
+      print("error while fetching sukses isi 3: $e");
+      return false;
     }
 
 

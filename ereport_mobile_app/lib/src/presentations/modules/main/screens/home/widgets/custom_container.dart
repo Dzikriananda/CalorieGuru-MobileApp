@@ -27,7 +27,7 @@ class _CustomContainerState extends State<CustomContainer> {
       padding: const EdgeInsets.all(5),
       child: InkWell(
         onTap: () async {
-          final result = await Navigator.pushNamed(context, '/listScreen',arguments: widget.icon.name);
+          final result = await Navigator.pushNamed(context, '/listScreen',arguments: {'name' : widget.icon.name,'isUpdate':false});
           if(result != null && result == true) {
             widget.onTapped();
           }

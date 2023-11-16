@@ -15,8 +15,8 @@ class NotFoundWidget extends StatelessWidget {
     return Center(
       child: Container(
           width: MediaQuery.of(context).size.width ,
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15)),
             color: primaryContainer,
           ),
@@ -39,7 +39,7 @@ class NotFoundWidget extends StatelessWidget {
                 onPressed: () {
                   (type == ScreenType.Meal) ? Navigator.pop(context,false) : Navigator.pop(context);
                 },
-                child: Text('Back'),
+                child: const Text('Back'),
               ),
             ],
           )

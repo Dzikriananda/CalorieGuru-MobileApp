@@ -9,6 +9,7 @@ import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 
 import '../../core/constants/screen_type.dart';
 import '../auth/auth.dart';
+import '../models/list_log_model.dart';
 
 const List<String> listMeal = <String>['Breakfast','Lunch','Dinner','Snacks','Drinks Only'];
 const List<String> listExercise = <String>['Cardiovascular','Strength','Workout Routines','Other'];
@@ -27,9 +28,11 @@ class AddUpdateViewModel extends ChangeNotifier {
   String? _instanceType;
   String? _logType;
   bool? _isValidChoice;
+  bool? _isUpdate;
   CheckMealCalorieResponse? _response;
   List<BurnedCalorieResponse>? _response2;
-  List<String> _list=['Choose an item'];
+  late List<String> _list;
+  late int _index;
 
   ResultState _state = ResultState.started;
   String? get instanceName => _instanceName;
@@ -38,9 +41,13 @@ class AddUpdateViewModel extends ChangeNotifier {
   CheckMealCalorieResponse? get response => _response;
   bool? get isValidChoice => _isValidChoice;
   List<String> get list => _list;
+  int get index => _index;
   List<BurnedCalorieResponse>? get response2 => _response2;
 
-  AddUpdateViewModel();
+  AddUpdateViewModel(){
+    _list = ['Choose an item'];
+    _index = 0;
+  }
 
   String? get searchQuery => _searchQuery;
   String? get searchQuery2 => _searchQuery2;
@@ -53,6 +60,10 @@ class AddUpdateViewModel extends ChangeNotifier {
 
   set logType(String type){
     _logType = type;
+  }
+
+  set screenType(bool type){
+    _isUpdate = type;
   }
 
   set setDropDown(String option) {
@@ -102,33 +113,91 @@ class AddUpdateViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> deleteLog(int index) async {
+    _state = ResultState.loading;
+    notifyListeners();
+    final isMeal = (_logType == ScreenType.Meal.name) ? true : false;
+    final uid = await auth.getCurrentUID();
+    final result = await firestore.deleteLog(uid!, index, isMeal);
+    if(result) {
+      await Future.delayed(const Duration(milliseconds: 1000));
+      _state = ResultState.hasData;
+      notifyListeners();
+      return true;
+    }
+    else {
+      _state = ResultState.error;
+      notifyListeners();
+      return false;
+    }
+
+
+  }
+
+  void setDataForUpdate(LogModel data){
+    _instanceName = data.instanceName;
+    _instanceType = data.instanceType;
+    _calorie = data.calories;
+    _logType = data.type;
+    _index = _list.indexWhere((item) => item.contains('$_instanceType'));
+    notifyListeners();
+  }
+
+  Future<bool> updateLog(int no) async {
+    _state = ResultState.loading;
+    notifyListeners();
+    final isMeal = (_logType == ScreenType.Meal.name) ? true : false;
+    final uid = await auth.getCurrentUID();
+    final result = await firestore.updateLog(uid!, no, {
+      'log_instance_name': _instanceName,
+      'calories': _calorie
+    },isMeal);
+    if(result) {
+      await Future.delayed(const Duration(milliseconds: 1000));
+      _state = ResultState.hasData;
+      notifyListeners();
+      return true;
+    }
+    else {
+      _state = ResultState.error;
+      notifyListeners();
+      return false;
+    }
+  }
+
   Future<bool> addLog() async {
     final bool isMeal = (_logType == ScreenType.Meal.name) ? true : false;
     _state = ResultState.loading;
     notifyListeners();
     final uid = await auth.getCurrentUID();
-    firestore.addLog(isMeal,uid!,{'type': _logType,'log_instance_name': _instanceName,'calories':_calorie,'log_instance_type':_instanceType});
-    _state = ResultState.addDataSuccess;
+    final result = await firestore.addLog(isMeal,uid!,{'type': _logType,'log_instance_name': _instanceName,'calories':_calorie,'log_instance_type':_instanceType});
+    if (result) _state = ResultState.addDataSuccess;
     notifyListeners();
     if (_state == ResultState.addDataSuccess) {
       _state = ResultState.loading;
       notifyListeners();
       await Future.delayed(const Duration(milliseconds: 1000));
       _state = ResultState.hasData;
+      notifyListeners();
       return true;
     }
-    else return false;
-
+    else {
+      _state = ResultState.error;
+      notifyListeners();
+      return false;
+    }
   }
 
   void disposeViewModel() {
     _state = ResultState.started;
     _instanceName = null;
+    _instanceType = null;
     _calorie = null;
     _searchQuery = null;
     _response = null;
     _response2 = null;
     _isValidChoice = null;
+    _index = 0;
     _list.removeRange(1,_list.length);
   }
 

@@ -1,12 +1,12 @@
 
-class ListLogModel{
+class LogModel{
   String? instanceName;
   String? instanceType;
   String? type;
   double? calories;
   int? no;
 
-  ListLogModel({
+  LogModel({
     this.instanceName,
     this.instanceType,
     this.type,
@@ -14,8 +14,8 @@ class ListLogModel{
     this.no,
   });
 
-  factory ListLogModel.fromMap(Map<String,dynamic> map){
-    return ListLogModel(
+  factory LogModel.fromMap(Map<String,dynamic> map){
+    return LogModel(
       instanceName: map['log_instance_name'],
       instanceType: map['log_instance_type'],
       type: map['type'],
