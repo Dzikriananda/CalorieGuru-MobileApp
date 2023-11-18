@@ -10,8 +10,10 @@ class TextStrings {
   static const signinregister_second = " Register";
   static const register_first = "Do You have an Account?";
   static const register_second = " Sign In";
-  static const invalidEmailWarning = "Enter valid email";
-  static const invalidNameWarning = "Enter valid name";
+  static const invalidEmailWarning = "Enter valid email!";
+  static const invalidNameWarning = "Enter valid name!";
+  static const invalidQueryWarning = "Enter valid Query!";
+  static const invalidDurationWarning = "Duration must be an integer/round number!";
   static const invalidWeightWarning = "Weight Must More than 40 and Less then 160 (in Kg)";
   static const invalidHeightlWarning = "Height Must More than 130 and Less then 230 (in Cm)";
   static const invalidPasswordWarning = "Enter valid password";
@@ -41,6 +43,7 @@ class TextStrings {
     return args2 ? 'Update $args' : 'Add $args';
   }
   static const addScreen_10 = 'You Must Choose an Item!';
+  static const addScreen_11 = 'Duration (In minutes , optional)';
   static const addScreenFailedAddNotifName = "Add Log";
   static const addScreenFailedAddNotifContent = "Adding is Failed! Try Again!";
   static const updateScreenFailedUpdateNotifName = "Update Log";

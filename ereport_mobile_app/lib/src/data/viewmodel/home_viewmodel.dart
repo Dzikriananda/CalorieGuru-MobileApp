@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:intl/intl.dart';
 
 class HomeViewModel extends ChangeNotifier {
@@ -50,9 +50,16 @@ class HomeViewModel extends ChangeNotifier {
       print("${result['calorieBudget']} - $_consumedCalories + $_burnedCalories");
       _caloriesLeft = result['calorieBudget'] - _consumedCalories + _burnedCalories;
       print(_caloriesLeft);
+      print('tidak nul');
       notifyListeners();
     }
     notifyListeners();
+  }
+
+  void disposeViewModel() {
+    _consumedCalories = null;
+    _burnedCalories = null;
+    _caloriesLeft = null;
   }
 
   Future<void> getListLog() async {
@@ -91,6 +98,7 @@ class HomeViewModel extends ChangeNotifier {
     if(_caloriesLeft == null){
       _caloriesLeft = thisUser?.calorieNeed;
     }
+    // _caloriesLeft = thisUser?.calorieNeed;
     notifyListeners();
   }
 

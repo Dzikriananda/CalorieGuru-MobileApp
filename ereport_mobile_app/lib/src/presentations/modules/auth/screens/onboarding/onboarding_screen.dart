@@ -1,6 +1,6 @@
 import 'package:ereport_mobile_app/src/core/constants/global.dart';
 import 'package:ereport_mobile_app/src/core/constants/images.dart';
-import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:ereport_mobile_app/src/data/models/user.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/widgets/first_onboarding_widget.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/widgets/next_button_widget.dart';

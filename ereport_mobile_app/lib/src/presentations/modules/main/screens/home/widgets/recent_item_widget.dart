@@ -5,9 +5,10 @@ import '../../../../../../data/models/list_log_model.dart';
 
 class RecentItem extends StatelessWidget {
   LogModel content;
+  bool touchable;
   VoidCallback onTapped;
 
-  RecentItem({Key? key,required this.content,required this.onTapped}) : super(key: key);
+  RecentItem({Key? key,required this.content,required this.onTapped,required this.touchable}) : super(key: key);
 
 
   @override
@@ -17,9 +18,11 @@ class RecentItem extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           debugPrint(content.no.toString());
-          final result = await Navigator.pushNamed(context, '/listScreen',arguments: {'name': content.type,'isUpdate': true,'data':content});
-          if(result == true || result != null) {
-            onTapped();
+          if (touchable) {
+            final result = await Navigator.pushNamed(context, '/listScreen',arguments: {'name': content.type,'isUpdate': true,'data':content});
+            if(result == true || result != null) {
+              onTapped();
+            }
           }
         },
         child: Container(

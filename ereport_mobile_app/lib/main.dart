@@ -2,6 +2,7 @@ import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/app_theme.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/add_update_viewmodel.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/history_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/register_viewmodel.dart';
@@ -12,7 +13,7 @@ import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboar
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/register/preregister_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/splash_screen/splash_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/bottom_navigation.dart';
-import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/add_update/list_screen.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/add_update/add_update_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/burned_calorie_detail/burned_calorie_detail_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/calorie_detail/calorie_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<SettingsViewModel>(create: (context) => SettingsViewModel(),lazy: false),
         ChangeNotifierProvider<RegisterViewModel>(create: (context) => RegisterViewModel(),lazy: false),
         ChangeNotifierProvider<AddUpdateViewModel>(create: (context) => AddUpdateViewModel(),lazy: false),
+        ChangeNotifierProvider<HistoryViewModel>(create: (context) => HistoryViewModel(),lazy: false),
+
 
       ],
       child: MaterialApp(

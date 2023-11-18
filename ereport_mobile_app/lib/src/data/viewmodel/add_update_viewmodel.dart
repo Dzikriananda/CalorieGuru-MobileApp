@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:ereport_mobile_app/src/data/data_source/remote/api_service.dart';
 import 'package:ereport_mobile_app/src/data/models/get_burned_calorie_response.dart';
 import 'package:ereport_mobile_app/src/data/models/get_meal_calorie_response.dart';

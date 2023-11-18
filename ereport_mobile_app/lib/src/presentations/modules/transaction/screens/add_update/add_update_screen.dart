@@ -12,7 +12,7 @@ import '../../../../../core/constants/result_state.dart';
 import '../../../../../core/constants/screen_type.dart';
 import '../../../../../core/constants/text_strings.dart';
 import '../../../../../data/auth/auth.dart';
-import '../../../../../data/auth/firestore.dart';
+import '../../../../../data/auth/firestore_repository.dart';
 
 class AddUpdateScreen extends StatefulWidget {
 
@@ -25,6 +25,7 @@ class AddUpdateScreen extends StatefulWidget {
 class _AddUpdateScreenState extends State<AddUpdateScreen> {
 
   final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
   final TextEditingController textField1Controller = TextEditingController();
   final TextEditingController textField2Controller = TextEditingController();
   late String screenName;
@@ -302,47 +303,47 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                             ),
                                           )
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.all(8),
-                                        child:  TextField(
-                                          decoration:  InputDecoration(
-                                              border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(20.0),
-                                                  borderSide: BorderSide.none
-                                              ),
-                                              filled: true,
-                                              labelText: TextStrings.addScreen_4(screenName),
-                                              fillColor: backgroundColor,
-                                              prefixIcon: Icon(Icons.search)
-                                          ),
-                                          minLines: 1,
-                                          maxLines: 3,
-                                          onChanged: (value){
-                                            viewmodel.setQuery = value;
-                                          },
-                                        ),
-                                      ),
-                                      Visibility(
-                                          visible: (screenName == ScreenType.Exercise.name) ? true : false,
-                                          child:  Padding(
-                                            padding: EdgeInsets.all(8),
-                                            child:  TextField(
-                                              decoration:  InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(20.0),
-                                                      borderSide: BorderSide.none
-                                                  ),
-                                                  filled: true,
-                                                  labelText: 'Duration (In minutes , optional)',
-                                                  fillColor: backgroundColor,
-                                                  prefixIcon: Icon(Icons.timer_rounded)
-                                              ),
-                                              maxLines: 1,
-                                              onChanged: (value){
-                                                viewmodel.setQuery2 = value;
+                                      Form(
+                                        key: _formKey2,
+                                        child: Column(
+                                          children: [
+                                            CustomFormField(
+                                              hasUnderline: false,
+                                              maxLines: 3,
+                                              initialValue: null,
+                                              isEnabled: true,
+                                              backgroundColor: backgroundColor,
+                                              hintText: TextStrings.addScreen_4(screenName),
+                                              validator: (val) {
+                                                if (!val!.isNotNull) return TextStrings.invalidQueryWarning;
+                                              },
+                                              isPassword: false,
+                                              icon: Icon(Icons.search),
+                                              onSubmited: (value){
+                                                viewmodel.setQuery = value;
                                               },
                                             ),
-                                          ),
+                                            Visibility(
+                                              visible: (screenName == ScreenType.Exercise.name) ? true : false,
+                                              child:  CustomFormField(
+                                                hasUnderline: false,
+                                                maxLines: 1,
+                                                initialValue: null,
+                                                isEnabled: true,
+                                                backgroundColor: backgroundColor,
+                                                hintText: TextStrings.addScreen_11,
+                                                validator: (val) {
+                                                  if (!val!.isValidDuration) return TextStrings.invalidDurationWarning;
+                                                },
+                                                isPassword: false,
+                                                icon: Icon(Icons.timer_rounded),
+                                                onSubmited: (value){
+                                                  viewmodel.setQuery2 = value;
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -356,7 +357,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               ),
                                             ),
                                             onPressed: () async {
-                                              if(viewmodel.searchQuery != null && viewmodel.searchQuery != ''){
+                                              if(_formKey2.currentState!.validate()){
                                                 if(screenName == ScreenType.Meal.name) {
                                                   await viewmodel.getMealCalorie();
                                                   final result = await Navigator.pushNamed(context, '/calorieDetailScreen',arguments: viewmodel.response);
