@@ -8,6 +8,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../data/viewmodel/home_viewmodel.dart';
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
@@ -52,6 +54,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       print('logout dengan status = ${provider.state}');
       SchedulerBinding.instance.addPostFrameCallback((_) {
         provider.dispose();
+        context.read<HomeViewModel>().disposeViewModel();
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/authScreen', (Route<dynamic> route) => false);
         ScaffoldMessenger.of(context).showSnackBar(snackBar);

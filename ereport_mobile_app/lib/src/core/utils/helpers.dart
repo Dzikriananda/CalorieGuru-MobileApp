@@ -21,6 +21,11 @@ String getTodayDate(){
   return result;
 }
 
+String convertDate(DateTime date){
+  final result = DateFormat('dd-MM-yyyy').format(date);
+  return result;
+}
+
 
 
 

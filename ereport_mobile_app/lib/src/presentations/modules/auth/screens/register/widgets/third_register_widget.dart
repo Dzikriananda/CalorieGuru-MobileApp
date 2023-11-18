@@ -49,7 +49,7 @@ class _ThirdRegisterWidgetState extends State<ThirdRegisterWidget> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text((viewmodel.response == null)? '': '${viewmodel.response!.data.goals.maintainWeight.toInt()}',style: calorieTextSecond,textAlign: TextAlign.center),
+                              Text((viewmodel.response == null)? '': '${viewmodel.response!.data.goals.maintainWeight.toStringAsFixed(1)}',style: calorieTextSecond,textAlign: TextAlign.center),
                               Container(
                                   decoration: BoxDecoration(
                                       border: Border.all(

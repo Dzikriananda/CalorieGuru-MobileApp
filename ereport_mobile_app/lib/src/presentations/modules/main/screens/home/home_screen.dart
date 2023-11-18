@@ -5,14 +5,13 @@ import 'package:ereport_mobile_app/src/core/constants/screen_type.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
-import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:ereport_mobile_app/src/data/data_source/local/icon_data.dart';
 import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
 import 'package:ereport_mobile_app/src/data/models/user.dart';
 import 'package:ereport_mobile_app/src/data/models/user_model.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/global_widgets/alert_dialog.dart';
-import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/custom_container.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/grid_view_builder.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/list_view_builder.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/recent_item_widget.dart';
@@ -35,6 +34,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   List<CustomIcon> reportIcon = icons;
   bool showAlert = false;
+  late HomeViewModel homeViewModel;
 
 
   @override
@@ -45,18 +45,30 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  @override
+  void didChangeDependencies() {
+    homeViewModel = Provider.of<HomeViewModel>(context);
+    super.didChangeDependencies();
+  }
+
 
   @override
   void initState() {
+    print('init');
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      context.read<HomeViewModel>().getListLog();
-      context.read<HomeViewModel>().getUserData();
-      context.read<HomeViewModel>().getTodayCalorie();
-      context.read<HomeViewModel>().checkNetwork();
+      // context.read<HomeViewModel>().getListLog();
+      // context.read<HomeViewModel>().getUserData();
+      // context.read<HomeViewModel>().getTodayCalorie();
+      // context.read<HomeViewModel>().checkNetwork();
+      homeViewModel.getListLog();
+      homeViewModel.getUserData();
+      homeViewModel.getTodayCalorie();
+      homeViewModel.checkNetwork();
     });
   }
+
 
   bool _isThereCurrentDialogShowing(BuildContext context) => ModalRoute.of(context)?.isCurrent != true;
 
@@ -93,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
     return AnnotatedRegion(
         value: const SystemUiOverlayStyle(
-          statusBarColor: primaryColor,
-            systemNavigationBarColor: primaryColor
+          statusBarColor: Colors.grey,
+          systemNavigationBarColor: primaryColor
         ),
         child: Scaffold(
             body: SafeArea(
@@ -178,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                           radius: 90.0,
                                           lineWidth: 16.0,
                                           percent: (appUser != null && viewmodel.caloriesLeft != null) ? ( (viewmodel.caloriesLeft!.toDouble().isNegative) ? 1 : (viewmodel.caloriesLeft! > appUser.calorieNeed!.toDouble()) ? 0 : ((appUser.calorieNeed! - viewmodel.caloriesLeft!) / appUser.calorieNeed!)) : 0,
-                                          center: Text((appUser == null)? TextStrings.loadingText : '${viewmodel.caloriesLeft!.abs().toStringAsFixed(1)} Kcal Left',style: homeScreenReportText4,),
+                                          center: Text((viewmodel.caloriesLeft == null)? TextStrings.loadingText : '${viewmodel.caloriesLeft!.toStringAsFixed(1)} Kcal Left',style: homeScreenReportText4,),
                                           progressColor: primaryColor,
                                         ),
                                         const SizedBox(width: 10),
@@ -196,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                       Text('Eaten',style: homeScreenReportText2),
                                                       Container(
                                                         child: Text('${(viewmodel.consumedCalories != null)? viewmodel.consumedCalories!: 0} Kcal',style: homeScreenReportText5),
-                                                        constraints: BoxConstraints(
+                                                        constraints: const BoxConstraints(
                                                           minWidth: 50,
                                                           maxWidth: 80,
                                                         ),
@@ -215,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                       Text('Burned',style: homeScreenReportText3),
                                                       Container(
                                                         child: Text('${(viewmodel.burnedCalories != null)? viewmodel.burnedCalories!: 0} Kcal',style: homeScreenReportText6),
-                                                        constraints: BoxConstraints(
+                                                        constraints: const BoxConstraints(
                                                           minWidth: 50,
                                                           maxWidth: 80,
                                                         ),
@@ -268,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               child: (viewmodel.listLog.length == 0)? Center(child: Text('No Activity Yet!',style: emptyActivityText))
                                   : Column(
                                 children: [
-                                  ...viewmodel.listLog.map((e) => RecentItem(content: e,onTapped: () => viewmodel.refreshData()) ).toList(),
+                                  ...viewmodel.listLog.map((e) => RecentItem(content: e,onTapped: () => viewmodel.refreshData(),touchable: true) ).toList(),
                                 ],
                               )
 

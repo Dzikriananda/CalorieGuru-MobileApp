@@ -1,4 +1,5 @@
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/main/screens/history/history_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
@@ -22,7 +23,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   static const List<Widget> _pages = <Widget>[
     HomeScreen(),
-    Center(),
+    HistoryScreen(),
     SettingsScreen()
   ];
 

@@ -1,5 +1,5 @@
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
-import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';

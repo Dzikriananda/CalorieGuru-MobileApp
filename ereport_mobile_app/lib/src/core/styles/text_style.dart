@@ -290,3 +290,22 @@ const TextStyle chooseItemTextError = TextStyle(
     color: Colors.red,
     decoration: TextDecoration.none
 );
+
+const TextStyle caloriesLeft = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 17,
+    fontWeight: FontWeight.w900,
+    color: onPrimaryContainer,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+
+const TextStyle caloriesLeft2 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+    letterSpacing: 0,
+    decoration: TextDecoration.none
+);
+

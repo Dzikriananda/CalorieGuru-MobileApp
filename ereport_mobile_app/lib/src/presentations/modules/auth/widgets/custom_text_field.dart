@@ -116,6 +116,11 @@ extension extString on String {
     return (value != null);
   }
 
+  bool get isValidDuration{
+    final value = int.tryParse(this);
+    return (value != null || this.length == 0);
+  }
+
   bool get isNotNull{
     return this.length!=0;
   }

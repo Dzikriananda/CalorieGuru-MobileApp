@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
+import 'package:ereport_mobile_app/src/data/models/daily_log_summary.dart';
 import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
 import 'package:ereport_mobile_app/src/data/models/user.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 
 class Firestore {
   final db = FirebaseFirestore.instance;
@@ -14,11 +16,11 @@ class Firestore {
     try{
       final querySnapshot = await docRef.where("uid", isEqualTo: UID).get();
       for (var docSnapshot in querySnapshot.docs) {
-        print('in getUSerData');
         final user = UserModel.fromMap(docSnapshot.data());
         return user;
       }
     } catch(e){
+      debugPrint('error in getUserData $e');
       return null;
     }
 
@@ -35,7 +37,7 @@ class Firestore {
          return docSnapshot.data()['hasFilledData'];
       }
     } catch(e){
-      print("error while fetching : $e");
+      print("error in hasFilledData : $e");
       return null;
     }
   }
@@ -57,7 +59,7 @@ class Firestore {
     const dataSource = Source.server;
     final docRef = db.collection("log");
     int number = 0;
-    late double consumedCalorie;
+    // late double consumedCalorie;
     String? docId;
     try{
       final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
@@ -94,9 +96,9 @@ class Firestore {
         await todayLog.doc('0').update({'burnedCalories':afterCalorie});
       }
       return true;
-    } catch(e){
+    } catch(e) {
+      debugPrint('error in addLog $e');
       return false;
-      print("error while adding : $e");
     }
   }
 
@@ -114,7 +116,8 @@ class Firestore {
       return todayLog.data();
     }
     catch(e){
-      print("error $e");
+      debugPrint('error in getTodayCalorie $e');
+
     }
   }
 
@@ -138,7 +141,7 @@ class Firestore {
       }
       return logList;
     } catch(e){
-      print("error while fetching : $e");
+      debugPrint('error in getListLog $e');
       return logList;
     }
 
@@ -175,7 +178,7 @@ class Firestore {
         print(docSnapshot.data());
       }
     } catch(e){
-      print("error while fetching : $e");
+      debugPrint('error in getTodayLatestLog $e');
     }
 
 
@@ -207,7 +210,7 @@ class Firestore {
       }
       return true;
     } catch(e) {
-      print("error while fetching sukses isi 3: $e");
+      debugPrint('error in updateLog $e');
       return false;
     }
   }
@@ -238,10 +241,47 @@ class Firestore {
       }
       return true;
     } catch(e) {
-      print("error while fetching sukses isi 3: $e");
+      debugPrint('error in deleteLog $e');
       return false;
     }
 
+
+  }
+
+  Future<Map<String,dynamic>> getLogByDate(String uid,String date) async {
+    const dataSource = Source.server;
+    final docRef = db.collection("log");
+    String? docId;
+    List<LogModel> logList=[];
+    DailyLogSummary? dailyLogSummary;
+    int i = 0;
+    try{
+      final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
+      for (var docSnapshot in querySnapshot.docs) {
+        docId = docSnapshot.id;
+      }
+      final dateLog = await docRef.doc(docId).collection(date).get();
+      if(dateLog.size != 0) {
+        for (var docSnapshot in dateLog.docs) {
+          print(docSnapshot.data());
+          if(i!=0){
+            logList.add(LogModel.fromMap(docSnapshot.data()));
+          }
+          else {
+            dailyLogSummary = DailyLogSummary.fromMap(docSnapshot.data());
+          }
+          i++;
+        }
+        return {
+          'logSummary' : dailyLogSummary,
+          'logList' : logList,
+        };
+      }
+      else return {};
+    } catch(e) {
+      return {};
+      debugPrint('error in getLogByDate $e');
+    }
 
   }
 
@@ -254,13 +294,12 @@ class Firestore {
       final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
       for (var docSnapshot in querySnapshot.docs) {
           docId = docSnapshot.id;
-          print("update user dengan uid : ${docId}");
       }
       docRef.doc(docId).update(data.toMap());
       return true;
 
     } catch(e){
-      print("error while fetching : $e");
+      debugPrint('error in update User $e');
       return false;
     }
 

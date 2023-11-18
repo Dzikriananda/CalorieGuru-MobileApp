@@ -5,7 +5,7 @@ import 'package:ereport_mobile_app/src/core/constants/activity_level.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
-import 'package:ereport_mobile_app/src/data/auth/firestore.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:ereport_mobile_app/src/data/models/get_calorie_response.dart';
 import 'package:ereport_mobile_app/src/data/models/user.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +66,8 @@ class RegisterViewModel extends ChangeNotifier{
     try{
       final thisResponse = await apiService.checkCalorie(queryParams = queryParams);
       _response = GetCalorieResponse.fromJson(jsonDecode(thisResponse));
-      _userData.calorieNeed = _response?.data.goals.maintainWeight.toDouble();
+      final calorieNeed = _response?.data.goals.maintainWeight.toStringAsFixed(1);
+      _userData.calorieNeed = double.parse(calorieNeed!);
       _state = ResultState.hasData;
       notifyListeners();
     }
