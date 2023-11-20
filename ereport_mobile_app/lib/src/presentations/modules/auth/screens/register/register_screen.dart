@@ -62,6 +62,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ];
   }
 
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

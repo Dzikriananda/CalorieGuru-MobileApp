@@ -49,7 +49,7 @@ class UserModel{
         birthdate: map['birthdate'],
         gender: map['gender'],
         weight: map['weight'],
-        height: map['weight'],
+        height: map['height'],
         activityLevel: map['activityLevel'],
         calorieNeed: map['calorieNeed'],
         hasFilledData: map['hasFilledData'],

@@ -309,3 +309,25 @@ const TextStyle caloriesLeft2 = TextStyle(
     decoration: TextDecoration.none
 );
 
+const TextStyle settingsScreen1 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 30,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+    letterSpacing: 0.15,
+    decoration: TextDecoration.none
+);
+
+const TextStyle profileScreen1 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Color(0xFF808588),
+    letterSpacing: 0.15,
+    decoration: TextDecoration.none
+);
+
+
+
+
+
