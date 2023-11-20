@@ -13,6 +13,7 @@ import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboar
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/register/preregister_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/splash_screen/splash_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/bottom_navigation.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/profile/screens/profile_screen/profile_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/add_update/add_update_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/burned_calorie_detail/burned_calorie_detail_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/transaction/screens/calorie_detail/calorie_detail_screen.dart';
@@ -68,7 +69,9 @@ class MyApp extends StatelessWidget {
           '/listScreen' : (context) => AddUpdateScreen(),
           '/registerScreen' : (context) => PreRegisterScreen(),
           '/calorieDetailScreen': (context) => CalorieDetailScreen(),
-          '/burnedCalorieDetailScreen': (context) => BurnedCalorieDetailScreen()
+          '/burnedCalorieDetailScreen': (context) => BurnedCalorieDetailScreen(),
+          '/profileScreen': (context) => ProfileScreen()
+
         },
         onGenerateRoute: (settings) {
           if (settings.name == "/authScreen") {

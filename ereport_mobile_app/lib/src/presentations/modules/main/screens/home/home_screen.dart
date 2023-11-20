@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeDependencies() {
-    homeViewModel = Provider.of<HomeViewModel>(context);
+    homeViewModel = Provider.of<HomeViewModel>(context,listen: true);
     super.didChangeDependencies();
   }
 
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return AnnotatedRegion(
         value: const SystemUiOverlayStyle(
           statusBarColor: Colors.grey,
-          systemNavigationBarColor: primaryColor
+          systemNavigationBarColor: null
         ),
         child: Scaffold(
             body: SafeArea(

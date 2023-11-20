@@ -24,11 +24,28 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _visible = false;
   bool isRegister = false;
   bool isFromSplashScreen = true;
+  late AuthViewModel viewModel;
 
   @override
   void initState(){
     super.initState();
     showLoginForm();
+  }
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    viewModel = Provider.of<AuthViewModel>(context, listen: true);
+    if(viewModel.state == ResultState.error){
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        showSnackBar(
+            viewModel.errorMessage,
+                () => viewModel.setViewModelState = ResultState.hasData
+        );
+      });
+    }
+
+
   }
 
   Future<void> showLoginForm() async{
@@ -92,15 +109,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context){
-    final viewModel = Provider.of<AuthViewModel>(context, listen: true);
-    if(viewModel.state == ResultState.error){
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        showSnackBar(
-            viewModel.errorMessage,
-            () => viewModel.setViewModelState = ResultState.hasData
-        );
-      });
-    }
     return Scaffold(
         body: SingleChildScrollView(
           child: SafeArea(
