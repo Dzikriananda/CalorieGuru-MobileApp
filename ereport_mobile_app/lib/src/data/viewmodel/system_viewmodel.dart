@@ -7,6 +7,7 @@ class SystemViewModel extends ChangeNotifier {
 
   Color _bottomNavBarColor = primaryColor;
   Brightness _bottomNavBarButtonColor = Brightness.light;
+
   Color get bottomNavBarColor => _bottomNavBarColor;
   Brightness get bottomNavBarButtonColor => _bottomNavBarButtonColor;
 

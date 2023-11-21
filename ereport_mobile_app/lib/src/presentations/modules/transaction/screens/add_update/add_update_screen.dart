@@ -113,7 +113,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
               title: Text(TextStrings.addScreen_9(screenName,isUpdate), style: TextStyle(color: onPrimaryColor)),
               backgroundColor: primaryColor,
             ),
-            floatingActionButton: Column(
+            floatingActionButton: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Visibility(
@@ -137,7 +137,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                       child: const Icon(Icons.delete_forever),
                     ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(width: 10),
                 FloatingActionButton(
                   heroTag: null,
                   onPressed: () async {
