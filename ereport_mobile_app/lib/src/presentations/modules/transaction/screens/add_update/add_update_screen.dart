@@ -2,10 +2,12 @@ import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/add_update_viewmodel.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/system_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/data/data_source/remote/api_service.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import '../../../../../core/constants/result_state.dart';
@@ -36,6 +38,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
   @override
   void initState(){
     super.initState();
+
   }
 
   @override

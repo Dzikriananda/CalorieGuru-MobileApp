@@ -6,8 +6,9 @@ import 'custom_container.dart';
 class GridViewBuilder extends StatefulWidget {
   final List<CustomIcon> icons;
   final VoidCallback onTapped;
+  final VoidCallback onNavigate;
 
-  GridViewBuilder({Key? key,required this.icons,required this.onTapped}) : super(key: key);
+  GridViewBuilder({Key? key,required this.icons,required this.onTapped,required this.onNavigate}) : super(key: key);
 
   @override
   State<GridViewBuilder> createState() => _GridViewBuilderState();
@@ -22,7 +23,7 @@ class _GridViewBuilderState extends State<GridViewBuilder> {
       padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
       itemCount: widget.icons.length,
       itemBuilder: (context, index) {
-        return CustomContainer(icon: widget.icons[index],onTapped: widget.onTapped);
+        return CustomContainer(icon: widget.icons[index],onTapped: widget.onTapped,onMoved: widget.onNavigate);
       },
     );
   }

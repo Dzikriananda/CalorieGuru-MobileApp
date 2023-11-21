@@ -53,9 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              0,0,0,0
-                          ),
+                          padding: EdgeInsets.all(0),
                           child: Container(
                             // height: MediaQuery.of(context).size.height * 0.4,
                             width: double.infinity,
