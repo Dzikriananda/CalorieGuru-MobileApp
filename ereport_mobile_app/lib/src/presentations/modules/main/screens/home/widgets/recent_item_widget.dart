@@ -7,8 +7,9 @@ class RecentItem extends StatelessWidget {
   LogModel content;
   bool touchable;
   VoidCallback onTapped;
+  VoidCallback onNavigate;
 
-  RecentItem({Key? key,required this.content,required this.onTapped,required this.touchable}) : super(key: key);
+  RecentItem({Key? key,required this.content,required this.onTapped,required this.touchable,required this.onNavigate}) : super(key: key);
 
 
   @override
@@ -17,7 +18,7 @@ class RecentItem extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
       child: InkWell(
         onTap: () async {
-          debugPrint(content.no.toString());
+          onNavigate();
           if (touchable) {
             final result = await Navigator.pushNamed(context, '/listScreen',arguments: {'name': content.type,'isUpdate': true,'data':content});
             if(result == true || result != null) {

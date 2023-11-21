@@ -45,9 +45,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
+    return SafeArea(
+      child: Center(
           child: Consumer<HistoryViewModel>(
             builder: (context,viewmodel,child) {
               return Column(
@@ -82,60 +81,60 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             bottomLeft: Radius.circular(0)),
                       ),
                       child: Center(
-                        child: (viewmodel.state == ResultState.loading) ? LoadingIndicator()
-                            : Column(
-                          children: [
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                                  child: Text('Calories Remaining',style: petrolabTextTheme.titleLarge),
-                                )
-                            ),
-                            SizedBox(height: 10),
-                            SizedBox(
-                              width: 300,
-                              child: Table(
-                                columnWidths: {
-                                  0 : FractionColumnWidth(0.2),
-                                  1 : FractionColumnWidth(0.05),
-                                  2 : FractionColumnWidth(0.25),
-                                  3 : FractionColumnWidth(0.05),
-                                  4 : FractionColumnWidth(0.2),
-                                  5 : FractionColumnWidth(0.05),
-                                  6 : FractionColumnWidth(0.25),
-
-                                },
-                                children: [
-                                  TableRow( children: [
-                                    Text(viewmodel.logSummary.calorieBudget.toString(),style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
-                                    Text('-',style: petrolabTextTheme.bodyLarge),
-                                    Text(viewmodel.logSummary.consumedCalories.toString(),style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
-                                    Text('+',style: petrolabTextTheme.bodyLarge,),
-                                    Text(viewmodel.logSummary.burnedCalories.toString(),style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
-                                    Text('=',style: petrolabTextTheme.bodyLarge),
-                                    Text(viewmodel.logSummary.remainingCalories.toString(),style: caloriesLeft,textAlign: TextAlign.center),
-                                  ]),
-                                  TableRow( children: [
-                                    Text('Goal',textAlign: TextAlign.center,style: caloriesLeft2,),
-                                    Text(''),
-                                    Text('Consumed',textAlign: TextAlign.center,style: caloriesLeft2),
-                                    Text(''),
-                                    Text('Burned',textAlign: TextAlign.center,style: caloriesLeft2),
-                                    Text(''),
-                                    Text('Remaining',textAlign: TextAlign.center,style: caloriesLeft2),
-                                  ]),
-                                ],
+                          child: (viewmodel.state == ResultState.loading) ? LoadingIndicator()
+                              : Column(
+                            children: [
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                                    child: Text('Calories Remaining',style: petrolabTextTheme.titleLarge),
+                                  )
                               ),
-                            ),
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                                  child: Text('Activity Log',style: petrolabTextTheme.titleLarge),
-                                )
-                            ),
-                            Expanded(
+                              SizedBox(height: 10),
+                              SizedBox(
+                                width: 300,
+                                child: Table(
+                                  columnWidths: {
+                                    0 : FractionColumnWidth(0.2),
+                                    1 : FractionColumnWidth(0.05),
+                                    2 : FractionColumnWidth(0.25),
+                                    3 : FractionColumnWidth(0.05),
+                                    4 : FractionColumnWidth(0.2),
+                                    5 : FractionColumnWidth(0.05),
+                                    6 : FractionColumnWidth(0.25),
+
+                                  },
+                                  children: [
+                                    TableRow( children: [
+                                      Text(viewmodel.logSummary.calorieBudget.toString(),style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
+                                      Text('-',style: petrolabTextTheme.bodyLarge),
+                                      Text(viewmodel.logSummary.consumedCalories.toString(),style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
+                                      Text('+',style: petrolabTextTheme.bodyLarge,),
+                                      Text(viewmodel.logSummary.burnedCalories.toString(),style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
+                                      Text('=',style: petrolabTextTheme.bodyLarge),
+                                      Text(viewmodel.logSummary.remainingCalories.toString(),style: caloriesLeft,textAlign: TextAlign.center),
+                                    ]),
+                                    TableRow( children: [
+                                      Text('Goal',textAlign: TextAlign.center,style: caloriesLeft2,),
+                                      Text(''),
+                                      Text('Consumed',textAlign: TextAlign.center,style: caloriesLeft2),
+                                      Text(''),
+                                      Text('Burned',textAlign: TextAlign.center,style: caloriesLeft2),
+                                      Text(''),
+                                      Text('Remaining',textAlign: TextAlign.center,style: caloriesLeft2),
+                                    ]),
+                                  ],
+                                ),
+                              ),
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                                    child: Text('Activity Log',style: petrolabTextTheme.titleLarge),
+                                  )
+                              ),
+                              Expanded(
                                 child: (viewmodel.state == ResultState.noData) ? Container(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -152,13 +151,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                                     itemCount: viewmodel.activityList.length  ,
                                     itemBuilder: (BuildContext context, int index) {
-                                      return RecentItem(content: viewmodel.activityList[index] , onTapped: () {},touchable: false);
+                                      return RecentItem(content: viewmodel.activityList[index] , onTapped: () {},touchable: false,onNavigate: () {});
                                     }),
-                            )
+                              )
 
 
-                          ],
-                        )
+                            ],
+                          )
                       ),
                     ),
                   )
@@ -166,8 +165,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               );
             },
           )
-        ),
-      )
+      ),
     );
   }
 }

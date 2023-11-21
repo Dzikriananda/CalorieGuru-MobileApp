@@ -8,6 +8,7 @@ import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/register_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/settings_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/splash_screen_viewmodel.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/system_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/auth/auth_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/onboarding_screen.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/register/preregister_screen.dart';
@@ -55,6 +56,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<RegisterViewModel>(create: (context) => RegisterViewModel(),lazy: false),
         ChangeNotifierProvider<AddUpdateViewModel>(create: (context) => AddUpdateViewModel(),lazy: false),
         ChangeNotifierProvider<HistoryViewModel>(create: (context) => HistoryViewModel(),lazy: false),
+        ChangeNotifierProvider<SystemViewModel>(create: (context) => SystemViewModel()),
+
 
 
       ],

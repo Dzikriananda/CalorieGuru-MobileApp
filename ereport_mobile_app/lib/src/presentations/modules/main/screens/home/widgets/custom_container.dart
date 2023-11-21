@@ -10,9 +10,10 @@ import 'package:provider/provider.dart';
 class CustomContainer extends StatefulWidget{
   final CustomIcon icon;
   final VoidCallback onTapped;
+  final VoidCallback onMoved;
 
 
-  CustomContainer({Key? key,required this.icon,required this.onTapped}): super(key: key);
+  CustomContainer({Key? key,required this.icon,required this.onTapped,required this.onMoved}): super(key: key);
 
   @override
   State<CustomContainer> createState() => _CustomContainerState();
@@ -27,6 +28,7 @@ class _CustomContainerState extends State<CustomContainer> {
       padding: const EdgeInsets.all(5),
       child: InkWell(
         onTap: () async {
+          widget.onMoved();
           final result = await Navigator.pushNamed(context, '/listScreen',arguments: {'name' : widget.icon.name,'isUpdate':false});
           if(result != null && result == true) {
             widget.onTapped();
