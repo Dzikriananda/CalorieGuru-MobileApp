@@ -35,6 +35,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
           statusBarColor: Colors.grey,
+          // statusBarBrightness: Brightness.dark,
           systemNavigationBarColor: Provider.of<SystemViewModel>(context,listen: true).bottomNavBarColor,
           systemNavigationBarIconBrightness: Provider.of<SystemViewModel>(context,listen: true).bottomNavBarButtonColor
 
