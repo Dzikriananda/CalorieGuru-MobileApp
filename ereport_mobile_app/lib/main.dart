@@ -5,6 +5,7 @@ import 'package:ereport_mobile_app/src/data/viewmodel/add_update_viewmodel.dart'
 import 'package:ereport_mobile_app/src/data/viewmodel/history_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/profile_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/register_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/settings_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/splash_screen_viewmodel.dart';
@@ -57,6 +58,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AddUpdateViewModel>(create: (context) => AddUpdateViewModel(),lazy: false),
         ChangeNotifierProvider<HistoryViewModel>(create: (context) => HistoryViewModel(),lazy: false),
         ChangeNotifierProvider<SystemViewModel>(create: (context) => SystemViewModel()),
+        ChangeNotifierProvider<ProfileViewModel>(create: (context) => ProfileViewModel()),
+
 
 
 

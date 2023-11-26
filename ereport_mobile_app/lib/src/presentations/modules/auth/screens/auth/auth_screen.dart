@@ -126,7 +126,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           Image.asset(
                             DefaultImages.logo,
                             height: 150,
-                            width: 150,
+                            width: 150
                           ),
                           // const Text(
                           //     TextStrings.appTitle,

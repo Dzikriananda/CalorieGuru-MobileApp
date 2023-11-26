@@ -23,7 +23,7 @@ class HistoryViewModel extends ChangeNotifier {
     firestore = Firestore();
     _focusDate = DateTime.now();
     _currentDate = convertDate(DateTime.now());
-    _logSummary = DailyLogSummary(0,0,0);
+    _logSummary = DailyLogSummary(0,0,0); //perlu refactor agar lbh bagus
     _log = {};
     _activityList = [];
   }
@@ -53,21 +53,14 @@ class HistoryViewModel extends ChangeNotifier {
     notifyListeners();
     final uid = await auth.getCurrentUID();
     _log = await firestore.getLogByDate(uid!, currentDate!);
-    print(_log.length);
     if (_log.length == 0) {
-      _logSummary.burnedCalories = 0;
-      _logSummary.consumedCalories = 0;
-      _logSummary.calorieBudget = 0;
-      _logSummary.remainingCalories = 0;
+      _logSummary.setToZero();
       _state = ResultState.noData;
-    }
-    else {
+    } else {
       _logSummary = _log['logSummary'];
       _activityList = _log['logList'];
-      final remainingCal = _logSummary.calorieBudget! - (_logSummary.consumedCalories! - _logSummary.burnedCalories!);
-      final cal = remainingCal.toStringAsFixed(1);
-      _logSummary.remainingCalories = double.parse(cal);
-      print(remainingCal);
+      final remainingCal = ( _logSummary.calorieBudget! - (_logSummary.consumedCalories! - _logSummary.burnedCalories!)).toStringAsFixed(1);
+      _logSummary.remainingCalories = double.parse(remainingCal);
       _state = ResultState.hasData;
     }
     notifyListeners();

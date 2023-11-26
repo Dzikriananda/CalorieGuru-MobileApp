@@ -216,6 +216,10 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                         child: Column(
                                           children: [
                                             CustomFormField(
+                                              readOnly: false,
+                                              onTap: () {},
+                                              suffixIcon: null,
+                                              margin: 8.0,
                                               hasUnderline: true,
                                               backgroundColor: primaryContainer,
                                               hintText: (screenName == ScreenType.Meal.name)? TextStrings.addScreen_textfield1_hinttext1 : TextStrings.addScreen_textfield1_hinttext2,
@@ -233,6 +237,10 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               textfieldController: textField1Controller,
                                             ),
                                             CustomFormField(
+                                              readOnly: false,
+                                              onTap: () {},
+                                              suffixIcon: null,
+                                              margin: 8.0,
                                               hasUnderline: true,
                                               backgroundColor: primaryContainer,
                                               hintText: (screenName == ScreenType.Meal.name)? TextStrings.addScreen_textfield2_hinttext1 : TextStrings.addScreen_textfield2_hinttext2,
@@ -311,6 +319,10 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                         child: Column(
                                           children: [
                                             CustomFormField(
+                                              readOnly: false,
+                                              onTap: () {},
+                                              suffixIcon: null,
+                                              margin: 8.0,
                                               hasUnderline: false,
                                               maxLines: 3,
                                               initialValue: null,
@@ -329,6 +341,10 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                             Visibility(
                                               visible: (screenName == ScreenType.Exercise.name) ? true : false,
                                               child:  CustomFormField(
+                                                readOnly: false,
+                                                onTap: () {},
+                                                suffixIcon: null,
+                                                margin: 8.0,
                                                 hasUnderline: false,
                                                 maxLines: 1,
                                                 initialValue: null,

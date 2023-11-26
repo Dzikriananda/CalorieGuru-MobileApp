@@ -4,6 +4,7 @@ import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/settings_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/system_viewmodel.dart';
+import 'package:ereport_mobile_app/src/presentations/modules/main/screens/settings/widgets/settings_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -112,135 +113,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
 
                     ),
-                    SizedBox(height: 50),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Icon(Icons.person,size: 40),
-                                width: 50,
-                                height: 50,
-                              ),
-                              Text('Profile',style: petrolabTextTheme.titleLarge,),
-                            ],
-                          ),
-                          Expanded(child: SizedBox()),
-                          IconButton(
-                              onPressed: (){
-                                systemViewModel.lightBottomNavColor();
-                                Navigator.pushNamed(context, '/profileScreen',arguments: {'userModel' : viewmodel.user,'email':viewmodel.email});
-                              },
-                              icon: Icon(Icons.arrow_forward_ios)
-                          )
-                        ],
-                      ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                    SettingsItem(
+                        title: 'Profile',
+                        icon: Icons.person,
+                        onPressed: () {
+                          systemViewModel.lightBottomNavColor();
+                          Navigator.pushNamed(context, '/profileScreen',arguments: {'userModel' : viewmodel.user,'email':viewmodel.email});
+                        },
                     ),
-                    SizedBox(height: 15),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Icon(Icons.logout,size: 40),
-                                width: 50,
-                                height: 50,
-                              ),
-                              Text('Logout',style: petrolabTextTheme.titleLarge,),
-                            ],
-                          ),
-                          Expanded(child: SizedBox()),
-                          IconButton(
-                              onPressed: (){
-                                viewmodel.logOut();
-                              },
-                              icon: Icon(Icons.arrow_forward_ios)
-                          )
-                        ],
-                      ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    SettingsItem(
+                      title: 'Logout',
+                      icon: Icons.logout,
+                      onPressed: (){
+                        viewmodel.logOut();
+                      },
                     ),
-                    SizedBox(height: 15),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Icon(Icons.delete,size: 40),
-                                width: 50,
-                                height: 50,
-                              ),
-                              Text('Delete Account',style: petrolabTextTheme.titleLarge,),
-                            ],
-                          ),
-                          Expanded(child: SizedBox()),
-                          IconButton(
-                              onPressed: (){},
-                              icon: Icon(Icons.arrow_forward_ios)
-                          )
-                        ],
-                      ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    SettingsItem(
+                      title: 'Delete Account',
+                      icon: Icons.delete,
+                      onPressed: (){},
                     ),
-                    SizedBox(height: 15),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Icon(Icons.account_box_outlined,size: 40),
-                                width: 50,
-                                height: 50,
-                              ),
-                              Text('About Me',style: petrolabTextTheme.titleLarge,),
-                            ],
-                          ),
-                          Expanded(child: SizedBox()),
-                          IconButton(
-                              onPressed: (){},
-                              icon: Icon(Icons.arrow_forward_ios)
-                          )
-                        ],
-                      ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    SettingsItem(
+                      title: 'About App',
+                      icon: Icons.supervised_user_circle,
+                      onPressed: (){},
                     ),
-                    SizedBox(height: 15),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Icon(Icons.help_center,size: 40),
-                                width: 50,
-                                height: 50,
-                              ),
-                              Text('Help/FeedBack',style: petrolabTextTheme.titleLarge,),
-                            ],
-                          ),
-                          Expanded(child: SizedBox()),
-                          IconButton(
-                              onPressed: (){},
-                              icon: Icon(Icons.arrow_forward_ios)
-                          )
-                        ],
-                      ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    SettingsItem(
+                      title: 'Change Email / Password',
+                      icon: Icons.admin_panel_settings_sharp,
+                      onPressed: (){},
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    SettingsItem(
+                      title: 'Help/FeedBack',
+                      icon: Icons.help_center,
+                      onPressed: (){},
                     ),
                     // SizedBox(height: 20),
                     // ElevatedButton(

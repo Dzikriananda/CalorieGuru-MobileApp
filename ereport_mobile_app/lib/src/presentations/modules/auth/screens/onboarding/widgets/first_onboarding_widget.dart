@@ -18,7 +18,7 @@ class FirstOnboardingWidget extends StatelessWidget {
           Image.asset(
             DefaultImages.first_onboarding_image,
             height: 150,
-            width: 150,
+            width: 150
           ),
           Text(
             TextStrings.firstOnboarding_1,

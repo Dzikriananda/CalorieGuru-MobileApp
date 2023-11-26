@@ -1,6 +1,7 @@
 
 
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
+import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,7 +19,12 @@ class CustomFormField extends StatefulWidget {
     required this.initialValue,
     required this.maxLines,
     required this.hasUnderline,
-    this.textfieldController
+    required this.margin,
+    required this.onTap,
+    required this.suffixIcon,
+    required this.readOnly,
+    this.textfieldController,
+    this.style
   }) : super(key: key);
 
 
@@ -34,6 +40,11 @@ class CustomFormField extends StatefulWidget {
   final int maxLines;
   final bool hasUnderline;
   final TextEditingController? textfieldController;
+  final VoidCallback onTap;
+  final Icon? suffixIcon;
+  final double margin;
+  final bool readOnly;
+  final TextStyle? style;
 
   @override
   State<CustomFormField> createState() => _CustomFormFieldState();
@@ -45,14 +56,17 @@ class _CustomFormFieldState extends State<CustomFormField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(widget.margin), //default value = 8
       child: TextFormField(
+        readOnly: widget.readOnly,
+        showCursor: true,
         initialValue: widget.initialValue,
         enabled: widget.isEnabled,
         inputFormatters: widget.inputFormatters,
         validator: widget.validator,
         minLines: 1,
         maxLines: widget.maxLines,
+        style: (widget.style != null) ? widget.style : TextStyle(color: Colors.black),
         decoration:  InputDecoration(
             // hintText: widget.hintText,
             enabledBorder: widget.hasUnderline ? const UnderlineInputBorder(
@@ -82,11 +96,12 @@ class _CustomFormFieldState extends State<CustomFormField> {
                     hideText = !hideText;
                   });
                 },
-            ) : null
+            ) : widget.suffixIcon
         ),
         obscureText: (widget.isPassword ? true : false) ? hideText : false,
         onChanged: widget.onSubmited,
         controller: widget.textfieldController,
+        onTap: widget.onTap,
       ),
     );
   }
