@@ -60,6 +60,10 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                     child: Column(
                       children: [
                         CustomFormField(
+                          readOnly: false,
+                          onTap: () {},
+                          suffixIcon: null,
+                          margin: 8.0,
                           hasUnderline: true,
                           maxLines: 1,
                           initialValue: (viewmodel.name == null)? null : viewmodel.name.toString(),
@@ -76,6 +80,10 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                           },
                         ),
                         CustomFormField(
+                          readOnly: false,
+                          onTap: () {},
+                          suffixIcon: null,
+                          margin: 8.0,
                           hasUnderline: true,
                           maxLines: 1,
                           initialValue: (viewmodel.weight == null || viewmodel.weight == '')? null : viewmodel.weight.toString(),
@@ -96,6 +104,10 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                           },
                         ),
                         CustomFormField(
+                          readOnly: false,
+                          onTap: () {},
+                          suffixIcon: null,
+                          margin: 8.0,
                           hasUnderline: true,
                           maxLines: 1,
                           initialValue: (viewmodel.height == null || viewmodel.weight == '')? null : viewmodel.height.toString(),

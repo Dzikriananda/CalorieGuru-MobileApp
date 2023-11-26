@@ -181,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   CircularPercentIndicator(
-                                    radius: 90.0,
+                                    radius: MediaQuery.of(context).size.width * 0.23, //biasanya 90.0
                                     lineWidth: 16.0,
                                     percent: (appUser != null && viewmodel.caloriesLeft != null) ? ( (viewmodel.caloriesLeft!.toDouble().isNegative) ? 1 : (viewmodel.caloriesLeft! > appUser.calorieNeed!.toDouble()) ? 0 : ((appUser.calorieNeed! - viewmodel.caloriesLeft!) / appUser.calorieNeed!)) : 0,
                                     center: Text((viewmodel.caloriesLeft == null)? TextStrings.loadingText : '${viewmodel.caloriesLeft!.toStringAsFixed(1)} Kcal Left',style: homeScreenReportText4,),

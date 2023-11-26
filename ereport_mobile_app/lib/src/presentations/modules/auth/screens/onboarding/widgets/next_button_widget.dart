@@ -21,10 +21,10 @@ class NextButtonWidget extends StatelessWidget {
               color: primaryColor,
               shape: BoxShape.circle
           ),
-          height: 50,
-          child: const Icon(
+          height: 50, //def 50
+          child: Icon(
             Icons.navigate_next,
-            size: 50,
+            size: 50,       //def 50
             color: onPrimaryColor,
           ),
         )

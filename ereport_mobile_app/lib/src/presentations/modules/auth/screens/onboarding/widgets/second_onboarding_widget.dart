@@ -11,7 +11,7 @@ class SecondOnboardingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 260,
+      height: 260, //bermasal
       child: Column(
         children: [
           Image.asset(

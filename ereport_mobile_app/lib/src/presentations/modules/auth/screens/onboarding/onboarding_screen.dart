@@ -27,6 +27,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     showInitWidget();
   }
 
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+  }
+
   List<Widget> onBoardingPages = [
     FirstOnboardingWidget(),
     SecondOnboardingWidget()
@@ -65,7 +70,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         });
       });
     }
-
   }
 
   Future<bool> onPressedBack() async {
@@ -100,15 +104,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             children: [
                               Image.asset(
                                 DefaultImages.logo,
-                                height: 150,
-                                width: 150,
+                                height: MediaQuery.of(context).size.height * 0.18, //default 150 h&w
+                                width: MediaQuery.of(context).size.height * 0.18,
                               ),
                               // Text(TextStrings.appTitle, style: splashScreenText),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(height: 50),
+                      SizedBox(height: 50), //def 50
                       AnimatedOpacity(
                         opacity: isVisible ? 1.0 : 0.0,
                         duration: const Duration(milliseconds: 500),

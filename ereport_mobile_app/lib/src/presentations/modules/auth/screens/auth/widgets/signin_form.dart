@@ -87,6 +87,10 @@ class _SignInState extends State<SignInForm>{
             child: Column(
               children: [
                 CustomFormField(
+                  readOnly: false,
+                  onTap: () {},
+                  suffixIcon: null,
+                  margin: 8.0,
                   hasUnderline: false,
                   maxLines: 1,
                   initialValue: null,
@@ -104,6 +108,10 @@ class _SignInState extends State<SignInForm>{
                 ),
                 const SizedBox(height: 15),
                 CustomFormField(
+                  readOnly: false,
+                  onTap: () {},
+                  suffixIcon: null,
+                  margin: 8.0,
                   hasUnderline: false,
                   maxLines: 1,
                   initialValue: null,

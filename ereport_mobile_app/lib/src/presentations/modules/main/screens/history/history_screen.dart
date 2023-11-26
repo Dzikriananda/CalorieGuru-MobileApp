@@ -34,14 +34,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<HistoryViewModel>().focusDate = DateTime.now();
     });
-
   }
-
-  // void check(DateTime inputDate) async {
-  //   final date = convertDate(date)
-  //   final uid = await auth.getCurrentUID();
-  //   firestore.getLogByDate(uid!, date);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -141,8 +134,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     children: [
                                       Image.asset(
                                         DefaultImages.not_found_image,
-                                        height: 250,
-                                        width: 250,
+                                        height: MediaQuery.of(context).size.height * 0.35,
+                                        width: MediaQuery.of(context).size.height * 0.35,
                                       ),
                                       Text('No Data For This Date',style: notFoundText),
                                     ],

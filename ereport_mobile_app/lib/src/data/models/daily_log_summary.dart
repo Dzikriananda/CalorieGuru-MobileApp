@@ -19,5 +19,12 @@ class DailyLogSummary {
       return DailyLogSummary(consumedCal, calBudget, burnedCal);
     }
 
+    void setToZero(){
+      consumedCalories = 0;
+      calorieBudget = 0;
+      burnedCalories = 0;
+      remainingCalories = 0;
+    }
+
 
 }
