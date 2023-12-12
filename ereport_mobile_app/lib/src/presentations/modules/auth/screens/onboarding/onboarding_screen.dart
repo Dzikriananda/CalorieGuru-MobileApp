@@ -104,8 +104,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             children: [
                               Image.asset(
                                 DefaultImages.logo,
-                                height: MediaQuery.of(context).size.height * 0.18, //default 150 h&w
-                                width: MediaQuery.of(context).size.height * 0.18,
+                                height: 150, //default 150 h&w
+                                width: 150
                               ),
                               // Text(TextStrings.appTitle, style: splashScreenText),
                             ],
@@ -126,3 +126,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       );
   }
 }
+
+// height: MediaQuery.of(context).size.height * 0.18, //default 150 h&w
+// width: MediaQuery.of(context).size.height * 0.18,

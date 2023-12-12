@@ -7,10 +7,7 @@ import 'package:ereport_mobile_app/src/data/viewmodel/system_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/settings/widgets/settings_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../data/viewmodel/home_viewmodel.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -23,23 +20,37 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
 
   late SystemViewModel systemViewModel;
+  late SettingsViewModel settingsViewModel;
 
   @override
   void initState(){
     super.initState();
-    final stat_awal = Provider.of<SettingsViewModel>(context, listen: false).state;
-    print("state saat init : $stat_awal");
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<SettingsViewModel>(context, listen: false).init();
     });
   }
 
   @override
+  void dispose(){
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     systemViewModel = Provider.of<SystemViewModel>(context,listen: true);
+    settingsViewModel = Provider.of<SettingsViewModel>(context, listen: true);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       systemViewModel.mainBottomNavColor();
     });
+    if(settingsViewModel.state == ResultState.unLogged) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        settingsViewModel.disposeViewModel();
+        context.read<HomeViewModel>().disposeViewModel();
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/authScreen', (Route<dynamic> route) => false);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      });
+    }
     super.didChangeDependencies();
   }
 
@@ -63,16 +74,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<SettingsViewModel>(context, listen: true);
-    if(provider.state == ResultState.unLogged) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        provider.dispose();
-        context.read<HomeViewModel>().disposeViewModel();
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/authScreen', (Route<dynamic> route) => false);
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      });
-    }
     return SafeArea(
       child: Consumer<SettingsViewModel>(
           builder: (context,viewmodel,child) {
@@ -127,6 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       title: 'Logout',
                       icon: Icons.logout,
                       onPressed: (){
+                        systemViewModel.lightBottomNavColor();
                         viewmodel.logOut();
                       },
                     ),
@@ -134,54 +136,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     SettingsItem(
                       title: 'Delete Account',
                       icon: Icons.delete,
-                      onPressed: (){},
+                      onPressed: (){
+                        systemViewModel.lightBottomNavColor();
+                        Navigator.pushNamed(context, '/enterAuthenticationScreen',arguments: true);
+                      },
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     SettingsItem(
                       title: 'About App',
                       icon: Icons.supervised_user_circle,
-                      onPressed: (){},
+                      onPressed: (){
+                        systemViewModel.lightBottomNavColor();
+                        Navigator.pushNamed(context, '/aboutAppScreen');
+                      },
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     SettingsItem(
                       title: 'Change Email / Password',
                       icon: Icons.admin_panel_settings_sharp,
-                      onPressed: (){},
+                      onPressed: (){
+                        systemViewModel.lightBottomNavColor();
+                        Navigator.pushNamed(context, '/enterAuthenticationScreen',arguments: false);
+                      },
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    SettingsItem(
+                      title: 'Frequently Asked Question',
+                      icon: Icons.help,
+                      onPressed: (){
+                        systemViewModel.lightBottomNavColor();
+                        Navigator.pushNamed(context, '/faqScreen');
+                      },
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     SettingsItem(
                       title: 'Help/FeedBack',
                       icon: Icons.help_center,
-                      onPressed: (){},
+                      onPressed: (){
+                        systemViewModel.lightBottomNavColor();
+                        Navigator.pushNamed(context, '/feedbackScreen');
+                      },
                     ),
-                    // SizedBox(height: 20),
-                    // ElevatedButton(
-                    //   onPressed: () {},
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor: primaryColor,
-                    //     foregroundColor: onPrimaryColor,
-                    //     minimumSize: Size(88, 36),
-                    //     padding: EdgeInsets.symmetric(horizontal: 150),
-                    //     shape: const RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.all(Radius.circular(12)),
-                    //     ),
-                    //   ),
-                    //   child: const Text('Edit Profile',textAlign: TextAlign.center,),
-                    // ),
-                    // ElevatedButton(
-                    //   onPressed: () => viewmodel.logOut(),
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor: primaryColor,
-                    //     foregroundColor: onPrimaryColor,
-                    //     minimumSize: Size(88, 36),
-                    //     padding: EdgeInsets.symmetric(horizontal: 167),
-                    //     shape: const RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.all(Radius.circular(12)),
-                    //     ),
-                    //   ),
-                    //   child: const Text('Logout',textAlign: TextAlign.center),
-                    // ),
-
                   ],
                 )
             );

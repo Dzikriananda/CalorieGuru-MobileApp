@@ -31,9 +31,10 @@ class _SignInState extends State<SignInForm>{
     enableTextField();
   }
 
-  Future<void> enableTextField() async{ //harus didelay agar tidakoverflow saat buka keyboard awal2
+  //harus didelay karena akan overflow jika disentuh saat animasi masih berjalan
+  Future<void> enableTextField() async{
     if(widget.isFromSplash){
-      Future.delayed(Duration(milliseconds: 1600),(){
+      Future.delayed(Duration(milliseconds: 1800),(){
         setState(() {
           isEnabled = true;
         });
@@ -130,9 +131,7 @@ class _SignInState extends State<SignInForm>{
                 const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
-                    print("menekan login");
                     if(_formKey.currentState!.validate()){
-                      print("berhasil login");
                       viewModel.signIn();
                     }
                   },

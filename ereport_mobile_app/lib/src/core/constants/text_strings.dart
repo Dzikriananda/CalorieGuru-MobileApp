@@ -6,17 +6,20 @@ class TextStrings {
   static const signinSubheader = "Please sign in";
   static const welcomeTitle = "Welcome";
   static const welcomeSubtitle = "";
+  static const noConnection = "No Connection!";
   static const signinregister_first = "Dont have an Account?";
   static const signinregister_second = " Register";
   static const register_first = "Do You have an Account?";
   static const register_second = " Sign In";
+  static const alertButton_1 = 'OK';
+  static const alertTitle = 'Alert';
   static const invalidEmailWarning = "Enter valid email!";
   static const invalidNameWarning = "Enter valid name!";
   static const invalidQueryWarning = "Enter valid Query!";
   static const invalidDurationWarning = "Duration must be an integer/round number!";
   static const invalidWeightWarning = "Weight Must More than 40 and Less then 160 (in Kg)";
   static const invalidHeightlWarning = "Height Must More than 130 and Less then 230 (in Cm)";
-  static const invalidPasswordWarning = "Enter valid password";
+  static const invalidPasswordWarning = "Password Length Must Be At least 6 Characters";
   static const invalidNullWarning= "This field must not empty";
   static const invalidCalorieWarning= "Enter valid calorie!";
   static const invalidNullOptionWarning= "This Option must not be empty";
@@ -58,6 +61,55 @@ class TextStrings {
   static const notFound_2 = "Sorry, We Couldn't Find Information For That Activity";
   static const usingInstruction1 = "With this tool, you can easily determine the calorie value of your meal with a single click. You can search for a single item, like '1 bowl of porridge,' or a combination of multiple items, such as '2 bowls of porridge with a Coca-Cola.' However, please ensure to manually specify the category of the meal. It's strongly recommended to indicate its singularity; for example, instead of 'fried chicken,' type '1 fried chicken,' 'a fried chicken,' or 'a plate of pancake' if it's just a single meal.";
   static const usingInstruction2 = "With this tool, you can determine the calorie value of your activity with a single click. Enter the basic word or the basic word followed by an affix of your activity (e.g., Walk, Walking, Run, Running). Queries like 'Last night, I ran for 2 hours' would be considered incorrect. However, please ensure to manually specify the category of the Activity. You can also enter the duration of your activity in minutes. If left unfilled, the default duration will be set to 60 minutes.";
+  static const selectAuthenticationScreen_1 = 'Select Which Credentials You Wants To Change';
+  static const selectAuthenticationScreen_2 = 'Change Password';
+  static const selectAuthenticationScreen_3 = 'Change Email';
+  static const selectAuthenticationScreen_4 = 'Verify Email';
+  static String editAuthenticationScreen_1(String args) {
+    return 'Enter your new $args';
+  }
+  static const editAuthenticationScreen_2 = 'Email';
+  static const editAuthenticationScreen_3 = 'Password';
+  static String editAuthenticationScreen_4(String args) {
+    return 'Edit $args';
+  }
+  static const editAuthenticationScreen_5 = 'Your Password Has Been Changed!';
+  static String editAuthenticationScreen_6(String args) {
+    return 'An Email Has Been Sent To Your New Email At $args, Verify It And Then Relogin This App In Order To Succesfully Change Your Email';
+  }
+  static const editAuthenticationScreen_7 = 'Error';
+  static const editAuthenticationScreen_8 = 'Submit';
+  static const enterAuthenticationScreen_1 = 'Enter your password in order to make changes to your current email/password';
+  static const enterAuthenticationScreen_2 = 'Your Password Is Wrong!';
+  static const enterAuthenticationScreen_3 = 'Too Many Attempt, Try Again Later!';
+  static const enterAuthenticationScreen_4 = 'Unknown Error, Try Again Later!';
+  static const faqScreen_1 = 'Frequently Asked Questions';
+  static const faqScreen_2 = 'Doesnt Find Your Answer / Want To Give Us A Message?';
+  static const faqScreen_3 = 'Click Here';
+  static const feedbackScreen_1 = 'Feedback';
+  static const feedbackScreen_2 = 'Send Us Your Feedback/Messages!';
+  static const feedbackScreen_3 = 'Do You Have A Suggestion Or Found Some Bug? Let Us Know In The Field Below.';
+  static const feedbackScreen_4 = 'How Was Your Experience?';
+  static const feedbackScreen_5 = 'Frequently Asked Questions';
+  static const feedbackScreen_6 = 'Describe Your Experience Here...';
+  static const feedbackScreen_7 = 'Send Feedback';
+  static const feedbackScreen_8 = 'Failed To Send, Please Try Again';
+  static const feedbackScreen_9 = 'OK';
+  static const feedbackScreen_10 = 'Your Feedback has been Succesfully Sent! Thank You For Your Feedback!';
+  static const feedbackScreen_11 = 'Please Fill Out Above Options';
+  static const feedbackScreen_12 = 'OK';
+  static const aboutAppScreen_1 = 'About App';
+  static const aboutAppScreen_2 = "Hello! I'm Dzikri, the creator behind this food diet app. Passionate about healthy living and nutrition, I developed this app as a personal project to simplify the journey to a healthier lifestyle. With a focus on simplicity and practicality, this app aims to assist users in making smarter dietary choices. It's designed to monitor your daily intake and thus achieving and maintaining a balanced diet. Join me in this journey towards better health and wellness!";
+  static const aboutAppScreen_3 = 'Learn More About Me';
+  static const aboutAppScreen_4 = 'Credits';
+  static const aboutAppScreen_5 = 'We extend our heartfelt gratitude to the following API providers and Others services whose services have been instrumental in shaping the functionality and enhancing the user experience of this app:';
+  static const aboutAppScreen_6 = 'Calorie Ninjas: Special thanks for providing Data about Meals and Sport Activities.';
+  static const aboutAppScreen_7 = 'M Alaaddin Celik: Special thanks for providing Data about Calorie Need.';
+  static const aboutAppScreen_8 = 'Blush: Special thanks for providing many Illustrations.';
+
+
+
+
 
 
 

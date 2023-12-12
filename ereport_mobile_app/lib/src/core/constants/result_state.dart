@@ -1,6 +1,6 @@
 import 'activity_level.dart';
 
-enum ResultState { started,loading, noData, hasData, error,noConnection, logged,unLogged,loggedNotFilledData,addDataSuccess}
+enum ResultState { started,loading, noData, hasData, error,noConnection, logged,unLogged,loggedNotFilledData,addDataSuccess,wrongCredential,waitingForAuthentication,changeSuccess,success}
 enum Gender { male, female}
 // enum ActivityLevel {level_1,level_2,level_3,level_4,level_5,level_6}
 const List<String> activityLevelText = [

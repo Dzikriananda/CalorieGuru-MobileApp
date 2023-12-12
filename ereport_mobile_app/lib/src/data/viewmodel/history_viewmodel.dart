@@ -23,7 +23,7 @@ class HistoryViewModel extends ChangeNotifier {
     firestore = Firestore();
     _focusDate = DateTime.now();
     _currentDate = convertDate(DateTime.now());
-    _logSummary = DailyLogSummary(0,0,0); //perlu refactor agar lbh bagus
+    _logSummary = DailyLogSummary.empty();
     _log = {};
     _activityList = [];
   }
@@ -51,17 +51,23 @@ class HistoryViewModel extends ChangeNotifier {
   Future<void> _getLog() async {
     _state = ResultState.loading;
     notifyListeners();
-    final uid = await auth.getCurrentUID();
-    _log = await firestore.getLogByDate(uid!, currentDate!);
-    if (_log.length == 0) {
-      _logSummary.setToZero();
-      _state = ResultState.noData;
-    } else {
-      _logSummary = _log['logSummary'];
-      _activityList = _log['logList'];
-      final remainingCal = ( _logSummary.calorieBudget! - (_logSummary.consumedCalories! - _logSummary.burnedCalories!)).toStringAsFixed(1);
-      _logSummary.remainingCalories = double.parse(remainingCal);
-      _state = ResultState.hasData;
+    try {
+      final uid = await auth.getCurrentUID();
+      _log = await firestore.getLogByDate(uid!, currentDate!);
+      if (_log['logList'] == null) {
+        _logSummary.setToZero();
+        _state = ResultState.noData;
+      } else {
+        _logSummary = _log['logSummary'];
+        _activityList = _log['logList'];
+        final remainingCal = ( _logSummary.calorieBudget! - (_logSummary.consumedCalories! - _logSummary.burnedCalories!)).toStringAsFixed(1);
+        _logSummary.remainingCalories = double.parse(remainingCal);
+        _state = ResultState.hasData;
+      }
+    }
+    catch(e) {
+      debugPrint('Error in _getLog (history_viewmodel.dart): $e');
+      _state = ResultState.error;
     }
     notifyListeners();
   }

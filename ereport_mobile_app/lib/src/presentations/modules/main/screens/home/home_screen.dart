@@ -92,6 +92,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       context: context,
       builder: (BuildContext context) {
         return CustomAlertDialog(
+            content: "No Internet Connection!",
+            buttonText: "Retry",
+            icon: Icon(Icons.signal_wifi_connected_no_internet_4_sharp),
             onRetry: (){
               context.read<HomeViewModel>().checkNetwork();
               Navigator.of(context).pop(); // Close the dialog./ Close the dialog.
@@ -104,197 +107,248 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Consumer<HomeViewModel>(
-          builder: (context,viewmodel,child){
-            UserModel? appUser = viewmodel.getUser;
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 15),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          child:  Container(
-                              child: Row(
-                                children: [
-                                  const SizedBox(width: 20),
-                                  ClipOval(
-                                    child: SizedBox.fromSize(
-                                      size: const Size.fromRadius(48), // Image radius
-                                      child: Image.network('https://www.w3schools.com/howto/img_avatar.png', fit: BoxFit.cover),
-                                    ),
+        child: Scaffold(
+          body: Consumer<HomeViewModel>(
+            builder: (context,viewmodel,child){
+              UserModel? appUser = viewmodel.getUser;
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        // Container(
+                        //   height: 15,
+                        //   color: primaryContainer,
+                        // ),
+                        // const SizedBox(height: 15),
+
+                        // const SizedBox(height: 10),
+                        //
+                        SizedBox(
+                          child: Stack(
+                            children: [
+
+                              Container(
+                                color: backgroundColor,
+                              ),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  height: (MediaQuery.of(context).size.height * 1) * 0.475,
+                                  decoration: BoxDecoration(
+                                    color: primaryContainer,
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(0.0),
+                                        bottomRight: Radius.circular(60.0),
+                                        topLeft: Radius.circular(0.0),
+                                        bottomLeft: Radius.circular(60.0)),
                                   ),
-                                  const SizedBox(width: 10),
-                                  Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: MediaQuery. of(context). size. width * 0.6,
-                                          child: Text(
-                                            appUser != null ? "Hi, ${appUser.name.toString().toCapitalized()}" : TextStrings.loadingText,
-                                            style: petrolabTextTheme.titleLarge,
-                                          ),
-                                        ),
-                                        Container(
+                                ),
+                              ),
+                              Center(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                                        child:  Container(
+                                            decoration: BoxDecoration(
+                                              color: backgroundColor,
+                                              borderRadius:  BorderRadius.circular(15),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(1),
+                                                  blurRadius: 8,
+                                                ),
+                                              ],
+                                            ),
                                             child: Row(
                                               children: [
-                                                const Icon(Icons.date_range),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                  viewmodel.todayDate,
-                                                  style: petrolabTextTheme.titleMedium,
+                                                const SizedBox(width: 20),
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: 0,vertical: 10),
+                                                  child: ClipOval(
+                                                    child: SizedBox.fromSize(
+                                                      size: const Size.fromRadius(38), // Image radius
+                                                      child: Image.network('https://www.w3schools.com/howto/img_avatar.png', fit: BoxFit.cover),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        width: MediaQuery. of(context). size. width * 0.6,
+                                                        child: Text(
+                                                          appUser != null ? "Hi, ${appUser.name.toString().toCapitalized()}" : TextStrings.loadingText,
+                                                          style: petrolabTextTheme.titleLarge,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                          child: Row(
+                                                            children: [
+                                                              const Icon(Icons.date_range),
+                                                              const SizedBox(width: 5),
+                                                              Text(
+                                                                viewmodel.todayDate,
+                                                                style: petrolabTextTheme.titleSmall,
+                                                              ),
+                                                            ],
+                                                          )
+                                                      ),
+                                                    ]
                                                 ),
                                               ],
                                             )
+                                        )
+                                    ),
+                                    Container(
+                                        width: MediaQuery.of(context).size.width * 0.9,
+                                        padding: const EdgeInsets.all(15),
+                                        decoration: BoxDecoration(
+                                          color: backgroundColor,
+                                          borderRadius:  BorderRadius.circular(15),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(1),
+                                              blurRadius: 8,
+                                            ),
+                                          ],
                                         ),
-                                      ]
-                                  ),
-                                ],
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                                (appUser == null)? TextStrings.loadingText : 'Calorie Budget : ${appUser.calorieNeed!} Kcal',
+                                                style: homeScreenReportText
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                CircularPercentIndicator(
+                                                  radius: MediaQuery.of(context).size.width * 0.23, //biasanya 90.0
+                                                  lineWidth: 16.0,
+                                                  percent: (appUser != null && viewmodel.caloriesLeft != null) ? ( (viewmodel.caloriesLeft!.toDouble().isNegative) ? 1 : (viewmodel.caloriesLeft! > appUser.calorieNeed!.toDouble()) ? 0 : ((appUser.calorieNeed! - viewmodel.caloriesLeft!) / appUser.calorieNeed!)) : 0,
+                                                  center: Text((viewmodel.caloriesLeft == null)? TextStrings.loadingText : '${viewmodel.caloriesLeft!.toStringAsFixed(1)} Kcal Left',style: homeScreenReportText4,),
+                                                  progressColor: primaryColor,
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Container(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(Icons.food_bank_rounded,size: 50,color: Colors.blueAccent,),
+                                                          Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text('Eaten',style: homeScreenReportText2),
+                                                              Container(
+                                                                child: Text('${(viewmodel.consumedCalories != null) ? viewmodel.consumedCalories! : 0} Kcal',style: homeScreenReportText5),
+                                                                constraints: const BoxConstraints(
+                                                                  minWidth: 50,
+                                                                  maxWidth: 80,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                      const SizedBox(height: 20),
+                                                      Row(
+                                                        children: [
+                                                          Icon(Icons.local_fire_department,size: 50,color: Colors.red,),
+                                                          Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text('Burned',style: homeScreenReportText3),
+                                                              Container(
+                                                                child: Text('${(viewmodel.burnedCalories != null) ? viewmodel.burnedCalories! : 0} Kcal',style: homeScreenReportText6),
+                                                                constraints: const BoxConstraints(
+                                                                  minWidth: 50,
+                                                                  maxWidth: 80,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                    ),
+                                  ],
+                                )
                               )
-                          )
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            color: primaryContainer,
-                            borderRadius:  BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                blurRadius: 2,
-                              ),
                             ],
                           ),
-                          child: Column(
-                            children: [
-                              Text(
-                                  (appUser == null)? TextStrings.loadingText : 'Calorie Budget : ${appUser.calorieNeed!} Kcal',
+                        ),
+                        const SizedBox(height: 15),
+                        SizedBox(
+                            height: 120,
+                            child: GridViewBuilder(
+                              icons: reportIcon,
+                              onTapped: () {
+                                viewmodel.refreshData();
+                              },
+                              onNavigate: () {
+                                systemViewModel.lightBottomNavColor();
+                              },
+                            )
+                        ),
+                        const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(22, 0, 0, 5),
+                              child: Text(
+                                  "Recent Activities",
                                   style: homeScreenReportText
                               ),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CircularPercentIndicator(
-                                    radius: MediaQuery.of(context).size.width * 0.23, //biasanya 90.0
-                                    lineWidth: 16.0,
-                                    percent: (appUser != null && viewmodel.caloriesLeft != null) ? ( (viewmodel.caloriesLeft!.toDouble().isNegative) ? 1 : (viewmodel.caloriesLeft! > appUser.calorieNeed!.toDouble()) ? 0 : ((appUser.calorieNeed! - viewmodel.caloriesLeft!) / appUser.calorieNeed!)) : 0,
-                                    center: Text((viewmodel.caloriesLeft == null)? TextStrings.loadingText : '${viewmodel.caloriesLeft!.toStringAsFixed(1)} Kcal Left',style: homeScreenReportText4,),
-                                    progressColor: primaryColor,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Container(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(Icons.food_bank_rounded,size: 50,color: Colors.blueAccent,),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Eaten',style: homeScreenReportText2),
-                                                Container(
-                                                  child: Text('${(viewmodel.consumedCalories != null)? viewmodel.consumedCalories!: 0} Kcal',style: homeScreenReportText5),
-                                                  constraints: const BoxConstraints(
-                                                    minWidth: 50,
-                                                    maxWidth: 80,
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.local_fire_department,size: 50,color: Colors.red,),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Burned',style: homeScreenReportText3),
-                                                Container(
-                                                  child: Text('${(viewmodel.burnedCalories != null)? viewmodel.burnedCalories!: 0} Kcal',style: homeScreenReportText6),
-                                                  constraints: const BoxConstraints(
-                                                    minWidth: 50,
-                                                    maxWidth: 80,
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          )
-                      ),
-                      const SizedBox(height: 15),
-                      SizedBox(
-                          height: 120,
-                          child: GridViewBuilder(
-                            icons: reportIcon,
-                            onTapped: () {
-                              viewmodel.refreshData();
-                            },
-                            onNavigate: () {
-                              systemViewModel.lightBottomNavColor();
-                            },
-                          )
-                      ),
-                      const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(22, 0, 0, 5),
-                            child: Text(
-                                "Recent Activities",
-                                style: homeScreenReportText
+                            )
+                        ),
+                        Container(
+                            height: (viewmodel.listLog.length < 3)? MediaQuery.of(context).size.width * 0.44 : null,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            decoration: BoxDecoration(
+                              color: backgroundColor,
+                              borderRadius:  BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(1),
+                                  blurRadius: 2,
+                                ),
+                              ],
                             ),
-                          )
-                      ),
-                      Container(
-                          height: (viewmodel.listLog.length < 3)? MediaQuery.of(context).size.width * 0.44 : null,
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          decoration: BoxDecoration(
-                            color: primaryContainer,
-                            borderRadius:  BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                blurRadius: 2,
-                              ),
-                            ],
-                          ),
-                          child: (viewmodel.listLog.length == 0)? Center(child: Text('No Activity Yet!',style: emptyActivityText))
-                              : Column(
-                            children: [
-                              ...viewmodel.listLog.map((e) => RecentItem(content: e,onTapped: () => viewmodel.refreshData(),touchable: true,onNavigate: () => systemViewModel.lightBottomNavColor() )).toList(),
-                            ],
-                          )
+                            child: (viewmodel.listLog.length == 0)? Center(child: Text('No Activity Yet!',style: emptyActivityText))
+                                : Column(
+                              children: [
+                                ...viewmodel.listLog.map((e) => RecentItem(content: e,onTapped: () => viewmodel.refreshData(),touchable: true,onNavigate: () => systemViewModel.lightBottomNavColor() )).toList(),
+                              ],
+                            )
 
-                      ),
-                      const SizedBox(height: 20)
-                    ],
+                        ),
+                        const SizedBox(height: 20)
+                      ],
+                    ),
                   ),
-                ),
-                Visibility(
-                  visible: (viewmodel.state == ResultState.loading),
-                  child: const CircularProgressIndicator(
-                    color: Colors.black,
-                  ),
-                )
-              ],
-            );
-          },
+                  Visibility(
+                    visible: (viewmodel.state == ResultState.loading),
+                    child: const CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
         )
     );
   }

@@ -75,8 +75,6 @@ class AuthViewModel extends ChangeNotifier {
       await Auth().signInWithEmailAndPassword(email: _email!, password: _pwd!);
     }
     on FirebaseAuthException catch(e){
-      print("gagal login");
-      print('error $e');
       _errorMessage = e.toString();
       _state = ResultState.error;
       notifyListeners();
@@ -88,7 +86,7 @@ class AuthViewModel extends ChangeNotifier {
     _state = ResultState.loading;
     notifyListeners();
     final streamer = Auth().authStateChanges.listen((event) async {
-      if(event == null) print("gagal register");
+      if(event == null) debugPrint("gagal register");
       else {
         try{
           await Firestore().addUser(event.uid);
@@ -96,7 +94,7 @@ class AuthViewModel extends ChangeNotifier {
           notifyListeners();
         }
         on FirebaseAuthException catch(e){
-          print(e);
+          debugPrint(e.toString());
         }
       }
     });
@@ -108,8 +106,6 @@ class AuthViewModel extends ChangeNotifier {
 
     }
     on FirebaseAuthException catch(e){
-      print("gagal register");
-      print('error $e');
       _errorMessage = e.toString();
       _state = ResultState.error;
       notifyListeners();

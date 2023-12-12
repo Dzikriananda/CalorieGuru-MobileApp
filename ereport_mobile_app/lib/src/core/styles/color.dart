@@ -11,6 +11,14 @@ const Color onBackgroundColor = Color(0xFF1f1b16);
 
 const Color searchFieldColor = Color(0XFFF1EFEF);
 const Color goodResultColor = Color(0xFF2411FF);
+const Color borderColor_1 = Color(0xFFf2f2f2);
+const Color borderColor_2 = Color(0xFFcccccc);
+const Color borderColor_3 = Color(0xFFE5E5E5);
+const Color borderColor_4 = Color(0xFF808080);
+
+
+
+
 
 // const Color primaryColor = Color(0xFF3D5AA9);
 // const Color onPrimaryColor = Color(0xFFFFFFFF);

@@ -114,7 +114,7 @@ extension extString on String {
   }
 
   bool get isValidPassword{
-    return this.length>6;
+    return this.length>=6;
   }
 
   bool get isValidWeight{
