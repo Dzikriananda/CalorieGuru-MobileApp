@@ -93,6 +93,7 @@ class AddUpdateViewModel extends ChangeNotifier {
   void setLogType(String type) {
     if (type == ScreenType.Meal.name) _list.addAll(listMeal);
     else _list.addAll(listExercise);
+    print(_list);
     notifyListeners();
   }
 
