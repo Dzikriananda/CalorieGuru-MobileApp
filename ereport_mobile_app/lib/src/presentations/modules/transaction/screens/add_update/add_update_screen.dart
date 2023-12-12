@@ -34,6 +34,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
   late bool isUpdate;
   late Map<String,dynamic> args;
   LogModel? data;
+  bool hasInit = false;
 
   @override
   void initState(){
@@ -56,7 +57,10 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
     data = args['data'];
     WidgetsBinding.instance.addPostFrameCallback((_){
       final viewModel = context.read<AddUpdateViewModel>();
-      viewModel.setLogType(screenName);
+      if(!hasInit) {
+        viewModel.setLogType(screenName);
+        hasInit = true;
+      }
       viewModel.screenType = isUpdate;
       if(isUpdate) viewModel.setDataForUpdate(args['data']);
     });
