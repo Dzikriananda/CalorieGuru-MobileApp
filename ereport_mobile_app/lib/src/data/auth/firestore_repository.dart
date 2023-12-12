@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:ereport_mobile_app/src/data/models/daily_log_summary.dart';
+import 'package:ereport_mobile_app/src/data/models/feedback_model.dart';
 import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
 import 'package:ereport_mobile_app/src/data/models/user.dart';
 import 'package:flutter/foundation.dart';
@@ -22,6 +23,23 @@ class Firestore {
     } catch(e){
       debugPrint('error in getUserData $e');
       return null;
+    }
+  }
+
+  Future<bool> updateTodayLogCalorieBudget(String uid,double latestCalorie) async {
+    final docRef = db.collection("log");
+    String? docId;
+    try {
+      final querySnapshot = await docRef.where('uid', isEqualTo: uid).get();
+      for (var docSnapshot in querySnapshot.docs) {
+        docId = docSnapshot.id;
+      }
+      final todayLog = await docRef.doc(docId).collection(getTodayDate()).doc('0');
+      await todayLog.update({'calorieBudget' : latestCalorie});
+      return true;
+    } catch(e) {
+      return false;
+
     }
 
 
@@ -59,7 +77,6 @@ class Firestore {
     const dataSource = Source.server;
     final docRef = db.collection("log");
     int number = 0;
-    // late double consumedCalorie;
     String? docId;
     try{
       final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
@@ -72,9 +89,7 @@ class Firestore {
         number = docSnapshot.data()['no'];
       }
       if(number == null || number == 0){
-        // number = 0;
         final user = await getUserData(uid);
-        print(user!.calorieNeed);
         final calorieNeed = user!.calorieNeed;
         await todayLog.doc(number.toString()).set({'no':number,'calorieBudget':calorieNeed,'consumedCalories':0.0,'burnedCalories':0.0});
       }
@@ -106,7 +121,6 @@ class Firestore {
     const dataSource = Source.server;
     final docRef = db.collection("log");
     String? docId;
-
     try{
       final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
       for (var docSnapshot in querySnapshot.docs) {
@@ -127,6 +141,7 @@ class Firestore {
     List<LogModel> logList=[];
     int i = 0;
     String? docId;
+    print(uid);
     try{
       final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
       for (var docSnapshot in querySnapshot.docs) {
@@ -164,25 +179,25 @@ class Firestore {
   //   }
   // }
 
-  Future<void> getTodayLatestLog(String uid) async {
-    const dataSource = Source.server;
-    final docRef = db.collection("log");
-    String? docId;
-    try{
-      final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
-      for (var docSnapshot in querySnapshot.docs) {
-        docId = docSnapshot.id;
-      }
-      final latestLog = await docRef.doc(docId).collection('04-11-2023').orderBy('no',descending: true).limit(1).get();
-      for (var docSnapshot in latestLog.docs) {
-        print(docSnapshot.data());
-      }
-    } catch(e){
-      debugPrint('error in getTodayLatestLog $e');
-    }
-
-
-  }
+  // Future<void> getTodayLatestLog(String uid) async {
+  //   const dataSource = Source.server;
+  //   final docRef = db.collection("log");
+  //   String? docId;
+  //   try{
+  //     final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
+  //     for (var docSnapshot in querySnapshot.docs) {
+  //       docId = docSnapshot.id;
+  //     }
+  //     final latestLog = await docRef.doc(docId).collection('04-11-2023').orderBy('no',descending: true).limit(1).get();
+  //     for (var docSnapshot in latestLog.docs) {
+  //       print(docSnapshot.data());
+  //     }
+  //   } catch(e){
+  //     debugPrint('error in getTodayLatestLog $e');
+  //   }
+  //
+  //
+  // }
 
   Future<bool> updateLog(String uid,int no,Map<String,dynamic> data,bool isMeal) async {
     const dataSource = Source.server;
@@ -263,7 +278,6 @@ class Firestore {
       final dateLog = await docRef.doc(docId).collection(date).get();
       if(dateLog.size != 0) {
         for (var docSnapshot in dateLog.docs) {
-          print(docSnapshot.data());
           if(i!=0){
             logList.add(LogModel.fromMap(docSnapshot.data()));
           }
@@ -280,7 +294,6 @@ class Firestore {
       else return {};
     } catch(e) {
       return {};
-      debugPrint('error in getLogByDate $e');
     }
 
   }
@@ -303,6 +316,11 @@ class Firestore {
       return false;
     }
 
+  }
+
+  Future<void> sendFeedback(FeedBackModel feedBack) async{
+    final docRef = db.collection("feedback");
+    docRef.add(feedBack.toJson()).then((documenSnapshot) => debugPrint('added $documenSnapshot'));
   }
 
 

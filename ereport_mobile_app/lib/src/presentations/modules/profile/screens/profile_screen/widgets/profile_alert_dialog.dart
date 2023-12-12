@@ -33,31 +33,31 @@ class _ProfileAlertDialogState extends State<ProfileAlertDialog> {
     super.initState();
   }
 
-  int number(ActivityType input) {
-    switch (input) {
-      case ActivityType.running:
-        return 1;
-      case ActivityType.climbing:
-        return 2;
-      case ActivityType.hiking:
-        return 5;
-      case ActivityType.cycling:
-        return 7;
-      case ActivityType.ski:
-        return 10;
-    }
-  }  //inii
+  // int number(ActivityType input) {
+  //   switch (input) {
+  //     case ActivityType.running:
+  //       return 1;
+  //     case ActivityType.climbing:
+  //       return 2;
+  //     case ActivityType.hiking:
+  //       return 5;
+  //     case ActivityType.cycling:
+  //       return 7;
+  //     case ActivityType.ski:
+  //       return 10;
+  //   }
+  // }  //inii
 
   @override
   void didChangeDependencies() {
     switch(widget.type) {
       case 'Gender' :
         list = Gender.values.map((e) => e.name).toList();
-        groupValue = Provider.of<SettingsViewModel>(context,listen: true).sex;
+        groupValue = Provider.of<SettingsViewModel>(context,listen: true).tempGender;
         break;
       case 'ActivityLevel' :
         list = activityLevelText.map((e) => e).toList();
-        groupValue = Provider.of<SettingsViewModel>(context,listen: true).activityLevel;
+        groupValue = Provider.of<SettingsViewModel>(context,listen: true).tempActivityLevel;
         break;
     }
     super.didChangeDependencies();

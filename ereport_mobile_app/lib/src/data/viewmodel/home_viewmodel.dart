@@ -47,10 +47,7 @@ class HomeViewModel extends ChangeNotifier {
     if(result != null){
       _consumedCalories = double.parse(result['consumedCalories'].toString());
       _burnedCalories = double.parse(result['burnedCalories'].toString());
-      print("${result['calorieBudget']} - $_consumedCalories + $_burnedCalories");
       _caloriesLeft = result['calorieBudget'] - _consumedCalories + _burnedCalories;
-      print(_caloriesLeft);
-      print('tidak nul');
       notifyListeners();
     }
     notifyListeners();
@@ -65,6 +62,7 @@ class HomeViewModel extends ChangeNotifier {
   Future<void> getListLog() async {
     String? uid = await auth.getCurrentUID();
     _listLog = await firestore.getListLog(uid!);
+    debugPrint(_listLog.length.toString());
     notifyListeners();
   }
 
@@ -95,10 +93,10 @@ class HomeViewModel extends ChangeNotifier {
     final UID = await auth.getCurrentUID();
     final UserModel? thisUser = await firestore.getUserData(UID!);
     _user = thisUser;
-    if(_caloriesLeft == null){
-      _caloriesLeft = thisUser?.calorieNeed;
-    }
-    // _caloriesLeft = thisUser?.calorieNeed;
+    // if(_caloriesLeft == null){
+    //   _caloriesLeft = thisUser?.calorieNeed;
+    // }
+    _caloriesLeft = thisUser?.calorieNeed;
     notifyListeners();
   }
 

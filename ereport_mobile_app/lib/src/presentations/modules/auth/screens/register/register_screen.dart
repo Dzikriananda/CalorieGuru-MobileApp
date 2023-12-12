@@ -35,6 +35,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       context: context,
       builder: (BuildContext context) {
         return CustomAlertDialog(
+            content: 'Failed',
+            buttonText: "Retry",
+            icon: Icon(Icons.warning),
             onRetry: (){
               retry();
               Navigator.of(context).pop();
@@ -153,7 +156,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         {
                                           var isValid = onNext.call();
                                           if(isValid) {
-                                            print(currentPage);
                                             viewmodel.nextPage();
                                           }
                                         }

@@ -36,9 +36,17 @@ class _CustomContainerState extends State<CustomContainer> {
         },
         child: Container(
           height: MediaQuery. of(context). size. width * 0.25,
-          decoration: const BoxDecoration(
-              color: primaryContainer,
-              borderRadius: BorderRadius.all(Radius.circular(10))
+          decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(1),
+                  blurRadius: 2,
+                ),
+              ],
+
+
           ),
           child: Stack(
             children: [

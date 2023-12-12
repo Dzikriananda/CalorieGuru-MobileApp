@@ -38,8 +38,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
           // statusBarBrightness: Brightness.dark,
           systemNavigationBarColor: Provider.of<SystemViewModel>(context,listen: true).bottomNavBarColor,
           systemNavigationBarIconBrightness: Provider.of<SystemViewModel>(context,listen: true).bottomNavBarButtonColor
-
-
       ),
       child: Scaffold(
         body: Center(

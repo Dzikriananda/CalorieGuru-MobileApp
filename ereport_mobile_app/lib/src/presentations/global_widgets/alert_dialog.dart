@@ -1,10 +1,14 @@
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/styles/color.dart';
 
 class CustomAlertDialog extends StatefulWidget {
   final VoidCallback onRetry;
-  CustomAlertDialog({Key? key,required this.onRetry}) : super(key: key);
+  String content;
+  Icon icon;
+  String buttonText;
+  CustomAlertDialog({Key? key,required this.onRetry,required this.content,required this.icon,required this.buttonText}) : super(key: key);
 
   @override
   State<CustomAlertDialog> createState() => _CustomAlertDialogState();
@@ -14,9 +18,9 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Alert"),
-      content: Text("No Internet Connection!"),
-      icon: Icon(Icons.signal_wifi_connected_no_internet_4_sharp),
+      title: Text(TextStrings.alertTitle),
+      content: Text(widget.content,textAlign: TextAlign.center),
+      icon: widget.icon,
       actions: [
         TextButton(
           onPressed: widget.onRetry,
@@ -27,7 +31,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             ),
             padding: const EdgeInsets.all(14),
             child: Text(
-              "Retry",
+              widget.buttonText,
               style: TextStyle(color: onPrimaryColor),
             ),
           ),

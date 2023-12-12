@@ -19,6 +19,10 @@ class DailyLogSummary {
       return DailyLogSummary(consumedCal, calBudget, burnedCal);
     }
 
+    factory DailyLogSummary.empty() {
+      return DailyLogSummary(0, 0, 0);
+    }
+
     void setToZero(){
       consumedCalories = 0;
       calorieBudget = 0;

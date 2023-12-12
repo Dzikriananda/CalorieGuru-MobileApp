@@ -38,19 +38,23 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void didChangeDependencies() async {
-    await Future.delayed(Duration(seconds: 2), () { // <-- Delay here
-    });
+    await Future.delayed(Duration(seconds: 2), () {});
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final viewmodel = Provider.of<SplashScreenViewModel>(context, listen: false);
-      if(viewmodel.state == ResultState.unLogged){
-        Navigator.pushReplacementNamed(context, '/onBoardingScreen');
+      switch(viewmodel.state) {
+        case ResultState.unLogged:
+          Navigator.pushReplacementNamed(context, '/onBoardingScreen');
+          break;
+        case ResultState.logged:
+          Navigator.pushReplacementNamed(context, '/bottomNavigation');
+          break;
+        case ResultState.loggedNotFilledData:
+          Navigator.pushReplacementNamed(context, '/registerScreen');
+          break;
+        default:
+          break;
       }
-      else if(viewmodel.state == ResultState.logged){
-        Navigator.pushReplacementNamed(context, '/bottomNavigation');
-      }
-      else if(viewmodel.state == ResultState.loggedNotFilledData){
-        Navigator.pushReplacementNamed(context, '/registerScreen');
-      }
+
       viewmodel.dispose();
     });
     super.didChangeDependencies();

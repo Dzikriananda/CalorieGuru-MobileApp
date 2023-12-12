@@ -112,6 +112,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
             appBar: AppBar(
               title: Text(TextStrings.addScreen_9(screenName,isUpdate), style: TextStyle(color: onPrimaryColor)),
               backgroundColor: primaryColor,
+              foregroundColor: backgroundColor,
             ),
             floatingActionButton: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -180,8 +181,8 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
             body: Consumer<AddUpdateViewModel>(
               builder: (context,viewmodel,child){
                 viewmodel.logType = screenName;
-                textField2Controller.text = ((viewmodel.calorie != null )? viewmodel.calorie.toString() : '');
-                textField1Controller.text = ((viewmodel.instanceName != null )? viewmodel.instanceName! : '');
+                textField2Controller.text = ((viewmodel.calorie != null ) ? viewmodel.calorie.toString() : '');
+                textField1Controller.text = ((viewmodel.instanceName != null ) ? viewmodel.instanceName! : '');
                 return Stack(
                   alignment: Alignment.center,
                   children: [
@@ -190,7 +191,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(0),
                               child: Container(
                                   width: MediaQuery.of(context).size.width,
                                   color: primaryContainer,
@@ -292,8 +293,20 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                   )
                               ),
                             ),
+                            // Container(
+                            //   height: 2,
+                            //   color: borderColor_2,
+                            // ),
+                            Container(
+                              height: 2,
+                              color: borderColor_2,
+                            ),
+                            // Container(
+                            //   height: 2,
+                            //   color: borderColor_2,
+                            // ),
                             Padding(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(0),
                               child: Container(
                                   width: MediaQuery.of(context).size.width,
                                   color: primaryContainer,
@@ -411,6 +424,10 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                     ],
                                   )
                               ),
+                            ),
+                            Container(
+                              height: 2,
+                              color: borderColor_2,
                             ),
                           ],
                         ),

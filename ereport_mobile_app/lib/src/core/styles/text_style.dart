@@ -164,7 +164,7 @@ const TextStyle homeScreenReportText3 = TextStyle(
 
 const TextStyle homeScreenReportText4 = TextStyle(
     fontFamily: 'Poppins',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: FontWeight.w500,
     color: onPrimaryContainer,
     letterSpacing: 0,
@@ -345,7 +345,56 @@ const TextStyle profileScreenTextStyle = TextStyle(
     decoration: TextDecoration.none
 );
 
+const TextStyle feedBackScreen_1 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 20,
+    fontWeight: FontWeight.w700, //def 400
+    color: Colors.black,
+    letterSpacing: 0.15,
+    decoration: TextDecoration.none
+);
 
+const TextStyle feedBackScreen_2 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 16,
+    fontWeight: FontWeight.w400, //def 400
+    color: Colors.black,
+    letterSpacing: 0.15,
+    decoration: TextDecoration.none
+);
+
+const TextStyle aboutAppScreen_1 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 30,
+    fontWeight: FontWeight.w700, //def 400
+    color: Colors.black,
+    letterSpacing: 0.15,
+    decoration: TextDecoration.none
+);
+
+const TextStyle aboutAppScreen_2 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 16,
+    fontWeight: FontWeight.w500, //def 400
+    color: Color(0XFF808080),
+    letterSpacing: 0.15,
+    decoration: TextDecoration.none
+);
+
+const TextStyle deleteAccountScreen_1 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 25,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.15
+);
+
+const TextStyle deleteAccountScreen_2 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 15,
+    color: Color(0XFF808080),
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.1
+);
 
 
 

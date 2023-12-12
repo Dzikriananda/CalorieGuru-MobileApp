@@ -29,15 +29,15 @@ class SplashScreenViewModel extends ChangeNotifier {
                   notifyListeners();
                 }
                 else if(event != null){
-                  print('mengecek UID : ${event.uid}');
                   final hasFilledData = await Firestore().hasFilledData(event.uid);
                   if(hasFilledData != null){
-                    print('hasfilleddata not null');
-                    print(hasFilledData);
+                    print('hasfilled data tdk null');
                     if(hasFilledData){
+                      print('hasfilled data true');
                       _state = ResultState.logged;
                     }
                     else{
+                      print('hasfilleddata tidak true');
                       _state = ResultState.loggedNotFilledData;
                     }
                   }
