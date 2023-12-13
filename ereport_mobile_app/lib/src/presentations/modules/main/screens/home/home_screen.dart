@@ -117,18 +117,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   SingleChildScrollView(
                     child: Column(
                       children: [
-                        // Container(
-                        //   height: 15,
-                        //   color: primaryContainer,
-                        // ),
-                        // const SizedBox(height: 15),
-
-                        // const SizedBox(height: 10),
-                        //
                         SizedBox(
                           child: Stack(
                             children: [
-
                               Container(
                                 color: backgroundColor,
                               ),
@@ -248,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                             children: [
                                                               Text('Eaten',style: homeScreenReportText2),
                                                               Container(
-                                                                child: Text('${(viewmodel.consumedCalories != null) ? viewmodel.consumedCalories! : 0} Kcal',style: homeScreenReportText5),
+                                                                child: Text('${(viewmodel.consumedCalories != null) ? viewmodel.consumedCalories!.toStringAsFixed(1) : 0} Kcal',style: homeScreenReportText5),
                                                                 constraints: const BoxConstraints(
                                                                   minWidth: 50,
                                                                   maxWidth: 80,

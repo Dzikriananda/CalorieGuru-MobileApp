@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
           break;
       }
 
-      viewmodel.dispose();
+      viewmodel.disposeViewModel();
     });
     super.didChangeDependencies();
   }
@@ -77,8 +77,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: [
                       Image.asset(
                           DefaultImages.logo,
-                          height: 150,
-                          width: 150,
+                          height: MediaQuery.of(context).size.height * 0.17,
+                          width: MediaQuery.of(context).size.width * 0.38
                       ),
                       // Text(TextStrings.appTitle, style: splashScreenText),
                     ],

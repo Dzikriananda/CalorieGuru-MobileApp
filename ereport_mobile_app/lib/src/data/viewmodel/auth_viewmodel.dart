@@ -38,7 +38,7 @@ class AuthViewModel extends ChangeNotifier {
   }
 
 
-  void dispose(){
+  void disposeViewModel(){
     _state = ResultState.started;
     // notifyListeners();
   }

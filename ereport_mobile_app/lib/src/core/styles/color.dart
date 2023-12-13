@@ -15,6 +15,8 @@ const Color borderColor_1 = Color(0xFFf2f2f2);
 const Color borderColor_2 = Color(0xFFcccccc);
 const Color borderColor_3 = Color(0xFFE5E5E5);
 const Color borderColor_4 = Color(0xFF808080);
+const Color textField_1 = Color(0xFFE5E5E5);
+
 
 
 

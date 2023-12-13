@@ -55,7 +55,7 @@ class SplashScreenViewModel extends ChangeNotifier {
     
   }
 
-  void dispose(){
+  void disposeViewModel(){
     _sub.cancel();
   }
 

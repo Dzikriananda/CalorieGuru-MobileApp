@@ -49,7 +49,7 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Future<void> showLoginForm() async{
-    Future.delayed(Duration(seconds: 1), () { // <-- Delay here
+    Future.delayed(const Duration(seconds: 1), () { // <-- Delay here
       setState(() {
         _visible = true;
       });
@@ -61,7 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
       _visible = false;
       isFromSplashScreen = false;
     });
-    Future.delayed(Duration(milliseconds: 500), () { // <-- Delay here
+    Future.delayed(const Duration(milliseconds: 500), () { // <-- Delay here
       setState(() {
         isRegister = !isRegister;
         _visible = true;
@@ -76,24 +76,24 @@ class _AuthScreenState extends State<AuthScreen> {
         children: [
           const Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.warning,
                 color: Colors.red,
                 size: 22,
               ),
-              const SizedBox(
+              SizedBox(
                 width: 7,
               ),
               Text(
-                "Login Failed!",
-                style: const TextStyle(
+                TextStrings.snackBarContent_1,
+                style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 17,
                     color: Colors.red),
               ),
             ],
           ),
-          Text("Error : $errormessage")
+          Text(TextStrings.snackBarContent_2(errormessage))
         ],
       ),
       backgroundColor: primaryColor,
@@ -120,18 +120,14 @@ class _AuthScreenState extends State<AuthScreen> {
                   Hero(
                     tag: Global.logoHeroTag,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 0),
                       child: Column(
                         children: [
                           Image.asset(
                             DefaultImages.logo,
-                            height: 150,
-                            width: 150
+                            height: MediaQuery.of(context).size.height * 0.17, //default 150 h&w
+                            width: MediaQuery.of(context).size.width * 0.38
                           ),
-                          // const Text(
-                          //     TextStrings.appTitle,
-                          //     style: splashScreenText
-                          // ),
                         ],
                       ),
                     ),
@@ -143,7 +139,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       AnimatedOpacity(
                           opacity: _visible ? 1.0 : 0.0,
                           duration: const Duration(milliseconds: 500),
-                          child: isRegister ? RegisterForm() : SignInForm(isFromSplash: isFromSplashScreen)
+                          child: isRegister ? const RegisterForm() : SignInForm(isFromSplash: isFromSplashScreen)
                       ),
                       Visibility(
                           visible: viewModel.state == ResultState.loading,

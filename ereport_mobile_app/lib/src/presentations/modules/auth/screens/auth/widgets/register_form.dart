@@ -1,4 +1,3 @@
-import 'package:ereport_mobile_app/src/core/constants/images.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
@@ -6,7 +5,6 @@ import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../../core/constants/result_state.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -38,21 +36,21 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<AuthViewModel>(context, listen: true);
-    changeScreen(viewModel.state,()=>viewModel.dispose());
+    changeScreen(viewModel.state,()=>viewModel.disposeViewModel());
 
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
             color: primaryContainer,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: primaryContainer
       ),
       width: 350,
       child: Column(
         children: [
-          SizedBox(height: 10),
-          Text("Register", style: LoginScreenText),
+          const SizedBox(height: 10),
+          const Text(TextStrings.registerForm_1, style: LoginScreenText),
           const SizedBox(height: 30),
           Form(
             key: _formKey,
@@ -68,12 +66,13 @@ class _RegisterFormState extends State<RegisterForm> {
                   initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
-                  hintText: 'Enter Your Email',
+                  hintText: TextStrings.registerForm_2,
                   validator: (val) {
                     if (!val!.isValidEmail) return TextStrings.invalidEmailWarning;
+                    return null;
                   },
                   isPassword: false,
-                  icon: Icon(Icons.email),
+                  icon: const Icon(Icons.email),
                   onSubmited: (value){
                     Provider.of<AuthViewModel>(context, listen: false).setEmail=value;
                   },
@@ -89,12 +88,13 @@ class _RegisterFormState extends State<RegisterForm> {
                   initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
-                  hintText: 'Enter Your Password',
+                  hintText: TextStrings.registerForm_3,
                   validator: (val) {
                     if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
+                    return null;
                   },
                   isPassword: true,
-                  icon: Icon(Icons.lock),
+                  icon: const Icon(Icons.lock),
                   onSubmited: (value){
                     setState(() {
                       Provider.of<AuthViewModel>(context, listen: false).setPwd=value;
@@ -112,12 +112,13 @@ class _RegisterFormState extends State<RegisterForm> {
                   initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
-                  hintText: 'Reenter Password',
+                  hintText: TextStrings.registerForm_4,
                   validator: (val) {
                     if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
+                    return null;
                   },
                   isPassword: true,
-                  icon: Icon(Icons.lock),
+                  icon: const Icon(Icons.lock),
                   onSubmited: (value){
                     setState(() {
                       Provider.of<AuthViewModel>(context, listen: false).setPwd2=value;
@@ -131,13 +132,11 @@ class _RegisterFormState extends State<RegisterForm> {
                         Provider.of<AuthViewModel>(context, listen: false).password == Provider.of<AuthViewModel>(context, listen: false).password_2)
                     ){
                       Provider.of<AuthViewModel>(context, listen: false).signUp();
-                      // Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
-                      print("mi sukses isi dua");
                     }
                   },
-                  child: Text("Register",style: LoginButtonText),
+                  child: const Text(TextStrings.registerForm_5,style: LoginButtonText),
                   style: ElevatedButton.styleFrom(
-                    primary: primaryColor,
+                    backgroundColor: primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:ereport_mobile_app/src/core/constants/activity_level.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
@@ -19,19 +20,16 @@ class RegisterViewModel extends ChangeNotifier{
 
   ResultState get state => _state;
 
-  UserModel _userData = UserModel.createFirstTime();
+  late UserModel _userData;
 
   int _page = 0;
-  // bool? _gender = null;
-  // late String _name;
-  // String? _birthdate;
-  // double? _weight;
-  // double? _height;
-  // String? _activityLevel;
 
+  late bool _visible1;
+  late bool _visible2;
+  late bool _visible3;
   String? _sex;
   int? _age;
-  int? _buttonChoosedIndex = null;
+  int? _buttonChoosedIndex;
   late String _result;
   GetCalorieResponse? _response;
   String? _errorMessage;
@@ -48,9 +46,45 @@ class RegisterViewModel extends ChangeNotifier{
   GetCalorieResponse? get response => _response;
   String? get errorMessage => _errorMessage;
   bool _hasUpdated = false;
+  bool get visible1 => _visible1;
+  bool get visible2 => _visible2;
+  bool get visible3 => _visible3;
 
   int? get choosedIndex => _buttonChoosedIndex;
   bool get hasUpdate => _hasUpdated;
+
+  RegisterViewModel(){
+    _userData = UserModel.createFirstTime();
+    _visible1 = false;
+    _visible2 = false;
+    _visible3 = false;
+
+  }
+
+  void checkVisibility_firstPage(){
+    if(_userData.gender == null) {
+      _visible1 = true;
+    } else {
+      _visible1 = false;
+    }
+    if(_userData.birthdate == null) {
+      _visible2 = true;
+    } else {
+      _visible2 = false;
+    }
+    notifyListeners();
+  }
+
+  void checkVisibility_secondPage(){
+    if(_userData.activityLevel == null) {
+      _visible3 = true;
+    } else {
+      _visible3 = false;
+    }
+    notifyListeners();
+  }
+
+
 
   void getCalorieNeed() async {
     Map<String,dynamic> queryParams = {
@@ -72,41 +106,39 @@ class RegisterViewModel extends ChangeNotifier{
       notifyListeners();
     }
     on SocketException{
-      _errorMessage = "No Internet !";
+      _errorMessage = TextStrings.errorAlert_1;
       _state = ResultState.error;
       notifyListeners();
     }
     catch(e){
-      print("error $e");
       _errorMessage = e.toString();
       _state = ResultState.error;
       notifyListeners();
     }
   }
 
-  void set activityLevel(String? activityLevel){
+  set activityLevel(String? activityLevel){
     _userData.activityLevel = activityLevel;
     notifyListeners();
   }
 
-  void set name(String? name){
+  set name(String? name){
     _userData.name = name;
     notifyListeners();
   }
 
-  void set height(double? height){
+  set height(double? height){
     _userData.height = height;
     notifyListeners();
   }
 
 
-  void set weight(double? weight){
-    print("berat $weight");
+  set weight(double? weight){
     _userData.weight = weight;
     notifyListeners();
   }
 
-  void set birthdate(String? birthdate){
+  set birthdate(String? birthdate){
     _userData.birthdate = birthdate;
     _age = calculateAge(birthdate!);
     print(_age);
@@ -150,8 +182,10 @@ class RegisterViewModel extends ChangeNotifier{
 
   void setGender(bool? gender){
     _userData.gender = gender;
-    if(_userData.gender!) _sex = "female";
-    else _sex = "male";
+    if(gender != null) {
+      if(_userData.gender!) _sex = "female";
+      else _sex = "male";
+    }
     notifyListeners();
   }
 
@@ -166,22 +200,27 @@ class RegisterViewModel extends ChangeNotifier{
   Future<void> updateData() async {
     _state = ResultState.loading;
     notifyListeners();
-    final uid = await Auth().getCurrentUID();
-    _userData.hasFilledData = true;
-    final result = await Firestore().updateUser(uid!, _userData);
-    if(result){
-      _state = ResultState.addDataSuccess;
-      notifyListeners();
-      print('suksees');
-    }
-    else{
+    try {
+      final uid = await Auth().getCurrentUID();
+      _userData.hasFilledData = true;
+      final result = await Firestore().updateUser(uid!, _userData);
+      if(result){
+        _state = ResultState.addDataSuccess;
+        notifyListeners();
+      }
+      else{
+        _state = ResultState.error;
+        _userData.hasFilledData = false;
+        notifyListeners();
+      }
+    } catch(e){
+      debugPrint(TextStrings.errorRuntime('UpdateData()', 'register_viewmodel.dart'));
       _state = ResultState.error;
-      _userData.hasFilledData = false;
       notifyListeners();
     }
   }
 
-  void dispose(){
+  void disposeViewModel(){
       _state = ResultState.started;
       _userData = UserModel.createFirstTime();
   }

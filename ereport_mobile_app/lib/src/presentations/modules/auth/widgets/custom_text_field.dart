@@ -24,7 +24,11 @@ class CustomFormField extends StatefulWidget {
     required this.suffixIcon,
     required this.readOnly,
     this.textfieldController,
-    this.style
+    this.style,
+    this.enabledBorder,
+    this.focusedBorder,
+    this.focusedErrorBorder,
+    this.errorBorder
   }) : super(key: key);
 
 
@@ -45,6 +49,11 @@ class CustomFormField extends StatefulWidget {
   final double margin;
   final bool readOnly;
   final TextStyle? style;
+  final InputBorder? enabledBorder;
+  final InputBorder? focusedBorder;
+  final InputBorder? focusedErrorBorder;
+  final InputBorder? errorBorder;
+
 
   @override
   State<CustomFormField> createState() => _CustomFormFieldState();
@@ -69,18 +78,10 @@ class _CustomFormFieldState extends State<CustomFormField> {
         style: (widget.style != null) ? widget.style : TextStyle(color: Colors.black),
         decoration:  InputDecoration(
             // hintText: widget.hintText,
-            enabledBorder: widget.hasUnderline ? const UnderlineInputBorder(
-              borderSide: BorderSide(color: onPrimaryContainer),
-            ) : null,
-            focusedBorder: widget.hasUnderline ? const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue, width: 2),
-            ) : null,
-            focusedErrorBorder: widget.hasUnderline ? const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue, width: 2),
-            ) : null,
-            errorBorder:  widget.hasUnderline ? const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red, width: 2),
-            ) : null,
+            enabledBorder: widget.enabledBorder,
+            focusedBorder: widget.focusedBorder,
+            focusedErrorBorder: widget.focusedErrorBorder,
+            errorBorder: widget.errorBorder,
             labelText: widget.hintText,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),

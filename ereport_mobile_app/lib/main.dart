@@ -1,6 +1,5 @@
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/app_theme.dart';
-import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/add_update_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/feedback_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/history_viewmodel.dart';
@@ -33,15 +32,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:ereport_mobile_app/src/data/data_source/remote/api_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // final auth = Auth();
-  // // auth.authStateChanges.listen((event) {print("status di main : $event");});
-  // // //InternetConnectionManager().init();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then(

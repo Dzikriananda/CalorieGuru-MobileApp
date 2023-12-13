@@ -7,8 +7,7 @@ import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
-import 'package:age_calculator/age_calculator.dart';
+
 
 class FirstRegisterWidget extends StatefulWidget {
   final MyBuilder builder;
@@ -21,25 +20,23 @@ class FirstRegisterWidget extends StatefulWidget {
 class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
   String? date;
   final _formKey = GlobalKey<FormState>();
-  bool _visible1 = false;
-  bool _visible2 = false;
+  late RegisterViewModel registerViewModel;
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    registerViewModel = Provider.of<RegisterViewModel>(context,listen: false);
+  }
 
 
   bool onPressed(){
-    if(Provider.of<RegisterViewModel>(context,listen: false).birthdate == null){
-      setState(() {
-        _visible2 = true;
-      });
-    }
-    else{
-      setState(() {
-        _visible2 = false;
-      });
-    }
-    if(_formKey.currentState!.validate()){
+    registerViewModel.checkVisibility_firstPage();
+    if(_formKey.currentState!.validate() && (registerViewModel.gender != null && registerViewModel.birthdate != null)){
       return true;
     }
-    else return false;
+    else {
+      return false;
+    }
   }
 
 
@@ -52,9 +49,9 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 0),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -66,11 +63,11 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                           margin: 8.0,
                           hasUnderline: true,
                           maxLines: 1,
-                          initialValue: (viewmodel.name == null)? null : viewmodel.name.toString(),
-                          backgroundColor: primaryContainer,
+                          initialValue: viewmodel.name,
+                          backgroundColor: textField_1,
                           isEnabled: true,
-                          hintText: "Full Name",
-                          icon: Icon(Icons.person),
+                          hintText: TextStrings.registerScreen_1,
+                          icon: const Icon(Icons.person),
                           isPassword: false,
                           validator: (val){
                             if(!val!.isNotNull) return TextStrings.invalidNameWarning;
@@ -86,11 +83,11 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                           margin: 8.0,
                           hasUnderline: true,
                           maxLines: 1,
-                          initialValue: (viewmodel.weight == null || viewmodel.weight == '')? null : viewmodel.weight.toString(),
-                          backgroundColor: primaryContainer,
+                          initialValue: (viewmodel.weight == null || viewmodel.weight.toString() == '')? null : viewmodel.weight.toString(),
+                          backgroundColor: textField_1,
                           isEnabled: true,
-                          hintText: "Weight (in Kg)",
-                          icon: Icon(Icons.monitor_weight_outlined),
+                          hintText: TextStrings.registerScreen_2,
+                          icon: const Icon(Icons.monitor_weight_outlined),
                           isPassword: false,
                           validator: (val) {
                             if (!val!.isNotNull) return TextStrings.invalidNullWarning;
@@ -104,17 +101,18 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                           },
                         ),
                         CustomFormField(
+
                           readOnly: false,
                           onTap: () {},
                           suffixIcon: null,
                           margin: 8.0,
                           hasUnderline: true,
                           maxLines: 1,
-                          initialValue: (viewmodel.height == null || viewmodel.weight == '')? null : viewmodel.height.toString(),
-                          backgroundColor: primaryContainer,
+                          initialValue: (viewmodel.height == null || viewmodel.weight.toString() == '')? null : viewmodel.height.toString(),
+                          backgroundColor: textField_1,
                           isEnabled: true,
-                          hintText: "Height (in Cm)",
-                          icon: Icon(Icons.height),
+                          hintText: TextStrings.registerScreen_3,
+                          icon: const Icon(Icons.height),
                           isPassword: false,
                           validator: (val) {
                             if (!val!.isNotNull) return TextStrings.invalidNullWarning;
@@ -130,15 +128,14 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                     ),
                   )
                 ),
-                Text("You Are a ?",style: petrolabTextTheme.bodyLarge),
+                Text(TextStrings.registerScreen_4,style: petrolabTextTheme.bodyLarge),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      child: Text("Female",style: TextStyle(color: onPrimaryContainer)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: (viewmodel.gender != null && viewmodel.gender == true) ? primaryColor : backgroundColor,
-                        side: BorderSide(
+                        side: const BorderSide(
                           width: 1.0,
                           color: primaryColor,
                         ),
@@ -146,19 +143,22 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         elevation: 0,
-                        minimumSize: Size(110,36),
-                        maximumSize: Size(110,36),
+                        minimumSize: const Size(110,36),
+                        maximumSize: const Size(110,36),
                       ),
                       onPressed: () {
-                        if(viewmodel.gender ==  null || viewmodel.gender == false) viewmodel.setGender(true);
-                        else viewmodel.setGender(null);
+                        if(viewmodel.gender ==  null || viewmodel.gender == false) {
+                          viewmodel.setGender(true);
+                        } else {
+                          viewmodel.setGender(null);
+                        }
                       },
+                      child: const Text(TextStrings.registerScreen_5,style: TextStyle(color: onPrimaryContainer)),
                     ),
                     ElevatedButton(
-                      child: Text("Male",style: TextStyle(color: onPrimaryContainer)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: (viewmodel.gender != null && viewmodel.gender == false) ? primaryColor : backgroundColor,
-                        side: BorderSide(
+                        side: const BorderSide(
                           width: 1.0,
                           color: primaryColor,
                         ),
@@ -166,32 +166,35 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         elevation: 0,
-                        minimumSize: Size(110,36),
-                        maximumSize: Size(110,36),
+                        minimumSize: const Size(110,36),
+                        maximumSize: const Size(110,36),
                       ),
                       onPressed: () {
-                        if(viewmodel.gender ==  null || viewmodel.gender == true) viewmodel.setGender(false);
-                        else viewmodel.setGender(null);
+                        if(viewmodel.gender ==  null || viewmodel.gender == true) {
+                          viewmodel.setGender(false);
+                        } else {
+                          viewmodel.setGender(null);
+                        }
                       },
+                      child: const Text(TextStrings.registerScreen_6,style: TextStyle(color: onPrimaryContainer)),
                     ),
                   ],
                 ),
                 Visibility(
-                    child: Text(
+                    visible: viewmodel.visible1,
+                    child: const Text(
                       TextStrings.invalidNullOptionWarning,
                       style: TextStyle(
                           color: Colors.red
                       ),
-                    ),
-                    visible: _visible1
+                    )
                 ),
-                SizedBox(height: 20),
-                Text("When were you born?",style: petrolabTextTheme.bodyLarge),
+                const SizedBox(height: 20),
+                Text(TextStrings.registerScreen_7,style: petrolabTextTheme.bodyLarge),
                 ElevatedButton(
-                  child: Text((viewmodel.birthdate == null)? "PICK DATE" : DateFormat('yMMMMd').format(DateTime.parse(viewmodel.birthdate!)),style: TextStyle(color: onPrimaryContainer)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: backgroundColor,
-                    side: BorderSide(
+                    side: const BorderSide(
                       width: 1.0,
                       color: primaryColor,
                     ),
@@ -204,22 +207,23 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
                     DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(), //get today's date
-                        firstDate:DateTime.now().subtract(Duration(days: 29218)), //DateTime.now() - 80 Years.
+                        firstDate:DateTime.now().subtract(const Duration(days: 29218)), //DateTime.now() - 80 Years.
                         lastDate: DateTime.now()
                     );
                     if(pickedDate != null){
                       viewmodel.birthdate = pickedDate.toString();
                     }
                   },
+                  child: Text((viewmodel.birthdate == null)? TextStrings.registerScreen_8 : DateFormat('yMMMMd').format(DateTime.parse(viewmodel.birthdate!)),style: const TextStyle(color: onPrimaryContainer)),
                 ),
                 Visibility(
-                    child: Text(
+                    visible: viewmodel.visible2,
+                    child: const Text(
                       TextStrings.invalidNullOptionWarning,
                       style: TextStyle(
                           color: Colors.red
                       ),
-                    ),
-                    visible: _visible2
+                    )
                 ),
               ],
             ),
