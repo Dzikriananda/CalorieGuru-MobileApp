@@ -54,7 +54,7 @@ class HistoryViewModel extends ChangeNotifier {
     try {
       final uid = await auth.getCurrentUID();
       _log = await firestore.getLogByDate(uid!, currentDate!);
-      if (_log['logList'] == null) {
+      if (_log['logList'] == null || _log['logList'].length == 0) {
         _logSummary.setToZero();
         _state = ResultState.noData;
       } else {

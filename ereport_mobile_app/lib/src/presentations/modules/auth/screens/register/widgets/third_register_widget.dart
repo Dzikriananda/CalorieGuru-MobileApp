@@ -1,8 +1,8 @@
+import 'package:ereport_mobile_app/src/core/constants/images.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
-import 'package:ereport_mobile_app/src/core/styles/color.dart';
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/register_viewmodel.dart';
-import 'package:ereport_mobile_app/src/presentations/global_widgets/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,11 +24,11 @@ class _ThirdRegisterWidgetState extends State<ThirdRegisterWidget> {
                 child: Column(
                   children: [
                     Image.asset(
-                      "assets/icons/loading_icon.gif",
+                      DefaultImages.loading_1,
                       height: 300.0,
                       width: 300.0,
                     ),
-                    Text("Finding best result for you.....")
+                    Text(TextStrings.registerScreen_10,style: petrolabTextTheme.titleLarge,)
                   ],
                 ),
               );
@@ -37,37 +37,36 @@ class _ThirdRegisterWidgetState extends State<ThirdRegisterWidget> {
             return Center(
                 child: Column(
                   children: [
-                    Text('Congratulations!', style: petrolabTextTheme.headlineMedium,textAlign: TextAlign.center),
-                    SizedBox(height: 50),
-                    Text('Your plan is ready and you\'re a step\ncloser to maintain your weight',style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
-                    SizedBox(height: 50),
+                    Text(TextStrings.registerScreen_11, style: petrolabTextTheme.headlineMedium,textAlign: TextAlign.center),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                    Text(TextStrings.registerScreen_12,style: petrolabTextTheme.bodyLarge,textAlign: TextAlign.center),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 30),
                       child: Column(
                         children: [
-                          Text('Your daily calorie intake is : ',style: calorieText,textAlign: TextAlign.center),
+                          const Text(TextStrings.registerScreen_13,style: calorieText,textAlign: TextAlign.center),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text((viewmodel.response == null)? '': '${viewmodel.response!.data.goals.maintainWeight.toStringAsFixed(1)}',style: calorieTextSecond,textAlign: TextAlign.center),
+                              Text((viewmodel.response == null)? '': viewmodel.response!.data.goals.maintainWeight.toStringAsFixed(1),style: calorieTextSecond,textAlign: TextAlign.center),
                               Container(
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                         color: Colors.grey,
                                       ),
                                       color: Colors.grey,
-                                      borderRadius: BorderRadius.all(Radius.circular(5))
+                                      borderRadius: const BorderRadius.all(Radius.circular(5))
                                   ),
-                                  height: 30,
-                                  width: 120,
+                                  height: MediaQuery.of(context).size.height * 0.05,
+                                  width: MediaQuery.of(context).size.width * 0.3,
                                   child: Center(
-                                    child: Text("Calories",style: petrolabTextTheme.headlineSmall),
+                                    child: Text(TextStrings.registerScreen_14,style: petrolabTextTheme.headlineSmall),
                                   )
                               )
-
                             ],
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                           Container(
                             height: 1,
                             color: Colors.black,
@@ -76,13 +75,13 @@ class _ThirdRegisterWidgetState extends State<ThirdRegisterWidget> {
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.40),
-                    Text('*You can still change your personal information later')
+                    Text(TextStrings.registerScreen_15,style: petrolabTextTheme.bodyMedium)
                   ],
                 )
             );
           }
           else{
-            return Center();
+            return const Center();
           }
         }
     );

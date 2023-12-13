@@ -12,7 +12,29 @@ class TextStrings {
   static const register_first = "Do You have an Account?";
   static const register_second = " Sign In";
   static const alertButton_1 = 'OK';
+  static const alertButton_2 = 'Retry';
   static const alertTitle = 'Alert';
+  static const snackBarContent_1 = 'Login Failed!';
+  static snackBarContent_2(String? args) {
+    return (args != null) ? 'Error $args' : 'Error';
+  }
+  static const signInForm_1 = 'Login';
+  static const signInForm_2 = 'Email';
+  static const signInForm_3 = 'Password';
+  static const signInForm_4 = 'Login';
+  static const registerForm_1 = 'Register';
+  static const registerForm_2 = 'Enter Your Email';
+  static const registerForm_3 = 'Enter Your Password';
+  static const registerForm_4 = 'Reenter Password';
+  static const registerForm_5 = 'Register';
+  static const registerForm_6 = '';
+  static const registerForm_7 = '';
+  static const registerForm_8 = '';
+  static const registerForm_9 = '';
+  static const registerForm_10 = '';
+
+
+  static const alertContent_1 = 'Failed';
   static const invalidEmailWarning = "Enter valid email!";
   static const invalidNameWarning = "Enter valid name!";
   static const invalidQueryWarning = "Enter valid Query!";
@@ -31,7 +53,34 @@ class TextStrings {
   static const firstOnboarding_2 = "Lets be a Part of our community and";
   static const firstOnboarding_3 = "Lets Get Started !";
   static const secondOnboarding_1 = "Remember !";
+  static const registerParentScreen_1 = "Previous";
+  static const registerParentScreen_2 = '  Next  ';
+  static const registerOnBoardingScreen_1 = 'Congrats,\nYour Accounts Has Been Created!';
+  static const registerOnBoardingScreen_2 = 'In order to find the best choice\nfor you, please fill these required data';
+  static const registerOnBoardingScreen_3 = '  Next  ';
   static const secondOnboarding_2 = "Everything you eat and drink matters";
+  static const registerScreen_1 = 'Full Name';
+  static const registerScreen_2 = 'Weight (in Kg)';
+  static const registerScreen_3 = 'Height (in Cm)';
+  static const registerScreen_4 = 'You Are a ?';
+  static const registerScreen_5 = 'Female';
+  static const registerScreen_6 = 'Male';
+  static const registerScreen_7 = 'When were you born?';
+  static const registerScreen_8 = 'PICK DATE';
+  static const registerScreen_9 = 'Choose your activity level';
+  static const registerScreen_10 = 'Finding best result for you.....';
+  static const registerScreen_11 = 'Congratulations!';
+  static const registerScreen_12 = 'Your plan is ready and you\'re a step\ncloser to maintain your weight';
+  static const registerScreen_13 = 'Your daily calorie intake is : ';
+  static const registerScreen_14 = "Calories";
+  static const registerScreen_15 = '*You can still change your personal information later';
+  static const errorAlert_1 = 'No Internet';
+  static String errorRuntime(String args, String args2) {
+    return 'Error at $args ($args2)';
+  }
+
+
+
   static const addScreen_1 = "Meal Information";
   static const addScreen_2 = "Category";
   static const addScreen_3 = "Use the AI! ( Powered by Calorieninjas )";

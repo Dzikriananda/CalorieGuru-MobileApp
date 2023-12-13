@@ -1,5 +1,6 @@
-import 'dart:ui';
+import 'package:ereport_mobile_app/src/core/constants/global_list.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/register_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/global_widgets/alert_dialog.dart';
@@ -24,20 +25,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   late List<Widget> page;
 
-  List<String> appBarTitle = [
-    "Your Personal Details",
-    "Activity",
-    "Your Result"
-  ];
+  List<String> appBarTitle = GlobalList.appBarTitle;
 
   void _showAlertDialog(BuildContext context,Function retry) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return CustomAlertDialog(
-            content: 'Failed',
-            buttonText: "Retry",
-            icon: Icon(Icons.warning),
+            content: TextStrings.alertContent_1,
+            buttonText: TextStrings.alertButton_2,
+            icon: const Icon(Icons.warning),
             onRetry: (){
               retry();
               Navigator.of(context).pop();
@@ -60,8 +57,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         onNext = methodFromChild;
       },
     ),
-      SecondRegisterWidget(),
-      ThirdRegisterWidget(),
+      const SecondRegisterWidget(),
+      const ThirdRegisterWidget(),
     ];
   }
 
@@ -75,7 +72,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Consumer<RegisterViewModel>(
         builder: (context,viewmodel,child){
           var currentPage = viewmodel.page;
-
           if(viewmodel.state == ResultState.error){
             void retry = (viewmodel.response == null) ? viewmodel.getCalorieNeed() : viewmodel.updateData();
             bool isShow = _isThereCurrentDialogShowing(context);
@@ -84,8 +80,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             });
           }
           else if(viewmodel.state == ResultState.addDataSuccess){
-            viewmodel.dispose();
-            WidgetsBinding.instance!.addPostFrameCallback((_) {
+            viewmodel.disposeViewModel();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
             });
           }
@@ -105,23 +101,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Column(
                         children: [
                           page[currentPage],
-                          Expanded(child: SizedBox()),
+                          const Expanded(child: SizedBox()),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              viewmodel.page == 0 ? Icon(Icons.circle,size: 20) : Icon(Icons.circle_outlined,size: 20),
-                              viewmodel.page == 1 ? Icon(Icons.circle,size: 20) : Icon(Icons.circle_outlined,size: 20),
-                              viewmodel.page == 2 ? Icon(Icons.circle,size: 20) : Icon(Icons.circle_outlined,size: 20),
+                              viewmodel.page == 0 ? const Icon(Icons.circle,size: 20) : const Icon(Icons.circle_outlined,size: 20),
+                              viewmodel.page == 1 ? const Icon(Icons.circle,size: 20) : const Icon(Icons.circle_outlined,size: 20),
+                              viewmodel.page == 2 ? const Icon(Icons.circle,size: 20) : const Icon(Icons.circle_outlined,size: 20),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ElevatedButton(
-                                child: Text("Previous",style: TextStyle(color: onPrimaryContainer)),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: backgroundColor,
-                                  side: BorderSide(
+                                  side: const BorderSide(
                                     width: 1.0,
                                     color: primaryColor,
                                   ),
@@ -138,11 +133,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     viewmodel.previousPage();
                                   }
                                 },
+                                child: const Text(TextStrings.registerParentScreen_1,style: TextStyle(color: onPrimaryContainer)),
                               ),
                               Hero(
                                 tag: "next",
                                 child: ElevatedButton(
-                                  child: Text("  Next  ",style: TextStyle(color: onPrimaryColor)),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: primaryColor,
                                     shape: RoundedRectangleBorder(
@@ -162,6 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         break;
                                       case 1:
                                         {
+                                          viewmodel.checkVisibility_secondPage();
                                           if (viewmodel.activityLevel != null) {
                                               viewmodel.getCalorieNeed();
                                               viewmodel.nextPage();
@@ -173,11 +169,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         break;
                                     }
                                   },
+                                  child: const Text(TextStrings.registerParentScreen_2,style: TextStyle(color: onPrimaryColor)),
                                 ),
                               )
                             ],
                           ),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.13,)
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.13)
                         ],
                       ),
                     )

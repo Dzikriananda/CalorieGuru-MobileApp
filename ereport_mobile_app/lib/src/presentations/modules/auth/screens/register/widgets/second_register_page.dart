@@ -1,8 +1,10 @@
-import 'package:ereport_mobile_app/src/core/styles/color.dart';
+import 'package:ereport_mobile_app/src/core/constants/activity_options.dart';
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
+import 'package:ereport_mobile_app/src/data/viewmodel/register_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-
+import 'package:provider/provider.dart';
 import '../../../widgets/activity_button.dart';
 
 class SecondRegisterWidget extends StatefulWidget {
@@ -14,25 +16,31 @@ class SecondRegisterWidget extends StatefulWidget {
 
 class _SecondRegisterWidgetState extends State<SecondRegisterWidget> {
 
-  List<String> options =[
-    "Sedentary: little or no exercise",
-    "Exercise 1-3 times/week",
-    "Exercise 4-5 times/week",
-    "Daily exercise or intense exercise 3-4 times/week",
-    "Intense exercise 6-7 times/week",
-    "Very intense exercise daily, or physical job"
-  ];
+  List<String> options = ActivityOptions.activityOptions;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              Text("Choose your activity level",style: petrolabTextTheme.bodyLarge),
-              ...options.mapIndexed((index,e) => ActivityOptionsButton(title: e,index: index)).toList(),
-            ],
-          ),
+        child: Consumer<RegisterViewModel>(
+          builder: (context,viewmodel,child) {
+            return Center(
+              child: Column(
+                children: [
+                  Text(TextStrings.registerScreen_9,style: petrolabTextTheme.bodyLarge),
+                  ...options.mapIndexed((index,e) => ActivityOptionsButton(title: e,index: index)).toList(),
+                  Visibility(
+                      visible: viewmodel.visible3 ,
+                      child: const Text(
+                        TextStrings.invalidNullOptionWarning,
+                        style: TextStyle(
+                            color: Colors.red
+                        ),
+                      )
+                  ),
+                ],
+              ),
+            );
+          }
         )
     );
   }

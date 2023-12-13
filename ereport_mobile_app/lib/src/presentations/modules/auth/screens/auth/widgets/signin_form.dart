@@ -1,15 +1,10 @@
 import 'dart:async';
-import 'package:ereport_mobile_app/src/core/constants/images.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
-import 'package:ereport_mobile_app/src/core/constants/global.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
-import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +29,7 @@ class _SignInState extends State<SignInForm>{
   //harus didelay karena akan overflow jika disentuh saat animasi masih berjalan
   Future<void> enableTextField() async{
     if(widget.isFromSplash){
-      Future.delayed(Duration(milliseconds: 1800),(){
+      Future.delayed(const Duration(milliseconds: 1800),(){
         setState(() {
           isEnabled = true;
         });
@@ -67,22 +62,22 @@ class _SignInState extends State<SignInForm>{
   @override
   Widget build(BuildContext context){
     final viewModel = Provider.of<AuthViewModel>(context, listen: true);
-    changeScreen(viewModel.state,()=>viewModel.dispose());
+    changeScreen(viewModel.state,()=>viewModel.disposeViewModel());
 
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
             color: primaryContainer,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: primaryContainer
       ),
-      width: 350,
+      width: MediaQuery.of(context).size.width * 0.85,
       child: Column(
         children: [
-          SizedBox(height: 10),
-          Text("Login", style: LoginScreenText),
-          const SizedBox(height: 30),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+          const Text(TextStrings.signInForm_1, style: LoginScreenText),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.035),
           Form(
             key: _formKey,
             child: Column(
@@ -97,17 +92,18 @@ class _SignInState extends State<SignInForm>{
                   initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
-                  hintText: 'Email',
+                  hintText: TextStrings.signInForm_2,
                   validator: (val) {
                     if (!val!.isValidEmail) return TextStrings.invalidEmailWarning;
+                    return null;
                   },
                   isPassword: false,
-                  icon: Icon(Icons.email),
+                  icon: const Icon(Icons.email),
                   onSubmited: (value){
                     viewModel.setEmail = value;
                   },
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
                 CustomFormField(
                   readOnly: false,
                   onTap: () {},
@@ -118,32 +114,33 @@ class _SignInState extends State<SignInForm>{
                   initialValue: null,
                   isEnabled: isEnabled,
                   backgroundColor: backgroundColor,
-                  hintText: 'Password',
+                  hintText: TextStrings.signInForm_3,
                   validator: (val) {
                     if (!val!.isValidPassword) return TextStrings.invalidPasswordWarning;
+                    return null;
                   },
                   isPassword: true,
-                  icon: Icon(Icons.lock),
+                  icon: const Icon(Icons.lock),
                   onSubmited: (value){
                     viewModel.setPwd = value;
                   },
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.035),
                 ElevatedButton(
                   onPressed: () {
                     if(_formKey.currentState!.validate()){
                       viewModel.signIn();
                     }
                   },
-                  child: Text("Login",style: LoginButtonText),
                   style: ElevatedButton.styleFrom(
-                    primary: primaryColor,
+                    backgroundColor: primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  child: const Text(TextStrings.signInForm_4,style: LoginButtonText),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
               ],
             ),
           ),

@@ -1,11 +1,9 @@
 import 'dart:ui';
-
+import 'package:ereport_mobile_app/src/core/constants/images.dart';
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
-import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/onboarding/widgets/next_button_widget.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/screens/register/register_screen.dart';
-import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../../core/styles/text_style.dart';
 
 class PreRegisterScreen extends StatefulWidget {
@@ -26,32 +24,32 @@ class _PreRegisterScreenState extends State<PreRegisterScreen> {
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * 0.2),
               Image.asset(
-                'assets/images/register_onboarding1.png',
+                DefaultImages.registerOnboarding_1,
                 height: 150,
                 width: 150,
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 0),
                 child: Text(
-                  'Congrats,\nYour Accounts Has Been Created!',
+                  TextStrings.registerOnBoardingScreen_1,
                   style: registerOnBoardingWelcomeText,
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height : 20),
+              const SizedBox(height : 20),
               Text(
-                'In order to find the best choice\nfor you, please fill these required data',
+                TextStrings.registerOnBoardingScreen_2,
                 style: petrolabTextTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Hero(
                     tag: "next",
                     child: ElevatedButton(
-                      child: Text("  Next  ",style: TextStyle(color: onPrimaryColor)),
+                      child: const Text(TextStrings.registerOnBoardingScreen_3,style: TextStyle(color: onPrimaryColor)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor,
                         shape: RoundedRectangleBorder(
