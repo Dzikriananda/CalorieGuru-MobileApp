@@ -8,6 +8,7 @@ class DefaultImages {
    static const String emoji_3 = 'assets/icons/sad_emoji.svg';
    static const String loading_1 = 'assets/icons/loading_icon.gif';
    static const String registerOnboarding_1 = 'assets/images/register_onboarding1.png';
+   static const String avatar_1 = 'https://www.w3schools.com/howto/img_avatar.png';
 
 
 

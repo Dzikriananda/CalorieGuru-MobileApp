@@ -1,29 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ereport_mobile_app/src/core/classes/icons.dart';
+import 'package:ereport_mobile_app/src/core/constants/images.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
-import 'package:ereport_mobile_app/src/core/constants/screen_type.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
-import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:ereport_mobile_app/src/data/data_source/local/icon_data.dart';
-import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
-import 'package:ereport_mobile_app/src/data/models/user.dart';
-import 'package:ereport_mobile_app/src/data/models/user_model.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/system_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/global_widgets/alert_dialog.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/grid_view_builder.dart';
-import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/list_view_builder.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/recent_item_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
-import 'package:ereport_mobile_app/src/core/utils/StringExtension.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -92,12 +82,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       context: context,
       builder: (BuildContext context) {
         return CustomAlertDialog(
-            content: "No Internet Connection!",
-            buttonText: "Retry",
-            icon: Icon(Icons.signal_wifi_connected_no_internet_4_sharp),
+            content: TextStrings.errorAlert_1,
+            buttonText: TextStrings.alertButton_2,
+            icon: const Icon(Icons.signal_wifi_connected_no_internet_4_sharp),
             onRetry: (){
               context.read<HomeViewModel>().checkNetwork();
-              Navigator.of(context).pop(); // Close the dialog./ Close the dialog.
+              Navigator.of(context).pop();
             }
         );
       },
@@ -110,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         child: Scaffold(
           body: Consumer<HomeViewModel>(
             builder: (context,viewmodel,child){
-              UserModel? appUser = viewmodel.getUser;
               return Stack(
                 alignment: Alignment.center,
                 children: [
@@ -127,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
                                   height: (MediaQuery.of(context).size.height * 1) * 0.475,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: primaryContainer,
                                     borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(0.0),
@@ -157,11 +146,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                               children: [
                                                 const SizedBox(width: 20),
                                                 Padding(
-                                                  padding: EdgeInsets.symmetric(horizontal: 0,vertical: 10),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 10),
                                                   child: ClipOval(
                                                     child: SizedBox.fromSize(
                                                       size: const Size.fromRadius(38), // Image radius
-                                                      child: Image.network('https://www.w3schools.com/howto/img_avatar.png', fit: BoxFit.cover),
+                                                      child: Image.network(DefaultImages.avatar_1, fit: BoxFit.cover),
                                                     ),
                                                   ),
                                                 ),
@@ -170,24 +159,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Container(
+                                                      SizedBox(
                                                         width: MediaQuery. of(context). size. width * 0.6,
                                                         child: Text(
-                                                          appUser != null ? "Hi, ${appUser.name.toString().toCapitalized()}" : TextStrings.loadingText,
+                                                          viewmodel.getData(TextStrings.homeScreen_1(viewmodel.name)),
                                                           style: petrolabTextTheme.titleLarge,
                                                         ),
                                                       ),
-                                                      Container(
-                                                          child: Row(
-                                                            children: [
-                                                              const Icon(Icons.date_range),
-                                                              const SizedBox(width: 5),
-                                                              Text(
-                                                                viewmodel.todayDate,
-                                                                style: petrolabTextTheme.titleSmall,
-                                                              ),
-                                                            ],
-                                                          )
+                                                      Row(
+                                                        children: [
+                                                          const Icon(Icons.date_range),
+                                                          const SizedBox(width: 5),
+                                                          Text(
+                                                            viewmodel.todayDate,
+                                                            style: petrolabTextTheme.titleSmall,
+                                                          ),
+                                                        ],
                                                       ),
                                                     ]
                                                 ),
@@ -211,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                         child: Column(
                                           children: [
                                             Text(
-                                                (appUser == null)? TextStrings.loadingText : 'Calorie Budget : ${appUser.calorieNeed!} Kcal',
+                                                viewmodel.getData(TextStrings.homeScreen_2(viewmodel.calorieNeed)),
                                                 style: homeScreenReportText
                                             ),
                                             const SizedBox(height: 10),
@@ -219,57 +206,55 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 CircularPercentIndicator(
-                                                  radius: MediaQuery.of(context).size.width * 0.23, //biasanya 90.0
+                                                  radius: MediaQuery.of(context).size.width * 0.23,
                                                   lineWidth: 16.0,
-                                                  percent: (appUser != null && viewmodel.caloriesLeft != null) ? ( (viewmodel.caloriesLeft!.toDouble().isNegative) ? 1 : (viewmodel.caloriesLeft! > appUser.calorieNeed!.toDouble()) ? 0 : ((appUser.calorieNeed! - viewmodel.caloriesLeft!) / appUser.calorieNeed!)) : 0,
-                                                  center: Text((viewmodel.caloriesLeft == null)? TextStrings.loadingText : '${viewmodel.caloriesLeft!.toStringAsFixed(1)} Kcal Left',style: homeScreenReportText4,),
+                                                  percent: (viewmodel.getUser != null && viewmodel.caloriesLeft != null) ? ( (viewmodel.caloriesLeft!.toDouble().isNegative) ? 1 : (viewmodel.caloriesLeft! > viewmodel.calorieNeed!.toDouble()) ? 0 : ((viewmodel.calorieNeed! - viewmodel.caloriesLeft!) / viewmodel.calorieNeed!)) : 0,
+                                                  center: Text(viewmodel.getData(TextStrings.homeScreen_3(viewmodel.caloriesLeft)),style: homeScreenReportText4,),
                                                   progressColor: primaryColor,
                                                 ),
                                                 const SizedBox(width: 10),
-                                                Container(
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Icon(Icons.food_bank_rounded,size: 50,color: Colors.blueAccent,),
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text('Eaten',style: homeScreenReportText2),
-                                                              Container(
-                                                                child: Text('${(viewmodel.consumedCalories != null) ? viewmodel.consumedCalories!.toStringAsFixed(1) : 0} Kcal',style: homeScreenReportText5),
-                                                                constraints: const BoxConstraints(
-                                                                  minWidth: 50,
-                                                                  maxWidth: 80,
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                      const SizedBox(height: 20),
-                                                      Row(
-                                                        children: [
-                                                          Icon(Icons.local_fire_department,size: 50,color: Colors.red,),
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text('Burned',style: homeScreenReportText3),
-                                                              Container(
-                                                                child: Text('${(viewmodel.burnedCalories != null) ? viewmodel.burnedCalories! : 0} Kcal',style: homeScreenReportText6),
-                                                                constraints: const BoxConstraints(
-                                                                  minWidth: 50,
-                                                                  maxWidth: 80,
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const Icon(Icons.food_bank_rounded,size: 50,color: Colors.blueAccent,),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            const Text(TextStrings.homeScreen_4,style: homeScreenReportText2),
+                                                            Container(
+                                                              constraints: const BoxConstraints(
+                                                                minWidth: 50,
+                                                                maxWidth: 80,
+                                                              ),
+                                                              child: Text(TextStrings.homeScreen_5(viewmodel.consumedCalories),style: homeScreenReportText5),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    Row(
+                                                      children: [
+                                                        const Icon(Icons.local_fire_department,size: 50,color: Colors.red,),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            const Text(TextStrings.homeScreen_8,style: homeScreenReportText3),
+                                                            Container(
+                                                              constraints: const BoxConstraints(
+                                                                minWidth: 50,
+                                                                maxWidth: 80,
+                                                              ),
+                                                              child: Text(TextStrings.homeScreen_5(viewmodel.burnedCalories),style: homeScreenReportText6),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
                                                 )
                                               ],
                                             )
@@ -300,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(22, 0, 0, 5),
                               child: Text(
-                                  "Recent Activities",
+                                  TextStrings.homeScreen_6,
                                   style: homeScreenReportText
                               ),
                             )
@@ -318,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 ),
                               ],
                             ),
-                            child: (viewmodel.listLog.length == 0)? Center(child: Text('No Activity Yet!',style: emptyActivityText))
+                            child: (viewmodel.listLog.isEmpty) ? const Center(child: Text(TextStrings.homeScreen_7,style: emptyActivityText))
                                 : Column(
                               children: [
                                 ...viewmodel.listLog.map((e) => RecentItem(content: e,onTapped: () => viewmodel.refreshData(),touchable: true,onNavigate: () => systemViewModel.lightBottomNavColor() )).toList(),
@@ -347,14 +332,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
 
 
-
-
-// (viewmodel.listLog.length == 0)? Center(child: Text('No Activity Yet!',style: emptyActivityText))
-//     : Column(
-// children: [
-// ...viewmodel.listLog.map((e) => recentItem(content: '${e.instanceType} - ${e.instanceName} ( + ${e.calories} Kcal)') ).toList(),
-// ],
-// )
 
 
 

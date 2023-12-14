@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:ereport_mobile_app/src/core/constants/activity_level.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:ereport_mobile_app/src/data/models/user.dart';
@@ -11,7 +10,7 @@ import '../../core/constants/text_strings.dart';
 
 class SettingsViewModel extends ChangeNotifier {
 
-  final auth = Auth();
+  late Auth auth;
   late StreamSubscription<User?> _sub;
   late UserModel _user;
   late final Firestore firestore;
@@ -20,12 +19,12 @@ class SettingsViewModel extends ChangeNotifier {
   late String _tempActivityLevel;
   late DateTime _tempDate;
   String? _email;
-  Gender _gender = Gender.male;
+  late Gender _gender;
   late ResultState _state;
   String? _inputPassword;
   String? _newEmail;
   String? _newPassword;
-  String _errorMessage ='';
+  late String _errorMessage;
 
   UserModel get user => _user;
   ResultState get state => _state;
@@ -42,6 +41,9 @@ class SettingsViewModel extends ChangeNotifier {
   SettingsViewModel(){
     _user = UserModel.createFirstTime();
     firestore = Firestore();
+    auth = Auth();
+    _errorMessage = '';
+    _gender = Gender.male;
     _state = ResultState.started;
   }
 
@@ -114,8 +116,11 @@ class SettingsViewModel extends ChangeNotifier {
 
   void setGender(String sex) {
     _tempGenderString = sex;
-    if(sex == Gender.male.name) _temporaryGender = false;
-    else _temporaryGender = true;
+    if(sex == Gender.male.name) {
+      _temporaryGender = false;
+    } else {
+      _temporaryGender = true;
+    }
     notifyListeners();
   }
 
@@ -186,6 +191,7 @@ class SettingsViewModel extends ChangeNotifier {
       }
     }
     catch(e) {
+      debugPrint(TextStrings.errorRuntime('updateProfiledATA', 'settings_viewmodel.dart', e.toString()));
       _state = ResultState.error;
       notifyListeners();
       return false;
@@ -211,7 +217,7 @@ class SettingsViewModel extends ChangeNotifier {
       _state = ResultState.changeSuccess;
     }
     catch(e) {
-      debugPrint('error karna $e');
+      debugPrint(TextStrings.errorRuntime('ChangePassword', 'settings_viewmodel.dart', e.toString()));
       _state = ResultState.error;
     }
     notifyListeners();

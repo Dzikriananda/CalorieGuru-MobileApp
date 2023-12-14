@@ -31,9 +31,7 @@ class SplashScreenViewModel extends ChangeNotifier {
                 else if(event != null){
                   final hasFilledData = await Firestore().hasFilledData(event.uid);
                   if(hasFilledData != null){
-                    print('hasfilled data tdk null');
                     if(hasFilledData){
-                      print('hasfilled data true');
                       _state = ResultState.logged;
                     }
                     else{
@@ -42,17 +40,12 @@ class SplashScreenViewModel extends ChangeNotifier {
                     }
                   }
                   else{
-                    print('hasfilled data null');
                     _state = ResultState.error;
                   }
                   notifyListeners();
                 }
               }
       );
-  }
-
-  void retry(){
-    
   }
 
   void disposeViewModel(){

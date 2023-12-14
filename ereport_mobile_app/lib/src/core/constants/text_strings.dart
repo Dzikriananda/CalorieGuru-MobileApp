@@ -1,4 +1,5 @@
 import 'package:ereport_mobile_app/src/core/constants/screen_type.dart';
+import 'package:ereport_mobile_app/src/core/utils/StringExtension.dart';
 
 class TextStrings {
   static const appTitle = "MyEatingPal";
@@ -14,10 +15,13 @@ class TextStrings {
   static const alertButton_1 = 'OK';
   static const alertButton_2 = 'Retry';
   static const alertTitle = 'Alert';
+  static const alertTitle_2 = 'Notification';
+
   static const snackBarContent_1 = 'Login Failed!';
   static snackBarContent_2(String? args) {
     return (args != null) ? 'Error $args' : 'Error';
   }
+
   static const signInForm_1 = 'Login';
   static const signInForm_2 = 'Email';
   static const signInForm_3 = 'Password';
@@ -27,14 +31,47 @@ class TextStrings {
   static const registerForm_3 = 'Enter Your Password';
   static const registerForm_4 = 'Reenter Password';
   static const registerForm_5 = 'Register';
-  static const registerForm_6 = '';
-  static const registerForm_7 = '';
-  static const registerForm_8 = '';
-  static const registerForm_9 = '';
-  static const registerForm_10 = '';
+  static homeScreen_1(String? args) {
+    return (args != null) ? "Hi, ${args.toString().toCapitalized()}" : null;
+  }
+  static homeScreen_2(double? args) {
+    return (args != null) ? 'Calorie Budget : ${args} Kcal' : null;
+  }
+  static homeScreen_3(double? args) {
+    return (args != null) ? '${args.toStringAsFixed(1)} Kcal Left' : null;
+  }
+  static const homeScreen_4 = 'Eaten';
+  static homeScreen_5(double? args) {
+    return (args != null) ? '${args.toStringAsFixed(1)} Kcal' : '0 Kcal';
+  }
+  static const homeScreen_6 = 'Recent Activities';
+  static const homeScreen_7 = 'No Activity Yet!';
+  static const homeScreen_8 = 'Burned';
+  static String recenItemWidget_1(String args1, String args2) {
+    return '$args1 - $args2';
+  }
+  static String recenItemWidget_2(String args) {
+    return '$args';
+  }
 
-
+  static String recenItemWidget_3(String args1,double? args2) {
+    return (args1 == 'Meal') ? '+$args2 Kcal ' : '-$args2 Kcal ';
+  }
+  static const historyScreen_1 = 'Calories Remaining';
+  static const historyScreen_2 = 'Goal';
+  static const historyScreen_3 = 'Consumed';
+  static const historyScreen_4 = 'Burned';
+  static const historyScreen_5 = 'Remaining';
+  static const historyScreen_6 = 'Activity Log';
+  static const historyScreen_7 = 'No Data For This Date';
   static const alertContent_1 = 'Failed';
+  static const settingsScreen_1 = 'Profile';
+  static const settingsScreen_2 = 'Logout';
+  static const settingsScreen_3 = 'Delete Account';
+  static const settingsScreen_4 = 'About App';
+  static const settingsScreen_5 = 'Change Email / Password';
+  static const settingsScreen_6 = 'Frequently Asked Question';
+  static const settingsScreen_7 = 'Help/FeedBack';
   static const invalidEmailWarning = "Enter valid email!";
   static const invalidNameWarning = "Enter valid name!";
   static const invalidQueryWarning = "Enter valid Query!";
@@ -75,8 +112,8 @@ class TextStrings {
   static const registerScreen_14 = "Calories";
   static const registerScreen_15 = '*You can still change your personal information later';
   static const errorAlert_1 = 'No Internet';
-  static String errorRuntime(String args, String args2) {
-    return 'Error at $args ($args2)';
+  static String errorRuntime(String args, String args2,String? args3) {
+    return 'Error at $args ($args2) : $args3';
   }
 
 

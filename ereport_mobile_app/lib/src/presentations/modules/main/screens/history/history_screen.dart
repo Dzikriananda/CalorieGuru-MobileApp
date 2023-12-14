@@ -1,19 +1,14 @@
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
-import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/history_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/global_widgets/loading_indicator.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/main/screens/home/widgets/recent_item_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../core/constants/images.dart';
 import '../../../../../core/styles/text_style.dart';
-import '../../../../../data/auth/auth.dart';
-import '../../../../../data/auth/firestore_repository.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -24,9 +19,6 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final EasyInfiniteDateTimelineController _controller = EasyInfiniteDateTimelineController();
-  DateTime _focusDate = DateTime.now();
-  final Auth auth = Auth();
-  final Firestore firestore = Firestore();
 
   @override
   void initState()  {
@@ -44,7 +36,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             builder: (context,viewmodel,child) {
               return Column(
                 children: [
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   EasyInfiniteDateTimeLine(
                     controller: _controller,
                     firstDate: DateTime(2023),
@@ -57,15 +49,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       inactiveDayStyle:  DayStyle(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey,width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          borderRadius: const BorderRadius.all(Radius.circular(12)),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   Expanded(
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: primaryContainer,
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(25.0),
@@ -74,21 +66,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             bottomLeft: Radius.circular(0)),
                       ),
                       child: Center(
-                          child: (viewmodel.state == ResultState.loading) ? LoadingIndicator()
+                          child: (viewmodel.state == ResultState.loading) ? const LoadingIndicator()
                               : Column(
                             children: [
                               Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                                    child: Text('Calories Remaining',style: petrolabTextTheme.titleLarge),
+                                    padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+                                    child: Text(TextStrings.historyScreen_1,style: petrolabTextTheme.titleLarge),
                                   )
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               SizedBox(
                                 width: 300,
                                 child: Table(
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0 : FractionColumnWidth(0.2),
                                     1 : FractionColumnWidth(0.05),
                                     2 : FractionColumnWidth(0.25),
@@ -108,14 +100,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       Text('=',style: petrolabTextTheme.bodyLarge),
                                       Text(viewmodel.logSummary.remainingCalories.toString(),style: caloriesLeft,textAlign: TextAlign.center),
                                     ]),
-                                    TableRow( children: [
-                                      Text('Goal',textAlign: TextAlign.center,style: caloriesLeft2,),
+                                    const TableRow( children: [
+                                      Text(TextStrings.historyScreen_2,textAlign: TextAlign.center,style: caloriesLeft2,),
                                       Text(''),
-                                      Text('Consumed',textAlign: TextAlign.center,style: caloriesLeft2),
+                                      Text(TextStrings.historyScreen_3,textAlign: TextAlign.center,style: caloriesLeft2),
                                       Text(''),
-                                      Text('Burned',textAlign: TextAlign.center,style: caloriesLeft2),
+                                      Text(TextStrings.historyScreen_4,textAlign: TextAlign.center,style: caloriesLeft2),
                                       Text(''),
-                                      Text('Remaining',textAlign: TextAlign.center,style: caloriesLeft2),
+                                      Text(TextStrings.historyScreen_5,textAlign: TextAlign.center,style: caloriesLeft2),
                                     ]),
                                   ],
                                 ),
@@ -123,25 +115,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                                    child: Text('Activity Log',style: petrolabTextTheme.titleLarge),
+                                    padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+                                    child: Text(TextStrings.historyScreen_6,style: petrolabTextTheme.titleLarge),
                                   )
                               ),
                               Expanded(
-                                child: (viewmodel.state == ResultState.noData) ? Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        DefaultImages.not_found_image,
-                                        height: MediaQuery.of(context).size.height * 0.35,
-                                        width: MediaQuery.of(context).size.height * 0.35,
-                                      ),
-                                      Text('No Data For This Date',style: notFoundText),
-                                    ],
-                                  ),
+                                child: (viewmodel.state == ResultState.noData) ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      DefaultImages.not_found_image,
+                                      height: MediaQuery.of(context).size.height * 0.35,
+                                      width: MediaQuery.of(context).size.height * 0.35,
+                                    ),
+                                    const Text(TextStrings.historyScreen_7,style: notFoundText),
+                                  ],
                                 ) : ListView.builder(
-                                    padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                                     itemCount: viewmodel.activityList.length  ,
                                     itemBuilder: (BuildContext context, int index) {
                                       return RecentItem(content: viewmodel.activityList[index] , onTapped: () {},touchable: false,onNavigate: () {});

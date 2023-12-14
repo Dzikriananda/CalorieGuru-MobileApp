@@ -214,7 +214,7 @@ class RegisterViewModel extends ChangeNotifier{
         notifyListeners();
       }
     } catch(e){
-      debugPrint(TextStrings.errorRuntime('UpdateData()', 'register_viewmodel.dart'));
+      debugPrint(TextStrings.errorRuntime('UpdateData()', 'register_viewmodel.dart',e.toString()));
       _state = ResultState.error;
       notifyListeners();
     }

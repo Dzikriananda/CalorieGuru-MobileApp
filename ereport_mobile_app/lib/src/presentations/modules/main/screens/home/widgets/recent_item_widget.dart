@@ -1,21 +1,22 @@
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
+import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../../../core/styles/text_style.dart';
 import '../../../../../../data/models/list_log_model.dart';
 
 class RecentItem extends StatelessWidget {
-  LogModel content;
-  bool touchable;
-  VoidCallback onTapped;
-  VoidCallback onNavigate;
+  final LogModel content;
+  final bool touchable;
+  final VoidCallback onTapped;
+  final VoidCallback onNavigate;
 
-  RecentItem({Key? key,required this.content,required this.onTapped,required this.touchable,required this.onNavigate}) : super(key: key);
+  const RecentItem({Key? key,required this.content,required this.onTapped,required this.touchable,required this.onNavigate}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
       child: InkWell(
         onTap: () async {
           onNavigate();
@@ -28,35 +29,31 @@ class RecentItem extends StatelessWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: borderColor_1,
             borderRadius:  BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
+                color: Colors.grey.withOpacity(1), //0.5
                 blurRadius: 2,
               ),
             ],
           ),
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                  child: Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text((content != null)? "${content.type!} - ${content.instanceType!}" : '',style: listActivityText,textAlign: TextAlign.start),
-                        Text((content != null)? "${content.instanceName!} " : '',style: listActivityText2),
-                      ],
-                    ),
-                  )
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(TextStrings.recenItemWidget_1(content.type!, content.instanceType!),style: listActivityText,textAlign: TextAlign.start),
+                    Text(TextStrings.recenItemWidget_2(content.instanceName!),style: listActivityText2),
+                  ],
+                ),
               ),
               const SizedBox(width: 5),
-              Text((content.type == 'Meal') ? '+${content.calories} Kcal ' : '-${content.calories} Kcal ',style: listActivityText2),
-              // Icon(Icons.fastfood_sharp,size: 40),
-
+              Text(TextStrings.recenItemWidget_3(content.type!, content.calories),style: listActivityText2),
             ],
           ),
         ),

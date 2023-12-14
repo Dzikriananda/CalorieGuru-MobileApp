@@ -1,3 +1,4 @@
+import 'package:ereport_mobile_app/src/core/constants/images.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
@@ -56,10 +57,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
 
   final snackBar = SnackBar(
-    content: const Text('Notification'),
+    content: const Text(TextStrings.alertTitle_2),
     backgroundColor: primaryColor,
     duration: const Duration(seconds: 6),
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
           topRight: Radius.circular(20.0),
           topLeft: Radius.circular(20.0),
@@ -80,43 +81,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
             return Center(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          0,0,0,0
+                    Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(0.0),
+                              bottomRight: Radius.circular(30.0),
+                              topLeft: Radius.circular(0.0),
+                              bottomLeft: Radius.circular(30.0)),
+                          color: primaryContainer
                       ),
-                      child: Container(
-                        // height: MediaQuery.of(context).size.height * 0.4,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(0.0),
-                                bottomRight: Radius.circular(30.0),
-                                topLeft: Radius.circular(0.0),
-                                bottomLeft: Radius.circular(30.0)),
-                            color: primaryContainer
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 15),
-                            ClipOval(
-                              child: SizedBox.fromSize(
-                                size: const Size.fromRadius(60), // Image radius
-                                child: Image.network('https://www.w3schools.com/howto/img_avatar.png', fit: BoxFit.cover),
-                              ),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 15),
+                          ClipOval(
+                            child: SizedBox.fromSize(
+                              size: const Size.fromRadius(60), // Image radius
+                              child: Image.network(DefaultImages.avatar_1, fit: BoxFit.cover),
                             ),
-                            Text((viewmodel.user.name != null) ? viewmodel.user.name! : TextStrings.loadingText,style: settingsScreen1,),
-                            Text((viewmodel.email != null) ? viewmodel.email! : TextStrings.loadingText,style: petrolabTextTheme.titleSmall),
-                            SizedBox(height: 15),
-                          ],
-                        ),
-
-
+                          ),
+                          Text((viewmodel.user.name != null) ? viewmodel.user.name! : TextStrings.loadingText,style: settingsScreen1,),
+                          Text((viewmodel.email != null) ? viewmodel.email! : TextStrings.loadingText,style: petrolabTextTheme.titleSmall),
+                          const SizedBox(height: 15),
+                        ],
                       ),
-
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                     SettingsItem(
-                        title: 'Profile',
+                        title: TextStrings.settingsScreen_1,
                         icon: Icons.person,
                         onPressed: () {
                           systemViewModel.lightBottomNavColor();
@@ -125,7 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     SettingsItem(
-                      title: 'Logout',
+                      title: TextStrings.settingsScreen_2,
                       icon: Icons.logout,
                       onPressed: (){
                         systemViewModel.lightBottomNavColor();
@@ -134,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     SettingsItem(
-                      title: 'Delete Account',
+                      title: TextStrings.settingsScreen_3,
                       icon: Icons.delete,
                       onPressed: (){
                         systemViewModel.lightBottomNavColor();
@@ -143,7 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     SettingsItem(
-                      title: 'About App',
+                      title: TextStrings.settingsScreen_4,
                       icon: Icons.supervised_user_circle,
                       onPressed: (){
                         systemViewModel.lightBottomNavColor();
@@ -152,7 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     SettingsItem(
-                      title: 'Change Email / Password',
+                      title: TextStrings.settingsScreen_5,
                       icon: Icons.admin_panel_settings_sharp,
                       onPressed: (){
                         systemViewModel.lightBottomNavColor();
@@ -161,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     SettingsItem(
-                      title: 'Frequently Asked Question',
+                      title: TextStrings.settingsScreen_6,
                       icon: Icons.help,
                       onPressed: (){
                         systemViewModel.lightBottomNavColor();
@@ -170,7 +162,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     SettingsItem(
-                      title: 'Help/FeedBack',
+                      title: TextStrings.settingsScreen_7,
                       icon: Icons.help_center,
                       onPressed: (){
                         systemViewModel.lightBottomNavColor();

@@ -1,11 +1,7 @@
 import 'package:ereport_mobile_app/src/core/classes/icons.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
-import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 
 class CustomContainer extends StatefulWidget{
   final CustomIcon icon;
@@ -13,7 +9,7 @@ class CustomContainer extends StatefulWidget{
   final VoidCallback onMoved;
 
 
-  CustomContainer({Key? key,required this.icon,required this.onTapped,required this.onMoved}): super(key: key);
+  const CustomContainer({Key? key,required this.icon,required this.onTapped,required this.onMoved}): super(key: key);
 
   @override
   State<CustomContainer> createState() => _CustomContainerState();
@@ -38,7 +34,7 @@ class _CustomContainerState extends State<CustomContainer> {
           height: MediaQuery. of(context). size. width * 0.25,
           decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(1),
@@ -58,9 +54,9 @@ class _CustomContainerState extends State<CustomContainer> {
                 ),
               ),
               Align(
-                alignment: Alignment(-1.0, 1.0),
+                alignment: const Alignment(-1.0, 1.0),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(25, 5, 5, 8),
+                  padding: const EdgeInsets.fromLTRB(25, 5, 5, 8),
                   child: Text(
                     widget.icon.name,
                     style: containerOptionText,
