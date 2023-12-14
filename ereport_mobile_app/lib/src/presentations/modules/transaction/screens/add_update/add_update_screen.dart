@@ -2,23 +2,16 @@ import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
 import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/add_update_viewmodel.dart';
-import 'package:ereport_mobile_app/src/data/viewmodel/system_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ereport_mobile_app/src/data/data_source/remote/api_service.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import '../../../../../core/constants/result_state.dart';
 import '../../../../../core/constants/screen_type.dart';
 import '../../../../../core/constants/text_strings.dart';
-import '../../../../../data/auth/auth.dart';
-import '../../../../../data/auth/firestore_repository.dart';
 
 class AddUpdateScreen extends StatefulWidget {
 
-  AddUpdateScreen({Key? key}) : super(key: key);
+  const AddUpdateScreen({Key? key}) : super(key: key);
 
   @override
   State<AddUpdateScreen> createState() => _AddUpdateScreenState();
@@ -57,11 +50,11 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
     data = args['data'];
     WidgetsBinding.instance.addPostFrameCallback((_){
       final viewModel = context.read<AddUpdateViewModel>();
+      viewModel.logType = screenName;
       if(!hasInit) {
         viewModel.setLogType(screenName);
         hasInit = true;
       }
-      viewModel.screenType = isUpdate;
       if(isUpdate) viewModel.setDataForUpdate(args['data']);
     });
     super.didChangeDependencies();
@@ -74,12 +67,10 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
         title: Text(title),
         content: Builder(
           builder: (context){
-            return Container(
-              child:  Text(
-                content,
-                style: petrolabTextTheme.bodyLarge,
-                textAlign: TextAlign.justify,
-              ),
+            return Text(
+              content,
+              style: petrolabTextTheme.bodyLarge,
+              textAlign: TextAlign.justify,
             );
           },
         ),
@@ -89,12 +80,12 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
               Navigator.of(ctx).pop();
             },
             child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   color: primaryColor,
                 ),
                 padding: const EdgeInsets.all(14),
-                child: Icon(Icons.close,color: onPrimaryColor,)
+                child: const Icon(Icons.close,color: onPrimaryColor,)
             ),
           ),
         ],
@@ -106,15 +97,16 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          if ( context.read<AddUpdateViewModel>().state == ResultState.loading) return false;
-          else {
+          if ( context.read<AddUpdateViewModel>().state == ResultState.loading) {
+            return false;
+          } else {
             context.read<AddUpdateViewModel>().disposeViewModel();
             return true;
           }
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text(TextStrings.addScreen_9(screenName,isUpdate), style: TextStyle(color: onPrimaryColor)),
+              title: Text(TextStrings.addScreen_9(screenName,isUpdate), style: const TextStyle(color: onPrimaryColor)),
               backgroundColor: primaryColor,
               foregroundColor: backgroundColor,
             ),
@@ -136,13 +128,13 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                             openDialog(context, TextStrings.updateScreenFailedDeleteNotifName, TextStrings.updateScreenFailedDeleteNotifContent);
                           }
                       },
-                      shape: CircleBorder(),
+                      shape: const CircleBorder(),
                       foregroundColor: onPrimaryColor,
                       backgroundColor: primaryColor,
                       child: const Icon(Icons.delete_forever),
                     ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 FloatingActionButton(
                   heroTag: null,
                   onPressed: () async {
@@ -175,7 +167,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                       }
                     }
                   },
-                  shape: CircleBorder(),
+                  shape: const CircleBorder(),
                   foregroundColor: onPrimaryColor,
                   backgroundColor: primaryColor,
                   child: const Icon(Icons.check),
@@ -184,7 +176,6 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
             ),
             body: Consumer<AddUpdateViewModel>(
               builder: (context,viewmodel,child){
-                viewmodel.logType = screenName;
                 textField2Controller.text = ((viewmodel.calorie != null ) ? viewmodel.calorie.toString() : '');
                 textField1Controller.text = ((viewmodel.instanceName != null ) ? viewmodel.instanceName! : '');
                 return Stack(
@@ -194,8 +185,12 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                       child: Center(
                         child: Column(
                           children: [
+                            // Container(
+                            //   height: 20,
+                            //   color: borderColor_2,
+                            // ),
                             Padding(
-                              padding: EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(0),
                               child: Container(
                                   width: MediaQuery.of(context).size.width,
                                   color: primaryContainer,
@@ -209,7 +204,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                       Align(
                                           alignment: Alignment.centerLeft,
                                           child: Padding(
-                                            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                                             child: Text(
                                                 (screenName == ScreenType.Meal.name)? TextStrings.addScreen_1 : TextStrings.addScreen_8,
                                                 style: homeScreenReportText
@@ -221,6 +216,18 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                         child: Column(
                                           children: [
                                             CustomFormField(
+                                              enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: onPrimaryContainer),
+                                              ),
+                                              focusedBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              focusedErrorBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              errorBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                              ),
                                               readOnly: false,
                                               onTap: () {},
                                               suffixIcon: null,
@@ -234,6 +241,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               isPassword: false,
                                               validator: (val) {
                                                 if (!val!.isNotNull) return TextStrings.invalidNullWarning;
+                                                return null;
                                               },
                                               onSubmited: (value){
 
@@ -242,6 +250,18 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               textfieldController: textField1Controller,
                                             ),
                                             CustomFormField(
+                                              enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: onPrimaryContainer),
+                                              ),
+                                              focusedBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              focusedErrorBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              errorBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                              ),
                                               readOnly: false,
                                               onTap: () {},
                                               suffixIcon: null,
@@ -254,8 +274,12 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               isEnabled: true,
                                               isPassword: false,
                                               validator: (val) {
-                                                if (!val!.isNotNull) return TextStrings.invalidNullWarning;
-                                                else if(!val.isValidCalorie) return TextStrings.invalidCalorieWarning;
+                                                if (!val!.isNotNull) {
+                                                  return TextStrings.invalidNullWarning;
+                                                } else if(!val.isValidCalorie) {
+                                                  return TextStrings.invalidCalorieWarning;
+                                                }
+                                                return null;
                                               },
                                               onSubmited: (value){
                                               },
@@ -265,9 +289,9 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 10),
+                                      const SizedBox(height: 10),
                                       Padding(
-                                        padding: EdgeInsets.fromLTRB(25, 0, 0, 5),
+                                        padding: const EdgeInsets.fromLTRB(25, 0, 0, 5),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
@@ -291,7 +315,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                       ),
                                       Visibility(
                                           visible: (viewmodel.isValidChoice != null) ? ((viewmodel.isValidChoice!) ? false : true) : false,
-                                          child: Text(TextStrings.addScreen_10,style: chooseItemTextError)
+                                          child: const Text(TextStrings.addScreen_10,style: chooseItemTextError)
                                       )
                                     ],
                                   )
@@ -302,7 +326,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                             //   color: borderColor_2,
                             // ),
                             Container(
-                              height: 2,
+                              height: 20,
                               color: borderColor_2,
                             ),
                             // Container(
@@ -310,7 +334,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                             //   color: borderColor_2,
                             // ),
                             Padding(
-                              padding: EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(0),
                               child: Container(
                                   width: MediaQuery.of(context).size.width,
                                   color: primaryContainer,
@@ -321,7 +345,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                   padding: const EdgeInsets.all(15),
                                   child: Column(
                                     children: [
-                                      Align(
+                                      const Align(
                                           alignment: Alignment.centerLeft,
                                           child: Padding(
                                             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -348,9 +372,10 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               hintText: TextStrings.addScreen_4(screenName),
                                               validator: (val) {
                                                 if (!val!.isNotNull) return TextStrings.invalidQueryWarning;
+                                                return null;
                                               },
                                               isPassword: false,
-                                              icon: Icon(Icons.search),
+                                              icon: const Icon(Icons.search),
                                               onSubmited: (value){
                                                 viewmodel.setQuery = value;
                                               },
@@ -370,9 +395,10 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                                 hintText: TextStrings.addScreen_11,
                                                 validator: (val) {
                                                   if (!val!.isValidDuration) return TextStrings.invalidDurationWarning;
+                                                  return null;
                                                 },
                                                 isPassword: false,
-                                                icon: Icon(Icons.timer_rounded),
+                                                icon: const Icon(Icons.timer_rounded),
                                                 onSubmited: (value){
                                                   viewmodel.setQuery2 = value;
                                                 },
@@ -407,7 +433,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                               }
 
                                             },
-                                            child: Text(TextStrings.addScreen_5),
+                                            child: const Text(TextStrings.addScreen_5),
                                           ),
                                           ElevatedButton(
                                             style: ElevatedButton.styleFrom(
@@ -420,18 +446,14 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
                                             onPressed: () {
                                               openDialog(context,TextStrings.addScreen_6, (screenName == ScreenType.Meal.name) ? TextStrings.usingInstruction1 : TextStrings.usingInstruction2);
                                             },
-                                            child: Text(TextStrings.addScreen_7),
+                                            child: const Text(TextStrings.addScreen_7),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 10),
+                                      const SizedBox(height: 10),
                                     ],
                                   )
                               ),
-                            ),
-                            Container(
-                              height: 2,
-                              color: borderColor_2,
                             ),
                           ],
                         ),

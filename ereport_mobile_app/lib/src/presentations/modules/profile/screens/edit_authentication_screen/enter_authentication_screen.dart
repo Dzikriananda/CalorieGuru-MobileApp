@@ -55,6 +55,18 @@ class _EnterAuthenticationScreenState extends State<EnterAuthenticationScreen> {
                                     Form(
                                       key: _formKey,
                                       child: CustomFormField(
+                                          enabledBorder: const UnderlineInputBorder(
+                                            borderSide: BorderSide(color: onPrimaryContainer),
+                                          ),
+                                          focusedBorder: const UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.blue, width: 2),
+                                          ),
+                                          focusedErrorBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.blue, width: 2),
+                                          ),
+                                          errorBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.red, width: 2),
+                                          ),
                                           style: profileScreenTextStyle,
                                           readOnly: false,
                                           onTap: () {},

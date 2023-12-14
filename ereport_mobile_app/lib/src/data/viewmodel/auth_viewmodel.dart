@@ -1,3 +1,4 @@
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:flutter/material.dart';
@@ -40,17 +41,15 @@ class AuthViewModel extends ChangeNotifier {
 
   void disposeViewModel(){
     _state = ResultState.started;
-    // notifyListeners();
   }
 
 
   Future<void> signIn() async{
     final streamer = Auth().authStateChanges.listen((event) async {
-      if(event == null) print("gagal login");
+      if(event == null) debugPrint('unLogged');
       else {
         try{
           final hasData = await Firestore().hasFilledData(event.uid);
-          print("hasil hasdata $hasData");
           if(hasData != null){
             if(hasData){
               _state = ResultState.logged;
@@ -65,7 +64,7 @@ class AuthViewModel extends ChangeNotifier {
           notifyListeners();
         }
         on FirebaseAuthException catch(e){
-          print(e);
+          debugPrint(TextStrings.errorRuntime('SignIn', 'auth_viewmodel.dart',e.toString()));
         }
       }
     });
@@ -106,6 +105,7 @@ class AuthViewModel extends ChangeNotifier {
 
     }
     on FirebaseAuthException catch(e){
+      debugPrint(TextStrings.errorRuntime('SignUp', 'auth_viewmodel.dart',e.toString()));
       _errorMessage = e.toString();
       _state = ResultState.error;
       notifyListeners();

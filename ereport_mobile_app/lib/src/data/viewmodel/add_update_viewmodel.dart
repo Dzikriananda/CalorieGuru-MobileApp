@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:ereport_mobile_app/src/data/data_source/remote/api_service.dart';
 import 'package:ereport_mobile_app/src/data/models/get_burned_calorie_response.dart';
@@ -19,7 +20,7 @@ class AddUpdateViewModel extends ChangeNotifier {
 
   final ApiService apiService = ApiService();
   final Firestore firestore = Firestore();
-  final Auth auth = Auth();
+  late Auth auth;
 
   String? _instanceName;
   double? _calorie;
@@ -28,7 +29,6 @@ class AddUpdateViewModel extends ChangeNotifier {
   String? _instanceType;
   String? _logType;
   bool? _isValidChoice;
-  bool? _isUpdate;
   CheckMealCalorieResponse? _response;
   List<BurnedCalorieResponse>? _response2;
   late List<String> _list;
@@ -47,23 +47,23 @@ class AddUpdateViewModel extends ChangeNotifier {
   AddUpdateViewModel(){
     _list = ['Choose an item'];
     _index = 0;
+    auth = Auth();
   }
 
   String? get searchQuery => _searchQuery;
   String? get searchQuery2 => _searchQuery2;
 
   void checkChoice() {
-    if(_instanceType == null || _instanceType == 'Choose an item') _isValidChoice = false;
-    else _isValidChoice = true;
+    if(_instanceType == null || _instanceType == 'Choose an item') {
+      _isValidChoice = false;
+    } else {
+      _isValidChoice = true;
+    }
     notifyListeners();
   }
 
   set logType(String type){
     _logType = type;
-  }
-
-  set screenType(bool type){
-    _isUpdate = type;
   }
 
   set setDropDown(String option) {
@@ -91,15 +91,17 @@ class AddUpdateViewModel extends ChangeNotifier {
   }
 
   void setLogType(String type) {
-    if (type == ScreenType.Meal.name) _list.addAll(listMeal);
-    else _list.addAll(listExercise);
-    print(_list);
+    if (type == ScreenType.Meal.name) {
+      _list.addAll(listMeal);
+    } else {
+      _list.addAll(listExercise);
+    }
     notifyListeners();
   }
 
   void setInformation(int? index) {
     if (_logType == ScreenType.Meal.name) {
-      if(_response!.items.length != 0){
+      if(_response!.items.isNotEmpty){
         _calorie = 0;
         _response!.items.forEach((element) {
           _calorie = _calorie! + element.calories;
@@ -109,7 +111,7 @@ class AddUpdateViewModel extends ChangeNotifier {
     }
     else {
       _instanceName = _response2![index!].name;
-      _calorie = _response2![index!].totalCalories.toDouble();
+      _calorie = _response2![index].totalCalories.toDouble();
     }
     notifyListeners();
   }
@@ -160,6 +162,7 @@ class AddUpdateViewModel extends ChangeNotifier {
       return true;
     }
     else {
+      debugPrint(TextStrings.errorRuntime('updateLog', 'add_update_viewmodel.dart',null));
       _state = ResultState.error;
       notifyListeners();
       return false;
@@ -183,6 +186,7 @@ class AddUpdateViewModel extends ChangeNotifier {
       return true;
     }
     else {
+      debugPrint(TextStrings.errorRuntime('addLog', 'add_update_viewmodel.dart',null));
       _state = ResultState.error;
       notifyListeners();
       return false;
@@ -207,13 +211,12 @@ class AddUpdateViewModel extends ChangeNotifier {
     notifyListeners();
     try{
       final response = await apiService.checkMealCalorie(_searchQuery!);
-      print(response);
       final parsedJson = CheckMealCalorieResponse.fromJson(jsonDecode(response));
       _response = parsedJson;
       _state = ResultState.hasData;
     }
     catch(e){
-      print(e);
+      debugPrint(TextStrings.errorRuntime('getMealCalorie', 'add_update_viewmodel.dart',e.toString()));
       _state = ResultState.error;
     }
     notifyListeners();
@@ -223,9 +226,11 @@ class AddUpdateViewModel extends ChangeNotifier {
     _state = ResultState.loading;
     notifyListeners();
     late final int duration;
-    if (_searchQuery2 == null) duration = 0;
-    else duration = int.parse(_searchQuery2!);
-    print(duration);
+    if (_searchQuery2 == null) {
+      duration = 0;
+    } else {
+      duration = int.parse(_searchQuery2!);
+    }
     try{
       final response = await apiService.checkBurnedCalorie(_searchQuery!,duration);
       final parsedJson = burnedCalorieResponseFromJson(response);
@@ -233,7 +238,7 @@ class AddUpdateViewModel extends ChangeNotifier {
       _state = ResultState.hasData;
     }
     catch(e){
-      print(e);
+      debugPrint(TextStrings.errorRuntime('getActivityCalorie', 'add_update_viewmodel.dart',e.toString()));
       _state = ResultState.error;
     }
     notifyListeners();

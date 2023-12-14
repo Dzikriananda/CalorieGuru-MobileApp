@@ -1,26 +1,25 @@
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
 import 'package:ereport_mobile_app/src/data/models/user.dart';
-import 'package:ereport_mobile_app/src/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:intl/intl.dart';
 
 class HomeViewModel extends ChangeNotifier {
 
-  ResultState _state = ResultState.loading;
+  late ResultState _state;
 
   ResultState get state => _state;
   late String _todayDate;
-  final Auth auth = Auth();
-  final Firestore firestore = Firestore();
+  late Auth auth;
+  late Firestore firestore;
   double? _consumedCalories;
   double? _burnedCalories;
   double? _caloriesLeft;
-  List<LogModel> _listLog = [];
+  late List<LogModel> _listLog;
   UserModel? _user;
 
   UserModel? get getUser => _user;
@@ -30,10 +29,25 @@ class HomeViewModel extends ChangeNotifier {
   double? get caloriesLeft => _caloriesLeft;
   List<LogModel> get listLog => _listLog;
 
+  String? get name => _user?.name;
+  double? get calorieNeed => _user?.calorieNeed;
+
+
+  String getData(String? input) {
+    if (input == null) {
+      return TextStrings.loadingText;
+    } else {
+      return input;
+    }
+  }
 
 
   HomeViewModel(){
+    _listLog = [];
     getTodayDate();
+    auth = Auth();
+    firestore = Firestore();
+    _state = ResultState.loading;
   }
 
   void getTodayDate(){
@@ -93,15 +107,9 @@ class HomeViewModel extends ChangeNotifier {
     final UID = await auth.getCurrentUID();
     final UserModel? thisUser = await firestore.getUserData(UID!);
     _user = thisUser;
-    // if(_caloriesLeft == null){
-    //   _caloriesLeft = thisUser?.calorieNeed;
-    // }
     _caloriesLeft = thisUser?.calorieNeed;
     notifyListeners();
   }
 
-  void testFungsi() {
-    print("menjalankan getUserDATA");
-  }
 
 }

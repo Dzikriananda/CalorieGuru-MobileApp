@@ -128,7 +128,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         children: [
                                           ProfileItem(
                                             item: CustomFormField(
-                                              style: profileScreenTextStyle,
+                                              enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: onPrimaryContainer),
+                                              ),
+                                              focusedBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              focusedErrorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                              ),                                              style: profileScreenTextStyle,
                                               readOnly: false,
                                               onTap: () {},
                                               suffixIcon: null,
@@ -151,6 +162,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           ProfileItem(
                                             item: CustomFormField(
+                                              enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: onPrimaryContainer),
+                                              ),
+                                              focusedBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              focusedErrorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                              ),
                                               style: profileScreenTextStyle,
                                               readOnly: true,
                                               onTap: () {
@@ -180,6 +203,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           ProfileItem(
                                             item: CustomFormField(
+                                              enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: onPrimaryContainer),
+                                              ),
+                                              focusedBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              focusedErrorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                              ),
                                               style: profileScreenTextStyle,
                                               readOnly: true,
                                               onTap: () async {
@@ -213,6 +248,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           ProfileItem(
                                             item: CustomFormField(
+                                              enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: onPrimaryContainer),
+                                              ),
+                                              focusedBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              focusedErrorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                              ),
                                               style: profileScreenTextStyle,
                                               readOnly: false,
                                               onTap: () {},
@@ -237,6 +284,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           ProfileItem(
                                             item: CustomFormField(
+                                              enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: onPrimaryContainer),
+                                              ),
+                                              focusedBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              focusedErrorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                              ),
                                               style: profileScreenTextStyle,
                                               readOnly: false,
                                               onTap: () {},
@@ -261,6 +320,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           ProfileItem(
                                             item: CustomFormField(
+                                              enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: onPrimaryContainer),
+                                              ),
+                                              focusedBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              focusedErrorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                              ),
                                               style: profileScreenTextStyle,
                                               readOnly: false,
                                               onTap: () {},
@@ -285,6 +356,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           ProfileItem(
                                             item: CustomFormField(
+                                              enabledBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: onPrimaryContainer),
+                                              ),
+                                              focusedBorder: const UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              focusedErrorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.blue, width: 2),
+                                              ),
+                                              errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                              ),
                                               style: profileScreenTextStyle,
                                               readOnly: true,
                                               onTap: () {
