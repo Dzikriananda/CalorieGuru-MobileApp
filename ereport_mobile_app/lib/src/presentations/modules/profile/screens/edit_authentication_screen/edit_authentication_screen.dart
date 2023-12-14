@@ -34,7 +34,7 @@ class _EditAuthenticationScreenState extends State<EditAuthenticationScreen> {
         return CustomAlertDialog(
             content: content,
             buttonText: buttonText,
-            icon: Icon(Icons.notification_add),
+            icon: const Icon(Icons.notification_add),
             onRetry: onClosed
         );
       },
@@ -76,10 +76,10 @@ class _EditAuthenticationScreenState extends State<EditAuthenticationScreen> {
                                           focusedBorder: const UnderlineInputBorder(
                                             borderSide: BorderSide(color: Colors.blue, width: 2),
                                           ),
-                                          focusedErrorBorder: UnderlineInputBorder(
+                                          focusedErrorBorder: const UnderlineInputBorder(
                                             borderSide: BorderSide(color: Colors.blue, width: 2),
                                           ),
-                                          errorBorder: UnderlineInputBorder(
+                                          errorBorder: const UnderlineInputBorder(
                                             borderSide: BorderSide(color: Colors.red, width: 2),
                                           ),
                                           style: profileScreenTextStyle,
@@ -136,13 +136,13 @@ class _EditAuthenticationScreenState extends State<EditAuthenticationScreen> {
                                               }
                                             }
                                           },
-                                          child: const Text(TextStrings.editAuthenticationScreen_8,style: TextStyle(color: onPrimaryColor)),
                                           style: ElevatedButton.styleFrom(
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(10),
                                             ),
                                             backgroundColor: primaryColor,
                                           ),
+                                          child: const Text(TextStrings.editAuthenticationScreen_8,style: TextStyle(color: onPrimaryColor)),
                                         )
                                     )
                                   ],

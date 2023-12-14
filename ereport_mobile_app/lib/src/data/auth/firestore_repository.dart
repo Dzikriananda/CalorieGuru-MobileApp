@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:ereport_mobile_app/src/data/models/daily_log_summary.dart';
@@ -7,7 +5,6 @@ import 'package:ereport_mobile_app/src/data/models/feedback_model.dart';
 import 'package:ereport_mobile_app/src/data/models/list_log_model.dart';
 import 'package:ereport_mobile_app/src/data/models/user.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 
 class Firestore {
   final db = FirebaseFirestore.instance;
@@ -49,13 +46,10 @@ class Firestore {
     final docRef = db.collection("user");
     try{
       final querySnapshot = await docRef.where("uid", isEqualTo: UID).get();
-      print(querySnapshot.docs);
       for (var docSnapshot in querySnapshot.docs) {
-        print(docSnapshot.data());
          return docSnapshot.data()['hasFilledData'];
       }
     } catch(e){
-      print("error in hasFilledData : $e");
       return null;
     }
   }
@@ -141,7 +135,6 @@ class Firestore {
     List<LogModel> logList=[];
     int i = 0;
     String? docId;
-    print(uid);
     try{
       final querySnapshot = await docRef.where("uid", isEqualTo: uid).get(const GetOptions(source: dataSource));
       for (var docSnapshot in querySnapshot.docs) {
@@ -291,7 +284,9 @@ class Firestore {
           'logList' : logList,
         };
       }
-      else return {};
+      else {
+        return {};
+      }
     } catch(e) {
       return {};
     }

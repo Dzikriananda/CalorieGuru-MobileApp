@@ -27,10 +27,10 @@ class _SelectEditAuthenticationScreenState extends State<SelectEditAuthenticatio
                     children: [
                       Center(
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                             child: Column(
                               children: [
-                                Icon(Icons.admin_panel_settings_sharp,size: 100),
+                                const Icon(Icons.admin_panel_settings_sharp,size: 100),
                                 Text(TextStrings.selectAuthenticationScreen_1,style: petrolabTextTheme.titleLarge,textAlign: TextAlign.center),
                                 SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                                 InkWell(
@@ -41,7 +41,7 @@ class _SelectEditAuthenticationScreenState extends State<SelectEditAuthenticatio
                                     width: MediaQuery.of(context).size.width * 0.75,
                                     height: MediaQuery.of(context).size.height * 0.08,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                                        borderRadius: const BorderRadius.all(Radius.circular(20)),
                                         border: Border.all(
                                           color: Colors.black,
                                           width: 0.5,
@@ -53,7 +53,7 @@ class _SelectEditAuthenticationScreenState extends State<SelectEditAuthenticatio
                                         children: [
                                           SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                                           Icon(Icons.lock,size: MediaQuery.of(context).size.height * 0.05),
-                                          Expanded(child: SizedBox()),
+                                          const Expanded(child: SizedBox()),
                                           Text(TextStrings.selectAuthenticationScreen_2,style: petrolabTextTheme.bodyLarge),
                                           SizedBox(width: MediaQuery.of(context).size.width * 0.05)
                                         ],
@@ -70,7 +70,7 @@ class _SelectEditAuthenticationScreenState extends State<SelectEditAuthenticatio
                                     width: MediaQuery.of(context).size.width * 0.75,
                                     height: MediaQuery.of(context).size.height * 0.08,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                                        borderRadius: const BorderRadius.all(Radius.circular(20)),
                                         border: Border.all(
                                           color: Colors.black,
                                           width: 0.5,
@@ -82,7 +82,7 @@ class _SelectEditAuthenticationScreenState extends State<SelectEditAuthenticatio
                                         children: [
                                           SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                                           Icon(Icons.email,size: MediaQuery.of(context).size.height * 0.05),
-                                          Expanded(child: SizedBox()),
+                                          const Expanded(child: SizedBox()),
                                           Text(TextStrings.selectAuthenticationScreen_3,style: petrolabTextTheme.bodyLarge),
                                           SizedBox(width: MediaQuery.of(context).size.width * 0.05)
                                         ],

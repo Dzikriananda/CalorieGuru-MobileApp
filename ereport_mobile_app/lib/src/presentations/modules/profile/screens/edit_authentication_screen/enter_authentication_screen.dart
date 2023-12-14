@@ -47,11 +47,11 @@ class _EnterAuthenticationScreenState extends State<EnterAuthenticationScreen> {
                         children: [
                           Center(
                               child: Padding(
-                                padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
+                                padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
                                 child: Column(
                                   children: [
                                     Text(TextStrings.enterAuthenticationScreen_1,textAlign: TextAlign.center,style: petrolabTextTheme.titleMedium,),
-                                    SizedBox(height: 15),
+                                    const SizedBox(height: 15),
                                     Form(
                                       key: _formKey,
                                       child: CustomFormField(
@@ -61,10 +61,10 @@ class _EnterAuthenticationScreenState extends State<EnterAuthenticationScreen> {
                                           focusedBorder: const UnderlineInputBorder(
                                             borderSide: BorderSide(color: Colors.blue, width: 2),
                                           ),
-                                          focusedErrorBorder: UnderlineInputBorder(
+                                          focusedErrorBorder: const UnderlineInputBorder(
                                             borderSide: BorderSide(color: Colors.blue, width: 2),
                                           ),
-                                          errorBorder: UnderlineInputBorder(
+                                          errorBorder: const UnderlineInputBorder(
                                             borderSide: BorderSide(color: Colors.red, width: 2),
                                           ),
                                           style: profileScreenTextStyle,
@@ -81,8 +81,11 @@ class _EnterAuthenticationScreenState extends State<EnterAuthenticationScreen> {
                                           icon: const Icon(Icons.lock),
                                           isPassword: true,
                                           validator: (val) {
-                                            if (!val!.isNotNull) return TextStrings.invalidNullWarning;
-                                            else if (!val.isValidPassword) return TextStrings.invalidPasswordWarning;
+                                            if (!val!.isNotNull) {
+                                              return TextStrings.invalidNullWarning;
+                                            } else if (!val.isValidPassword) {
+                                              return TextStrings.invalidPasswordWarning;
+                                            }
                                             return null;
                                           },
                                           onSubmited: (value){
@@ -95,7 +98,7 @@ class _EnterAuthenticationScreenState extends State<EnterAuthenticationScreen> {
                                         visible: (viewmodel.state == ResultState.wrongCredential || viewmodel.state == ResultState.error),
                                         child: Text(viewmodel.errorMessage,style: chooseItemTextError)
                                     ),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                     SizedBox(
                                         width: double.infinity,
                                         child: ElevatedButton(
@@ -107,13 +110,13 @@ class _EnterAuthenticationScreenState extends State<EnterAuthenticationScreen> {
                                               }
                                             }
                                           },
-                                          child: Text(TextStrings.editAuthenticationScreen_8,style: TextStyle(color: onPrimaryColor)),
                                           style: ElevatedButton.styleFrom(
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(10),
                                             ),
                                             backgroundColor: primaryColor,
                                           ),
+                                          child: const Text(TextStrings.editAuthenticationScreen_8,style: TextStyle(color: onPrimaryColor)),
                                         )
                                     ),
 

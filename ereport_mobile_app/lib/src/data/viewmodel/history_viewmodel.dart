@@ -17,10 +17,8 @@ class HistoryViewModel extends ChangeNotifier {
   String? _currentDate;
 
 
-  HistoryViewModel() {
+  HistoryViewModel({required this.auth,required this.firestore}) {
     _state = ResultState.started;
-    auth = Auth();
-    firestore = Firestore();
     _focusDate = DateTime.now();
     _currentDate = convertDate(DateTime.now());
     _logSummary = DailyLogSummary.empty();

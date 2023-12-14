@@ -1,6 +1,7 @@
   import 'dart:async';
   import 'package:audioplayers/audioplayers.dart';
   import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
+import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
   import 'package:ereport_mobile_app/src/core/styles/color.dart';
   import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
   import 'package:ereport_mobile_app/src/data/viewmodel/splash_screen_viewmodel.dart';
@@ -51,12 +52,11 @@
             break;
           default:
             debugPrint('unknown');
-            Future.delayed(Duration(seconds: 2), () {
+            Future.delayed(const Duration(seconds: 2), () {
               didChangeDependencies();
             });
             break;
         }
-
         viewmodel.disposeViewModel();
       });
       super.didChangeDependencies();
@@ -82,7 +82,6 @@
                             height: MediaQuery.of(context).size.height * 0.17,
                             width: MediaQuery.of(context).size.width * 0.38
                         ),
-                        // Text(TextStrings.appTitle, style: splashScreenText),
                       ],
                     ),
                   ),
@@ -92,25 +91,7 @@
                     child: (viewmodel.state == ResultState.error)?
                         Column(
                           children: [
-                            Text('Error : ${viewmodel.errorMessage}',style: petrolabTextTheme.bodyLarge),
-                            ElevatedButton(
-                              child: const Text("Retry",style: TextStyle(color: onPrimaryColor)),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:  primaryColor,
-                                side: const BorderSide(
-                                  width: 1.0,
-                                  color: primaryColor,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                elevation: 0,
-                                minimumSize: const Size(110,36),
-                                maximumSize: const Size(110,36),
-                              ),
-                              onPressed: () {
-                              },
-                            ),
+                            Text(TextStrings.splashScreenError,style: petrolabTextTheme.bodyLarge),
                           ],
                         ):
                         const CircularProgressIndicator(

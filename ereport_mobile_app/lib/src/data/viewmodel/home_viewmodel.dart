@@ -42,11 +42,9 @@ class HomeViewModel extends ChangeNotifier {
   }
 
 
-  HomeViewModel(){
+  HomeViewModel({required this.auth,required this.firestore}){
     _listLog = [];
     getTodayDate();
-    auth = Auth();
-    firestore = Firestore();
     _state = ResultState.loading;
   }
 
