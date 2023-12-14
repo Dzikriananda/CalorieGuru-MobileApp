@@ -1,11 +1,14 @@
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/app_theme.dart';
+import 'package:ereport_mobile_app/src/core/utils/locator.dart';
+import 'package:ereport_mobile_app/src/data/auth/auth.dart';
+import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
+import 'package:ereport_mobile_app/src/data/data_source/remote/api_service.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/add_update_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/feedback_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/history_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/home_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/auth_viewmodel.dart';
-import 'package:ereport_mobile_app/src/data/viewmodel/profile_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/register_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/settings_viewmodel.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/splash_screen_viewmodel.dart';
@@ -32,11 +35,13 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  setupLocator();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then(
@@ -49,21 +54,19 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<SplashScreenViewModel>(create: (context) => SplashScreenViewModel(),lazy: false),
-        ChangeNotifierProvider<HomeViewModel>(create: (context) => HomeViewModel(),lazy: false),
-        ChangeNotifierProvider<AuthViewModel>(create: (context) => AuthViewModel()),
-        ChangeNotifierProvider<SettingsViewModel>(create: (context) => SettingsViewModel(),lazy: false),
-        ChangeNotifierProvider<RegisterViewModel>(create: (context) => RegisterViewModel(),lazy: false),
-        ChangeNotifierProvider<AddUpdateViewModel>(create: (context) => AddUpdateViewModel(),lazy: false),
-        ChangeNotifierProvider<HistoryViewModel>(create: (context) => HistoryViewModel(),lazy: false),
+        ChangeNotifierProvider<SplashScreenViewModel>(create: (context) => SplashScreenViewModel(auth: locator<Auth>()),lazy: false),
+        ChangeNotifierProvider<HomeViewModel>(create: (context) => HomeViewModel(auth: locator<Auth>(),firestore: locator<Firestore>()),lazy: false),
+        ChangeNotifierProvider<AuthViewModel>(create: (context) => AuthViewModel(auth: locator<Auth>(),firestore: locator<Firestore>())),
+        ChangeNotifierProvider<SettingsViewModel>(create: (context) => SettingsViewModel(auth: locator<Auth>(),firestore: locator<Firestore>()),lazy: false),
+        ChangeNotifierProvider<RegisterViewModel>(create: (context) => RegisterViewModel(auth: locator<Auth>(),firestore: locator<Firestore>(),apiService: locator<ApiService>()),lazy: false),
+        ChangeNotifierProvider<AddUpdateViewModel>(create: (context) => AddUpdateViewModel(auth: locator<Auth>(),firestore: locator<Firestore>(),apiService: locator<ApiService>()),lazy: false),
+        ChangeNotifierProvider<HistoryViewModel>(create: (context) => HistoryViewModel(auth: locator<Auth>(),firestore: locator<Firestore>()),lazy: false),
         ChangeNotifierProvider<SystemViewModel>(create: (context) => SystemViewModel()),
-        ChangeNotifierProvider<ProfileViewModel>(create: (context) => ProfileViewModel()),
-        ChangeNotifierProvider<FeedBackViewModel>(create: (context) => FeedBackViewModel(),lazy: false),
+        ChangeNotifierProvider<FeedBackViewModel>(create: (context) => FeedBackViewModel(auth: locator<Auth>(),firestore: locator<Firestore>()),lazy: false),
       ],
       child: MaterialApp(
         title: TextStrings.appTitle,

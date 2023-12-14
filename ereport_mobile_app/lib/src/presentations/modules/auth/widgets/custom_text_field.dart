@@ -119,13 +119,31 @@ extension extString on String {
   }
 
   bool get isValidWeight{
-    return (double.parse(this) > 40.0) && (double.parse(this) < 160.0);
+    final value = double.tryParse(this);
+    if (value != null) {
+      if (value > 40.0 && value < 160.0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
   }
 
   bool get isValidHeight{
-    return (double.parse(this) > 130.0) && (double.parse(this) < 230.0);
+    final value = double.tryParse(this);
+    if (value != null) {
+      if (value > 130.0 && value < 230.0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
 
   }
+
+
 
   bool get isValidCalorie{
     final value = double.tryParse(this);

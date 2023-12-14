@@ -1,9 +1,8 @@
-import 'dart:math';
 
+import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
 import 'package:ereport_mobile_app/src/core/styles/color.dart';
 import 'package:ereport_mobile_app/src/core/styles/text_style.dart';
-import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:ereport_mobile_app/src/data/models/user.dart';
 import 'package:ereport_mobile_app/src/data/viewmodel/settings_viewmodel.dart';
 import 'package:ereport_mobile_app/src/presentations/modules/auth/widgets/custom_text_field.dart';
@@ -13,20 +12,18 @@ import 'package:ereport_mobile_app/src/presentations/modules/profile/screens/pro
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../core/constants/result_state.dart';
 import '../../../../global_widgets/alert_dialog.dart';
 
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  var args;
+  late Map<String,dynamic> args;
   late UserModel user;
   late String email;
   late SettingsViewModel viewModel;
@@ -61,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void setTextFieldController(BuildContext context){
-    genderController.text = viewModel.temporaryGender! ? 'Female' : 'Male';
+    genderController.text = viewModel.temporaryGender ? 'Female' : 'Male';
     activityLevelController.text = viewModel.tempActivityLevel;
     nameController.text = viewModel.user.name!;
     heightController.text = viewModel.user.height.toString();
@@ -89,11 +86,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (BuildContext context) {
         return CustomAlertDialog(
-            content: "Update is Failed!",
-            buttonText: "OK",
-            icon:  Icon(Icons.warning),
+            content: TextStrings.alertContent_2,
+            buttonText: TextStrings.alertButton_1,
+            icon:  const Icon(Icons.warning),
             onRetry: (){
-              Navigator.of(context).pop(); // Close the dialog./ Close the dialog.
+              Navigator.of(context).pop();
             }
         );
       },
@@ -104,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text( (isEnabled) ? 'Edit Profile' : 'Profile', style: TextStyle(color: onPrimaryContainer)),
+          title: Text( TextStrings.profileScreen_1(isEnabled), style: const TextStyle(color: onPrimaryContainer)),
           backgroundColor: primaryContainer,
           foregroundColor: onPrimaryContainer,
         ),
@@ -118,291 +115,289 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Center(
                           child: Column(
                             children: [
-                              Container(
-                                child: Column(
-                                  children: [
-                                    ProfileContainer(progress: 0.5),
-                                    Form(
-                                      key: _formKey,
-                                      child: Column(
-                                        children: [
-                                          ProfileItem(
-                                            item: CustomFormField(
-                                              enabledBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: onPrimaryContainer),
-                                              ),
-                                              focusedBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              focusedErrorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              errorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.red, width: 2),
-                                              ),                                              style: profileScreenTextStyle,
-                                              readOnly: false,
-                                              onTap: () {},
-                                              suffixIcon: null,
-                                              margin: 1.0,
-                                              hasUnderline: true,
-                                              maxLines: 1,
-                                              initialValue: null,
-                                              backgroundColor: backgroundColor,
-                                              isEnabled: isEnabled,
-                                              hintText: "Name",
-                                              icon: const Icon(Icons.person),
-                                              isPassword: false,
-                                              validator: (val) {
-                                                if (!val!.isNotNull) return TextStrings.invalidNullWarning;
-                                                return null;
-                                              },
-                                              onSubmited: (_){},
-                                              textfieldController: nameController,
+                              Column(
+                                children: [
+                                  const ProfileContainer(progress: 0.5),
+                                  Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      children: [
+                                        ProfileItem(
+                                          item: CustomFormField(
+                                            enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: onPrimaryContainer),
                                             ),
+                                            focusedBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            focusedErrorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            errorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.red, width: 2),
+                                            ),                                              style: profileScreenTextStyle,
+                                            readOnly: false,
+                                            onTap: () {},
+                                            suffixIcon: null,
+                                            margin: 1.0,
+                                            hasUnderline: true,
+                                            maxLines: 1,
+                                            initialValue: null,
+                                            backgroundColor: backgroundColor,
+                                            isEnabled: isEnabled,
+                                            hintText: TextStrings.profileScreen_2,
+                                            icon: const Icon(Icons.person),
+                                            isPassword: false,
+                                            validator: (val) {
+                                              if (!val!.isNotNull) return TextStrings.invalidNullWarning;
+                                              return null;
+                                            },
+                                            onSubmited: (_){},
+                                            textfieldController: nameController,
                                           ),
-                                          ProfileItem(
-                                            item: CustomFormField(
-                                              enabledBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: onPrimaryContainer),
-                                              ),
-                                              focusedBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              focusedErrorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              errorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.red, width: 2),
-                                              ),
-                                              style: profileScreenTextStyle,
-                                              readOnly: true,
-                                              onTap: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (ctx) => ProfileAlertDialog(type: 'Gender',onOk: (){})
-                                                );
-                                              },
-                                              suffixIcon: const Icon(Icons.arrow_drop_down_sharp,size: 35,),
-                                              margin: 1.0,
-                                              hasUnderline: true,
-                                              maxLines: 1,
-                                              initialValue: null,
-                                              backgroundColor: backgroundColor,
-                                              isEnabled: isEnabled,
-                                              hintText: "Gender",
-                                              icon: Icon((viewmodel.temporaryGender!) ? Icons.female_outlined : Icons.male_outlined),
-                                              isPassword: false,
-                                              validator: (val) {
-                                                if (!val!.isNotNull) return TextStrings.invalidNullWarning;
-                                                return null;
+                                        ),
+                                        ProfileItem(
+                                          item: CustomFormField(
+                                            enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: onPrimaryContainer),
+                                            ),
+                                            focusedBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            focusedErrorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            errorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.red, width: 2),
+                                            ),
+                                            style: profileScreenTextStyle,
+                                            readOnly: true,
+                                            onTap: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (ctx) => ProfileAlertDialog(type: TextStrings.profileScreen_3,onOk: (){})
+                                              );
+                                            },
+                                            suffixIcon: const Icon(Icons.arrow_drop_down_sharp,size: 35,),
+                                            margin: 1.0,
+                                            hasUnderline: true,
+                                            maxLines: 1,
+                                            initialValue: null,
+                                            backgroundColor: backgroundColor,
+                                            isEnabled: isEnabled,
+                                            hintText: TextStrings.profileScreen_4,
+                                            icon: Icon((viewmodel.temporaryGender) ? Icons.female_outlined : Icons.male_outlined),
+                                            isPassword: false,
+                                            validator: (val) {
+                                              if (!val!.isNotNull) return TextStrings.invalidNullWarning;
+                                              return null;
 
-                                              },
-                                              onSubmited: (_){},
-                                              textfieldController: genderController,
-                                            ),
+                                            },
+                                            onSubmited: (_){},
+                                            textfieldController: genderController,
                                           ),
-                                          ProfileItem(
-                                            item: CustomFormField(
-                                              enabledBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: onPrimaryContainer),
-                                              ),
-                                              focusedBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              focusedErrorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              errorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.red, width: 2),
-                                              ),
-                                              style: profileScreenTextStyle,
-                                              readOnly: true,
-                                              onTap: () async {
-                                                DateTime? pickedDate = await showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(), //get today's date
-                                                    firstDate:DateTime.now().subtract(const Duration(days: 29218)), //DateTime.now() - 80 Years.
-                                                    lastDate: DateTime.now()
-                                                );
-                                                if(pickedDate != null) {
-                                                  viewModel.tempDate = pickedDate;
-                                                }
-                                              },
-                                              suffixIcon: null,
-                                              margin: 1.0,
-                                              hasUnderline: true,
-                                              maxLines: 1,
-                                              initialValue: null,
-                                              backgroundColor: backgroundColor,
-                                              isEnabled: isEnabled,
-                                              hintText: "Birthdate",
-                                              icon: const Icon(Icons.date_range_outlined),
-                                              isPassword: false,
-                                              validator: (val) {
-                                                if (!val!.isNotNull) return TextStrings.invalidNullWarning;
-                                                return null;
-                                              },
-                                              onSubmited: (_){},
-                                              textfieldController: calenderController,
+                                        ),
+                                        ProfileItem(
+                                          item: CustomFormField(
+                                            enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: onPrimaryContainer),
                                             ),
-                                          ),
-                                          ProfileItem(
-                                            item: CustomFormField(
-                                              enabledBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: onPrimaryContainer),
-                                              ),
-                                              focusedBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              focusedErrorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              errorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.red, width: 2),
-                                              ),
-                                              style: profileScreenTextStyle,
-                                              readOnly: false,
-                                              onTap: () {},
-                                              suffixIcon: null,
-                                              margin: 1.0,
-                                              hasUnderline: true,
-                                              maxLines: 1,
-                                              initialValue: null,
-                                              backgroundColor: backgroundColor,
-                                              isEnabled: isEnabled,
-                                              hintText: "Weight",
-                                              icon: const Icon(Icons.monitor_weight),
-                                              isPassword: false,
-                                              validator: (val) {
-                                                if (!val!.isNotNull) return TextStrings.invalidNullWarning;
-                                                if (!val!.isValidWeight) return TextStrings.invalidWeightWarning;
-                                                return null;
-                                              },
-                                              onSubmited: (_){},
-                                              textfieldController: weightController,
+                                            focusedBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
                                             ),
-                                          ),
-                                          ProfileItem(
-                                            item: CustomFormField(
-                                              enabledBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: onPrimaryContainer),
-                                              ),
-                                              focusedBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              focusedErrorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              errorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.red, width: 2),
-                                              ),
-                                              style: profileScreenTextStyle,
-                                              readOnly: false,
-                                              onTap: () {},
-                                              suffixIcon: null,
-                                              margin: 1.0,
-                                              hasUnderline: true,
-                                              maxLines: 1,
-                                              initialValue: null,
-                                              backgroundColor: backgroundColor,
-                                              isEnabled: isEnabled,
-                                              hintText: "Height",
-                                              icon: const Icon(Icons.height,color: Colors.black),
-                                              isPassword: false,
-                                              validator: (val) {
-                                                if (!val!.isNotNull) return TextStrings.invalidNullWarning;
-                                                if (!val!.isValidHeight) return TextStrings.invalidHeightlWarning;
-                                                return null;
-                                              },
-                                              onSubmited: (_){},
-                                              textfieldController: heightController,
+                                            focusedErrorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
                                             ),
-                                          ),
-                                          ProfileItem(
-                                            item: CustomFormField(
-                                              enabledBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: onPrimaryContainer),
-                                              ),
-                                              focusedBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              focusedErrorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              errorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.red, width: 2),
-                                              ),
-                                              style: profileScreenTextStyle,
-                                              readOnly: false,
-                                              onTap: () {},
-                                              suffixIcon: null,
-                                              margin: 1.0,
-                                              hasUnderline: true,
-                                              maxLines: 1,
-                                              initialValue: null,
-                                              backgroundColor: backgroundColor,
-                                              isEnabled: isEnabled,
-                                              hintText: "Calorie Need / Day",
-                                              icon: const Icon(Icons.fastfood),
-                                              isPassword: false,
-                                              validator: (val) {
-                                                if (!val!.isNotNull) return TextStrings.invalidNullWarning;
-                                                if (!val!.isValidCalorie) return TextStrings.invalidCalorieWarning;
-                                                return null;
-                                              },
-                                              onSubmited: (_){},
-                                              textfieldController: calorieNeedController,
+                                            errorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.red, width: 2),
                                             ),
+                                            style: profileScreenTextStyle,
+                                            readOnly: true,
+                                            onTap: () async {
+                                              DateTime? pickedDate = await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(), //get today's date
+                                                  firstDate:DateTime.now().subtract(const Duration(days: 29218)), //DateTime.now() - 80 Years.
+                                                  lastDate: DateTime.now()
+                                              );
+                                              if(pickedDate != null) {
+                                                viewModel.tempDate = pickedDate;
+                                              }
+                                            },
+                                            suffixIcon: null,
+                                            margin: 1.0,
+                                            hasUnderline: true,
+                                            maxLines: 1,
+                                            initialValue: null,
+                                            backgroundColor: backgroundColor,
+                                            isEnabled: isEnabled,
+                                            hintText: TextStrings.profileScreen_5,
+                                            icon: const Icon(Icons.date_range_outlined),
+                                            isPassword: false,
+                                            validator: (val) {
+                                              if (!val!.isNotNull) return TextStrings.invalidNullWarning;
+                                              return null;
+                                            },
+                                            onSubmited: (_){},
+                                            textfieldController: calenderController,
                                           ),
-                                          ProfileItem(
-                                            item: CustomFormField(
-                                              enabledBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: onPrimaryContainer),
-                                              ),
-                                              focusedBorder: const UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              focusedErrorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.blue, width: 2),
-                                              ),
-                                              errorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(color: Colors.red, width: 2),
-                                              ),
-                                              style: profileScreenTextStyle,
-                                              readOnly: true,
-                                              onTap: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (ctx) => ProfileAlertDialog(type: 'ActivityLevel',onOk: (){})
-                                                );
-                                              },
-                                              suffixIcon: const Icon(Icons.arrow_drop_down_sharp,size: 35,),
-                                              margin: 1.0,
-                                              hasUnderline: true,
-                                              maxLines: 1,
-                                              initialValue: null,
-                                              backgroundColor: backgroundColor,
-                                              isEnabled: isEnabled,
-                                              hintText: "Activity Level",
-                                              icon: const Icon(Icons.sports_martial_arts_sharp),
-                                              isPassword: false,
-                                              validator: (val) {
-                                                if (!val!.isNotNull) return TextStrings.invalidNullWarning;
-                                                return null;
-                                              },
-                                              onSubmited: (_){},
-                                              textfieldController: activityLevelController,
+                                        ),
+                                        ProfileItem(
+                                          item: CustomFormField(
+                                            enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: onPrimaryContainer),
                                             ),
+                                            focusedBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            focusedErrorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            errorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.red, width: 2),
+                                            ),
+                                            style: profileScreenTextStyle,
+                                            readOnly: false,
+                                            onTap: () {},
+                                            suffixIcon: null,
+                                            margin: 1.0,
+                                            hasUnderline: true,
+                                            maxLines: 1,
+                                            initialValue: null,
+                                            backgroundColor: backgroundColor,
+                                            isEnabled: isEnabled,
+                                            hintText: TextStrings.profileScreen_6,
+                                            icon: const Icon(Icons.monitor_weight),
+                                            isPassword: false,
+                                            validator: (val) {
+                                              if (!val!.isNotNull) return TextStrings.invalidNullWarning;
+                                              if (!val.isValidWeight) return TextStrings.invalidWeightWarning;
+                                              return null;
+                                            },
+                                            onSubmited: (_){},
+                                            textfieldController: weightController,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        ProfileItem(
+                                          item: CustomFormField(
+                                            enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: onPrimaryContainer),
+                                            ),
+                                            focusedBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            focusedErrorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            errorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.red, width: 2),
+                                            ),
+                                            style: profileScreenTextStyle,
+                                            readOnly: false,
+                                            onTap: () {},
+                                            suffixIcon: null,
+                                            margin: 1.0,
+                                            hasUnderline: true,
+                                            maxLines: 1,
+                                            initialValue: null,
+                                            backgroundColor: backgroundColor,
+                                            isEnabled: isEnabled,
+                                            hintText: TextStrings.profileScreen_7,
+                                            icon: const Icon(Icons.height,color: Colors.black),
+                                            isPassword: false,
+                                            validator: (val) {
+                                              if (!val!.isNotNull) return TextStrings.invalidNullWarning;
+                                              if (!val.isValidHeight) return TextStrings.invalidHeightlWarning;
+                                              return null;
+                                            },
+                                            onSubmited: (_){},
+                                            textfieldController: heightController,
+                                          ),
+                                        ),
+                                        ProfileItem(
+                                          item: CustomFormField(
+                                            enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: onPrimaryContainer),
+                                            ),
+                                            focusedBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            focusedErrorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            errorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.red, width: 2),
+                                            ),
+                                            style: profileScreenTextStyle,
+                                            readOnly: false,
+                                            onTap: () {},
+                                            suffixIcon: null,
+                                            margin: 1.0,
+                                            hasUnderline: true,
+                                            maxLines: 1,
+                                            initialValue: null,
+                                            backgroundColor: backgroundColor,
+                                            isEnabled: isEnabled,
+                                            hintText: TextStrings.profileScreen_8,
+                                            icon: const Icon(Icons.fastfood),
+                                            isPassword: false,
+                                            validator: (val) {
+                                              if (!val!.isNotNull) return TextStrings.invalidNullWarning;
+                                              if (!val.isValidCalorie) return TextStrings.invalidCalorieWarning;
+                                              return null;
+                                            },
+                                            onSubmited: (_){},
+                                            textfieldController: calorieNeedController,
+                                          ),
+                                        ),
+                                        ProfileItem(
+                                          item: CustomFormField(
+                                            enabledBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: onPrimaryContainer),
+                                            ),
+                                            focusedBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            focusedErrorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            errorBorder: const UnderlineInputBorder(
+                                              borderSide: BorderSide(color: Colors.red, width: 2),
+                                            ),
+                                            style: profileScreenTextStyle,
+                                            readOnly: true,
+                                            onTap: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (ctx) => ProfileAlertDialog(type: 'ActivityLevel',onOk: (){})
+                                              );
+                                            },
+                                            suffixIcon: const Icon(Icons.arrow_drop_down_sharp,size: 35,),
+                                            margin: 1.0,
+                                            hasUnderline: true,
+                                            maxLines: 1,
+                                            initialValue: null,
+                                            backgroundColor: backgroundColor,
+                                            isEnabled: isEnabled,
+                                            hintText: TextStrings.profileScreen_9,
+                                            icon: const Icon(Icons.sports_martial_arts_sharp),
+                                            isPassword: false,
+                                            validator: (val) {
+                                              if (!val!.isNotNull) return TextStrings.invalidNullWarning;
+                                              return null;
+                                            },
+                                            onSubmited: (_){},
+                                            textfieldController: activityLevelController,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Visibility(
-                                      visible: isEnabled,
-                                      child: const SizedBox(height: 20),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  Visibility(
+                                    visible: isEnabled,
+                                    child: const SizedBox(height: 20),
+                                  )
+                                ],
                               ),
                               const SizedBox(height: 20),
                               SizedBox(
@@ -421,7 +416,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       borderRadius: BorderRadius.all(Radius.circular(12)),
                                     ),
                                   ),
-                                  child: Text((isEnabled) ? 'Cancel' : 'Edit Profile',textAlign: TextAlign.center,),
+                                  child: Text(TextStrings.profileScreen_10(isEnabled),textAlign: TextAlign.center),
                                 ),
 
                               ),
@@ -456,7 +451,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         borderRadius: BorderRadius.all(Radius.circular(12)),
                                       ),
                                     ),
-                                    child: Text('Save',textAlign: TextAlign.center,),
+                                    child: const Text(TextStrings.profileScreen_11,textAlign: TextAlign.center,),
                                   ),
 
                                 ),
@@ -464,8 +459,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           )
                       ),
-
                     ),
+                    Visibility(
+                      visible: (viewmodel.state == ResultState.loading),
+                      child: const CircularProgressIndicator(
+                        color: Colors.black,
+                      ),
+                    )
 
                   ],
                 );

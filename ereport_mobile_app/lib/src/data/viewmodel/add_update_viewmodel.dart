@@ -18,8 +18,8 @@ const List<String> listExercise = <String>['Cardiovascular','Strength','Workout 
 
 class AddUpdateViewModel extends ChangeNotifier {
 
-  final ApiService apiService = ApiService();
-  final Firestore firestore = Firestore();
+  final ApiService apiService;
+  final Firestore firestore;
   late Auth auth;
 
   String? _instanceName;
@@ -44,10 +44,9 @@ class AddUpdateViewModel extends ChangeNotifier {
   int get index => _index;
   List<BurnedCalorieResponse>? get response2 => _response2;
 
-  AddUpdateViewModel(){
+  AddUpdateViewModel({required this.auth,required this.firestore,required this.apiService}){
     _list = ['Choose an item'];
     _index = 0;
-    auth = Auth();
   }
 
   String? get searchQuery => _searchQuery;

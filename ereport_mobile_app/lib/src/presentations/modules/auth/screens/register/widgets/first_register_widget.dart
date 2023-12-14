@@ -30,7 +30,7 @@ class _FirstRegisterWidgetState extends State<FirstRegisterWidget> {
 
 
   bool onPressed(){
-    registerViewModel.checkVisibility_firstPage();
+    registerViewModel.checkVisibilityFirstPage();
     if(_formKey.currentState!.validate() && (registerViewModel.gender != null && registerViewModel.birthdate != null)){
       return true;
     }

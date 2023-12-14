@@ -107,27 +107,3 @@ class _ProfileAlertDialogState extends State<ProfileAlertDialog> {
 }
 
 
-// ListTile(
-// title: const Text('Male'),
-// leading: Radio(
-// value: Gender.male,
-// groupValue: Provider.of<SettingsViewModel>(ctx).gender,
-// onChanged: (value) {
-// print(value);
-// Provider.of<SettingsViewModel>(ctx,listen: false).gender = value!;
-//
-// },
-// ),
-// ),
-// ListTile(
-// title: const Text('Female'),
-// leading: Radio(
-// value: Gender.female,
-// groupValue: Provider.of<SettingsViewModel>(ctx).gender,
-// onChanged: (value) {
-// print(value);
-// Provider.of<SettingsViewModel>(ctx,listen: false).gender = value!;
-// },
-// ),
-// ),
-

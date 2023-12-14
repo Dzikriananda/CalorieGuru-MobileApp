@@ -11,7 +11,7 @@ class FeedBackViewModel extends ChangeNotifier{
   late ResultState _state;
   late Auth auth;
   String? _feedbackMessage;
-  late Firestore _firestore;
+  late Firestore firestore;
   int? _emojiIndex;
   String? _message;
   late bool _isOptionEmpty;
@@ -19,10 +19,8 @@ class FeedBackViewModel extends ChangeNotifier{
   ResultState get state => _state;
   String? get message => _message;
 
-  FeedBackViewModel(){
+  FeedBackViewModel({required this.auth,required this.firestore}){
     _state = ResultState.started;
-    auth = Auth();
-    _firestore = Firestore();
     _isOptionEmpty = false;
 
   }
@@ -67,7 +65,7 @@ class FeedBackViewModel extends ChangeNotifier{
         notifyListeners();
         final feedback = FeedBackModel(uid: uid!,feedback: _feedbackMessage!,satisficationLevel: _emojiIndex!);
         if(await checkConnection()) {
-          await _firestore.sendFeedback(feedback);
+          await firestore.sendFeedback(feedback);
           _message = TextStrings.feedbackScreen_10;
           _state = ResultState.success;
         }
@@ -78,7 +76,7 @@ class FeedBackViewModel extends ChangeNotifier{
       }
     }
     catch (e) {
-      debugPrint('Error in sendFeedback (feedback_viewmodel.dart): $e');
+      debugPrint(TextStrings.errorRuntime('sendFeedback', 'feedback_viewmodel.dart', e.toString()));
       _message = 'Error : $e';
       _state = ResultState.error;
     }

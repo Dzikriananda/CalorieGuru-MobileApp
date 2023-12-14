@@ -14,19 +14,15 @@ import 'package:ereport_mobile_app/src/data/data_source/remote/api_service.dart'
 
 class RegisterViewModel extends ChangeNotifier{
 
-  ApiService apiService = ApiService();
-
-  ResultState _state = ResultState.started;
-
-  ResultState get state => _state;
-
+  late ApiService apiService;
+  late ResultState _state;
   late UserModel _userData;
-
-  int _page = 0;
-
+  late int _page;
   late bool _visible1;
   late bool _visible2;
   late bool _visible3;
+  late Auth auth;
+  late Firestore firestore;
   String? _sex;
   int? _age;
   int? _buttonChoosedIndex;
@@ -36,6 +32,7 @@ class RegisterViewModel extends ChangeNotifier{
 
 
   int get page => _page;
+  ResultState get state => _state;
   bool? get gender => _userData.gender;
   String? get birthdate => _userData.birthdate;
   String? get name => _userData.name;
@@ -45,7 +42,7 @@ class RegisterViewModel extends ChangeNotifier{
   double? get weight => _userData.weight;
   GetCalorieResponse? get response => _response;
   String? get errorMessage => _errorMessage;
-  bool _hasUpdated = false;
+  late bool _hasUpdated;
   bool get visible1 => _visible1;
   bool get visible2 => _visible2;
   bool get visible3 => _visible3;
@@ -53,7 +50,10 @@ class RegisterViewModel extends ChangeNotifier{
   int? get choosedIndex => _buttonChoosedIndex;
   bool get hasUpdate => _hasUpdated;
 
-  RegisterViewModel(){
+  RegisterViewModel({required this.apiService,required this.firestore,required this.auth}){
+    _state = ResultState.started;
+    _hasUpdated = false;
+    _page = 0;
     _userData = UserModel.createFirstTime();
     _visible1 = false;
     _visible2 = false;
@@ -61,7 +61,7 @@ class RegisterViewModel extends ChangeNotifier{
 
   }
 
-  void checkVisibility_firstPage(){
+  void checkVisibilityFirstPage(){
     if(_userData.gender == null) {
       _visible1 = true;
     } else {
@@ -75,7 +75,7 @@ class RegisterViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  void checkVisibility_secondPage(){
+  void checkVisibilitySecondPage(){
     if(_userData.activityLevel == null) {
       _visible3 = true;
     } else {
@@ -141,7 +141,6 @@ class RegisterViewModel extends ChangeNotifier{
   set birthdate(String? birthdate){
     _userData.birthdate = birthdate;
     _age = calculateAge(birthdate!);
-    print(_age);
     notifyListeners();
   }
 
@@ -183,8 +182,11 @@ class RegisterViewModel extends ChangeNotifier{
   void setGender(bool? gender){
     _userData.gender = gender;
     if(gender != null) {
-      if(_userData.gender!) _sex = "female";
-      else _sex = "male";
+      if(_userData.gender!) {
+        _sex = "female";
+      } else {
+        _sex = "male";
+      }
     }
     notifyListeners();
   }
@@ -201,9 +203,9 @@ class RegisterViewModel extends ChangeNotifier{
     _state = ResultState.loading;
     notifyListeners();
     try {
-      final uid = await Auth().getCurrentUID();
+      final uid = await auth.getCurrentUID();
       _userData.hasFilledData = true;
-      final result = await Firestore().updateUser(uid!, _userData);
+      final result = await firestore.updateUser(uid!, _userData);
       if(result){
         _state = ResultState.addDataSuccess;
         notifyListeners();

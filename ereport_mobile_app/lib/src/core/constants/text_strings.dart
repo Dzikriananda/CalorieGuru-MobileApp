@@ -16,6 +16,8 @@ class TextStrings {
   static const alertButton_2 = 'Retry';
   static const alertTitle = 'Alert';
   static const alertTitle_2 = 'Notification';
+  static const alertContent_1 = 'Failed';
+  static const alertContent_2 = "Update is Failed!";
 
   static const snackBarContent_1 = 'Login Failed!';
   static snackBarContent_2(String? args) {
@@ -31,6 +33,8 @@ class TextStrings {
   static const registerForm_3 = 'Enter Your Password';
   static const registerForm_4 = 'Reenter Password';
   static const registerForm_5 = 'Register';
+  static const splashScreenError = 'Error! Please ensure you has network connection. If this problem still persist then please clear cache';
+
   static homeScreen_1(String? args) {
     return (args != null) ? "Hi, ${args.toString().toCapitalized()}" : null;
   }
@@ -64,7 +68,6 @@ class TextStrings {
   static const historyScreen_5 = 'Remaining';
   static const historyScreen_6 = 'Activity Log';
   static const historyScreen_7 = 'No Data For This Date';
-  static const alertContent_1 = 'Failed';
   static const settingsScreen_1 = 'Profile';
   static const settingsScreen_2 = 'Logout';
   static const settingsScreen_3 = 'Delete Account';
@@ -192,6 +195,33 @@ class TextStrings {
   static const aboutAppScreen_6 = 'Calorie Ninjas: Special thanks for providing Data about Meals and Sport Activities.';
   static const aboutAppScreen_7 = 'M Alaaddin Celik: Special thanks for providing Data about Calorie Need.';
   static const aboutAppScreen_8 = 'Blush: Special thanks for providing many Illustrations.';
+  static profileScreen_1(bool args) {
+    return (args) ? 'Edit Profile' : 'Profile';
+  }
+  static const profileScreen_2 = "Name";
+  static const profileScreen_3 = 'Gender';
+  static const profileScreen_4 = 'Gender';
+  static const profileScreen_5 = "Birthdate";
+  static const profileScreen_6 = "Weight";
+  static const profileScreen_7 = 'Height';
+  static const profileScreen_8 = 'Calorie Need / Day';
+  static const profileScreen_9 = 'Activity Level';
+  static profileScreen_10(bool args) {
+    return (args) ? 'Cancel' : 'Edit Profile';
+  }
+  static const profileScreen_11 = 'Save';
+  static const profileScreen_12 = '';
+  static const profileScreen_13 = '';
+  static const profileScreen_14 = '';
+  static const profileScreen_15 = '';
+  static const profileScreen_16 = '';
+  static const profileScreen_17 = '';
+  static const profileScreen_18 = '';
+  static const profileScreen_19 = '';
+  static const profileScreen_20 = '';
+  static const profileScreen_21 = '';
+  static const profileScreen_22 = '';
+
 
 
 

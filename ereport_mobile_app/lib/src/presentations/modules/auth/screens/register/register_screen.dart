@@ -157,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         break;
                                       case 1:
                                         {
-                                          viewmodel.checkVisibility_secondPage();
+                                          viewmodel.checkVisibilitySecondPage();
                                           if (viewmodel.activityLevel != null) {
                                               viewmodel.getCalorieNeed();
                                               viewmodel.nextPage();

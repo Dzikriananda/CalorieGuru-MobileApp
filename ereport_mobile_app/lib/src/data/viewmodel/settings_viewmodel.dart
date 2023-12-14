@@ -38,10 +38,8 @@ class SettingsViewModel extends ChangeNotifier {
   DateTime get tempDate => _tempDate;
 
 
-  SettingsViewModel(){
+  SettingsViewModel({required this.auth,required this.firestore}){
     _user = UserModel.createFirstTime();
-    firestore = Firestore();
-    auth = Auth();
     _errorMessage = '';
     _gender = Gender.male;
     _state = ResultState.started;
