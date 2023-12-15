@@ -4,7 +4,7 @@ Welcome to Calorie Guru - your go-to application for tracking and managing your 
 Calorie Guru is designed to help users easily log their daily calorie consumption, providing a convenient way to monitor their diet and make informed decisions about their nutrition. This app simplifies the process of keeping track of calories consumed throughout the day.
 
 # Ready to Use!
-This project comes pre-configured with Firebase for authentication, Firestore for the database, and certain APIKEY. The necessary configurations are already set up, allowing you to dive straight into using the application without any additional setup (please read note about the APIKEY below)
+This project comes pre-configured with Firebase for authentication, Firestore for the database, and certain APIKEY. The necessary configurations are already set up, allowing you straight into using the application without any additional setup (please read note about the APIKEY below)
 
 # Technologies Used
 
@@ -41,6 +41,4 @@ Rest assured, this key does not pose any security risks as it is restricted to s
 
 For production or serious development purposes, it's highly recommended to obtain and use your own API key from the respective service provider to ensure security and scalability.
 
-If you have any concerns or need further clarification, please don't hesitate to contact me.
 
-Thank you!
