@@ -16,17 +16,19 @@ Backend:
   * RESTful API architecture for others API.
 
 # Features
+
 Calorie Logging
    * Log Your Meals: Easily input and track the food items and their respective calorie counts for each meal.
    * Search Calorie Information: Utilize machine learning-based food recognition to search and log the calorie count of various food items.
    * View Daily Intake: Monitor your daily calorie intake through a user-friendly interface.
+     
 Burning Activities
   * Track Physical Activities: Log exercises and physical activities to calculate and track burned calories.
-  * Customize Activity Intensity: Adjust activity duration and intensity for accurate calorie expenditure calculation. 
+  * Customize Activity Intensity: Adjust activity duration and intensity for accurate calorie expenditure calculation.
+    
 User Profiles
   * Profile Modification: Users can modify their profiles, including email and password changes.
   * Personalized Profiles: Create and manage individual profiles to track calorie goals and progress.
-Customized Recommendations: Receive tailored recommendations based on your set goals and intake.
 
 ## Important Note About the API Key
 
