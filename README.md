@@ -17,6 +17,7 @@ Frontend:
   * Flutter for the user interface.
   * Provider for state management.
   * Http Package for API interactions.
+  * Get for Dependency Injection
     
 Backend:
   * Firebase Authentication for user authentication.
