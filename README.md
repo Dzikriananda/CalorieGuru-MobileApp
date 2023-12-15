@@ -4,6 +4,7 @@ Welcome to Calorie Guru - your go-to application for tracking and managing your 
 Calorie Guru is designed to help users easily log their daily calorie consumption, providing a convenient way to monitor their diet and make informed decisions about their nutrition. This app simplifies the process of keeping track of calories consumed throughout the day.
 
 Technologies Used
+
 Frontend:
   * Flutter for the user interface.
   * Provider for state management.
