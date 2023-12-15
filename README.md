@@ -11,6 +11,8 @@ This project comes pre-configured with Firebase for authentication, Firestore fo
 
 # Technologies Used
 
+MVVM (Model-View-ViewModel) Architecture with Get as Dependency Injection
+
 Frontend:
   * Flutter for the user interface.
   * Provider for state management.
