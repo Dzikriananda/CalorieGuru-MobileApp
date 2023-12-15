@@ -6,7 +6,7 @@ Calorie Guru is designed to help users easily log their daily calorie consumptio
 # Ready to Use!
 This project comes pre-configured with Firebase for authentication, Firestore for the database, and certain APIKEY. The necessary configurations are already set up, allowing you to dive straight into using the application without any additional setup (please read note about the APIKEY below)
 
-Technologies Used
+# Technologies Used
 
 Frontend:
   * Flutter for the user interface.
