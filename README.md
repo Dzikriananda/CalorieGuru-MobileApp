@@ -5,13 +5,14 @@ Calorie Guru is designed to help users easily log their daily calorie consumptio
 
 Technologies Used
 Frontend:
-  - Flutter for the user interface.
-  - Provider for state management.
-  - Http Package for API interactions.
+  * Flutter for the user interface.
+  * Provider for state management.
+  * Http Package for API interactions.
+    
 Backend:
-  - Firebase Authentication for user authentication.
-  - Firestore for NoSQL database.
-  - RESTful API architecture for others API.
+  * Firebase Authentication for user authentication.
+  * Firestore for NoSQL database.
+  * RESTful API architecture for others API.
 
 # Features
 Calorie Logging
