@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 class ApiService{
   final String baseUrl = 'https://fitness-calculator.p.rapidapi.com/dailycalorie';
   final String baseUrl2 = 'https://api.api-ninjas.com/v1/caloriesburned';
+  final String baseUrl3 = 'https://api.calorieninjas.com/v1/nutrition?query=';
   final String _apiKey_1 = "9bb9272d1fmshb9444150d90e28ep142234jsn66c048e4f1db"; //READ NOTE ABOUT API KEY IN README.MD
   final String _apiKey_2 = "UI3fZaxmCMJAYamhD5mH3A==dJaPAKk64d9KcofT"; //READ NOTE ABOUT API KEY IN README.MD
   final String _apiKey_3 = "UI3fZaxmCMJAYamhD5mH3A==BBCP2aBqaC9u9P6E"; //READ NOTE ABOUT API KEY IN README.MD
@@ -22,7 +23,7 @@ class ApiService{
   }
 
   Future<String> checkMealCalorie(String mealName) async {
-    Uri finalUri = Uri.parse('https://api.calorieninjas.com/v1/nutrition?query=$mealName');
+    Uri finalUri = Uri.parse('$baseUrl3$mealName');
     final response = await http.get(
       finalUri,
       headers: <String, String>{
