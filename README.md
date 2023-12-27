@@ -6,7 +6,7 @@ Calorie Guru is designed to help users easily log their daily calorie consumptio
 # Project Structure Note
 Please Note: The package name and folder structure of this project might differ from the original (ereport_mobile_app) due to its origins from a different starter project or template. As a result, certain configurations or directory names might retain the structure of the original project.
 
-# links related to this project
+# Links related to this project
 Links to see the Screenshot of this project : https://drive.google.com/file/d/15FqsO5uVbaEaOf3bEvxJMVa2QOjToX3r/view?usp=sharing
 
 Links to APK File of this project : https://drive.google.com/file/d/1FKilu2HHDswlS2cH5HQsZkLfPwrfmWjt/view?usp=drive_link
