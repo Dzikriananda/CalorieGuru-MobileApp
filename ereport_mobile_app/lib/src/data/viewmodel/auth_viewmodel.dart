@@ -12,6 +12,7 @@ class AuthViewModel extends ChangeNotifier {
   ResultState _state = ResultState.started;
   late Firestore firestore;
   late Auth auth;
+  bool isSignInWithGoogle = false;
 
 
   ResultState get state => _state;
@@ -43,6 +44,11 @@ class AuthViewModel extends ChangeNotifier {
     _pwd2 = pwd;
   }
 
+  signInWithGoogle() {
+    isSignInWithGoogle = true;
+    signIn();
+  }
+
 
   void disposeViewModel(){
     _state = ResultState.started;
@@ -53,6 +59,7 @@ class AuthViewModel extends ChangeNotifier {
     final streamer = auth.authStateChanges.listen((event) async {
       if(event == null) debugPrint('unLogged');
       else {
+        print('berhasil login');
         try{
           final hasData = await firestore.hasFilledData(event.uid);
           if(hasData != null){
@@ -64,7 +71,11 @@ class AuthViewModel extends ChangeNotifier {
             }
           }
           else{
-            _state = ResultState.error;
+            if(isSignInWithGoogle) {
+              await signUp();
+            } else {
+              _state = ResultState.error;
+            }
           }
           notifyListeners();
         }
@@ -76,9 +87,17 @@ class AuthViewModel extends ChangeNotifier {
     try{
       _state = ResultState.loading;
       notifyListeners();
-      await auth.signInWithEmailAndPassword(email: _email!, password: _pwd!);
+      if(isSignInWithGoogle) {
+        await auth.signInWithGoogle();
+      } else {
+        await auth.signInWithEmailAndPassword(email: _email!, password: _pwd!);
+      }
     }
     on FirebaseAuthException catch(e){
+      _errorMessage = e.toString();
+      _state = ResultState.error;
+      notifyListeners();
+    } catch(e) {
       _errorMessage = e.toString();
       _state = ResultState.error;
       notifyListeners();
@@ -106,7 +125,11 @@ class AuthViewModel extends ChangeNotifier {
     try{
       _state = ResultState.loading;
       notifyListeners();
-      await auth.createUserWithEmailAndPassword(email: _email!, password: _pwd!);
+      if(isSignInWithGoogle) {
+        await auth.signInWithGoogle();
+      } else {
+        await auth.createUserWithEmailAndPassword(email: _email!, password: _pwd!);
+      }
 
     }
     on FirebaseAuthException catch(e){

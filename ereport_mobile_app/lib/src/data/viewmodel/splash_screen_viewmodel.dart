@@ -15,7 +15,7 @@ class SplashScreenViewModel extends ChangeNotifier {
 
   ResultState get state => _state;
 
-  SplashScreenViewModel({required Auth auth}) : _auth = auth{
+  SplashScreenViewModel({required Auth auth}) : _auth = auth {
       _state = ResultState.loading;
       _sub = _auth.authStateChanges.listen(
               (event) async {
@@ -23,7 +23,7 @@ class SplashScreenViewModel extends ChangeNotifier {
                   _state = ResultState.unLogged;
                   notifyListeners();
                 }
-                else if(event != null){
+                else {
                   final hasFilledData = await Firestore().hasFilledData(event.uid);
                   if(hasFilledData != null){
                     if(hasFilledData){

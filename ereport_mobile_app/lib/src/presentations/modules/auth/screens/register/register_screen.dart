@@ -70,17 +70,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<RegisterViewModel>(
-        builder: (context,viewmodel,child){
-          var currentPage = viewmodel.page;
-          if(viewmodel.state == ResultState.error){
-            void retry = (viewmodel.response == null) ? viewmodel.getCalorieNeed() : viewmodel.updateData();
+        builder: (context,viewModel,child){
+          var currentPage = viewModel.page;
+          if(viewModel.state == ResultState.error) {
+            void retry = (viewModel.response == null) ? viewModel.getCalorieNeed() : viewModel.updateData();
             bool isShow = _isThereCurrentDialogShowing(context);
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if(!isShow) _showAlertDialog(context, () => retry);
             });
           }
-          else if(viewmodel.state == ResultState.addDataSuccess){
-            viewmodel.disposeViewModel();
+          else if(viewModel.state == ResultState.addDataSuccess){
+            viewModel.disposeViewModel();
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushNamedAndRemoveUntil('/bottomNavigation', (Route route) => false);
             });
@@ -105,9 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              viewmodel.page == 0 ? const Icon(Icons.circle,size: 20) : const Icon(Icons.circle_outlined,size: 20),
-                              viewmodel.page == 1 ? const Icon(Icons.circle,size: 20) : const Icon(Icons.circle_outlined,size: 20),
-                              viewmodel.page == 2 ? const Icon(Icons.circle,size: 20) : const Icon(Icons.circle_outlined,size: 20),
+                              viewModel.page == 0 ? const Icon(Icons.circle,size: 20) : const Icon(Icons.circle_outlined,size: 20),
+                              viewModel.page == 1 ? const Icon(Icons.circle,size: 20) : const Icon(Icons.circle_outlined,size: 20),
+                              viewModel.page == 2 ? const Icon(Icons.circle,size: 20) : const Icon(Icons.circle_outlined,size: 20),
                             ],
                           ),
                           Row(
@@ -130,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     Navigator.of(context).pop();
                                   }
                                   else{
-                                    viewmodel.previousPage();
+                                    viewModel.previousPage();
                                   }
                                 },
                                 child: const Text(TextStrings.registerParentScreen_1,style: TextStyle(color: onPrimaryContainer)),
@@ -151,21 +151,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         {
                                           var isValid = onNext.call();
                                           if(isValid) {
-                                            viewmodel.nextPage();
+                                            viewModel.nextPage();
                                           }
                                         }
                                         break;
                                       case 1:
                                         {
-                                          viewmodel.checkVisibilitySecondPage();
-                                          if (viewmodel.activityLevel != null) {
-                                              viewmodel.getCalorieNeed();
-                                              viewmodel.nextPage();
+                                          viewModel.checkVisibilitySecondPage();
+                                          if (viewModel.activityLevel != null) {
+                                              viewModel.getCalorieNeed();
+                                              viewModel.nextPage();
                                           }
                                         }
                                         break;
                                       case 2:
-                                        viewmodel.updateData();
+                                        viewModel.updateData();
                                         break;
                                     }
                                   },

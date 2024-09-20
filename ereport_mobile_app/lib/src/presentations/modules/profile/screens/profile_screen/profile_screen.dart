@@ -65,8 +65,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     weightController.text = viewModel.user.weight.toString();
     calenderController.text = DateFormat('yMMMMd').format(viewModel.tempDate);
     calorieNeedController.text = viewModel.user.calorieNeed.toString();
-
-
   }
 
   @override

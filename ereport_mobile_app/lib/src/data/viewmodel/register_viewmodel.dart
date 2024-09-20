@@ -29,6 +29,7 @@ class RegisterViewModel extends ChangeNotifier{
   late String _result;
   GetCalorieResponse? _response;
   String? _errorMessage;
+  int? activityUserLevel;
 
 
   int get page => _page;
@@ -42,6 +43,7 @@ class RegisterViewModel extends ChangeNotifier{
   double? get weight => _userData.weight;
   GetCalorieResponse? get response => _response;
   String? get errorMessage => _errorMessage;
+  UserModel get userData => _userData;
   late bool _hasUpdated;
   bool get visible1 => _visible1;
   bool get visible2 => _visible2;
@@ -88,33 +90,61 @@ class RegisterViewModel extends ChangeNotifier{
 
   void getCalorieNeed() async {
     Map<String,dynamic> queryParams = {
-      'age' : '$_age',
+      'age' : _age,
       'gender' : _sex,
-      'weight' : '${_userData.weight}',
-      'height' : '${_userData.height}',
-      'activitylevel' : '${_userData.activityLevel}',
+      'weight' : _userData.weight,
+      'height' : _userData.height,
+      'activitylevel' : activityUserLevel,
 
     };
     _state = ResultState.loading;
     notifyListeners();
-    try{
-      final thisResponse = await apiService.checkCalorie(queryParams = queryParams);
-      _response = GetCalorieResponse.fromJson(jsonDecode(thisResponse));
-      final calorieNeed = _response?.data.goals.maintainWeight.toStringAsFixed(1);
-      _userData.calorieNeed = double.parse(calorieNeed!);
-      _state = ResultState.hasData;
-      notifyListeners();
+    await Future.delayed(Duration(seconds: 2));
+    final calorieNeed = calculateTDEE(queryParams).toStringAsFixed(1);
+    _userData.calorieNeed = double.parse(calorieNeed);
+    _state = ResultState.hasData;
+    notifyListeners();
+    // try{
+    //   print('mencari data');
+    //   final thisResponse = await apiService.checkCalorie(queryParams = queryParams);
+    //   print('ada data');
+    //   print('data : $thisResponse');
+    //   _response = GetCalorieResponse.fromJson(jsonDecode(thisResponse));
+    //   print(_response);
+    //   final calorieNeed = _response?.data.goals.maintainWeight.toStringAsFixed(1);
+    //   _userData.calorieNeed = double.parse(calorieNeed!);
+    //   _state = ResultState.hasData;
+    //   notifyListeners();
+    // }
+    // on SocketException{
+    //   _errorMessage = TextStrings.errorAlert_1;
+    //   _state = ResultState.error;
+    //   notifyListeners();
+    // }
+    // catch(e){
+    //   _errorMessage = e.toString();
+    //   _state = ResultState.error;
+    //   notifyListeners();
+    // }
+  }
+
+  double calculateTDEE(Map<String,dynamic> map) {
+    late double bmr;
+    late double amr;
+    switch(map['activitylevel']){
+      case 0: {amr = 1.2;} break;
+      case 1: {amr = 1.375;} break;
+      case 2: {amr = 1.55;} break;
+      case 3: {amr = 1.725;} break;
+      case 4: {amr = 1.9;} break;
+      case 5: {amr = 2;} break;
     }
-    on SocketException{
-      _errorMessage = TextStrings.errorAlert_1;
-      _state = ResultState.error;
-      notifyListeners();
+    if(map['gender'] == 'male') {
+      bmr = 66 + (13.7 * map['weight']) + (5 * map['height']) - (6.8 * map['age']);
+    } else {
+      bmr = 66 + (9.6 * map['weight']) + (1.8 * map['height']) - (4.7 * map['age']);
     }
-    catch(e){
-      _errorMessage = e.toString();
-      _state = ResultState.error;
-      notifyListeners();
-    }
+    return bmr * amr;
   }
 
   set activityLevel(String? activityLevel){
@@ -153,6 +183,7 @@ class RegisterViewModel extends ChangeNotifier{
       _buttonChoosedIndex = index;
       setActivityLevel(index);
     }
+    activityUserLevel = index;
     notifyListeners();
   }
 
@@ -165,10 +196,22 @@ class RegisterViewModel extends ChangeNotifier{
       case 3: {_userData.activityLevel = ActivityLevel.level_4.name;} break;
       case 4: {_userData.activityLevel = ActivityLevel.level_5.name;} break;
       case 5: {_userData.activityLevel = ActivityLevel.level_6.name;} break;
-
-
     }
   }
+
+  // void setActivityLevel(int index){
+  //   switch(index){
+  //     case -1: {_userData.activityLevel = null;} break;
+  //     case 0: {_userData.activityLevel = ActivityLevel.level_1.name;} break;
+  //     case 1: {_userData.activityLevel = ActivityLevel.level_2.name;} break;
+  //     case 2: {_userData.activityLevel = ActivityLevel.level_3.name;} break;
+  //     case 3: {_userData.activityLevel = ActivityLevel.level_4.name;} break;
+  //     case 4: {_userData.activityLevel = ActivityLevel.level_5.name;} break;
+  //     case 5: {_userData.activityLevel = ActivityLevel.level_6.name;} break;
+  //
+  //
+  //   }
+  // }
 
 
 
