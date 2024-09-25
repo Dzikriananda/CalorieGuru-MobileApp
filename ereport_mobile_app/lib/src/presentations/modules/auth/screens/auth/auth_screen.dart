@@ -162,7 +162,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                 text: TextStrings.signinregister_second,
                                 style: const TextStyle(color: Colors.blue),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () => changeForm()
+                                  ..onTap = () {
+                                    if(!viewModel.isLoading) {
+                                      changeForm();
+                                    }
+                                  }
                             ),
                           ],
                         ),
@@ -175,7 +179,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                 text: TextStrings.register_second,
                                 style: const TextStyle(color: Colors.blue),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () => changeForm()
+                                  ..onTap = () {
+                                    if(!viewModel.isLoading) {
+                                      changeForm();
+                                    }
+                                  }
                             ),
                           ],
                         ),

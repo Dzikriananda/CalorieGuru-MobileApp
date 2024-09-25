@@ -131,8 +131,10 @@ class _SignInState extends State<SignInForm>{
                     SizedBox(height: MediaQuery.of(context).size.height * 0.035),
                     ElevatedButton(
                       onPressed: () {
-                        if(_formKey.currentState!.validate()){
-                          viewModel.signIn();
+                        if(!viewModel.isLoading) {
+                          if(_formKey.currentState!.validate()){
+                            viewModel.signInWithEmailAndPassword();
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -205,9 +207,12 @@ class _SignInState extends State<SignInForm>{
             ],
           ),
         ),
+        SizedBox(height: 15),
         ElevatedButton(
           onPressed: () {
-            viewModel.signInWithGoogle();
+            if(!viewModel.isLoading) {
+              viewModel.signInWithGoogle();
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue,
@@ -215,7 +220,16 @@ class _SignInState extends State<SignInForm>{
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          child: FaIcon(FontAwesomeIcons.google,color: Colors.white),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Login with Google',style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Colors.white
+              )),
+              SizedBox(width: 10),
+              FaIcon(FontAwesomeIcons.google,color: Colors.white)
+            ],
+          ),
         ),
       ],
     );

@@ -131,7 +131,8 @@ class _RegisterFormState extends State<RegisterForm> {
                     if(_formKey.currentState!.validate() && (
                         Provider.of<AuthViewModel>(context, listen: false).password == Provider.of<AuthViewModel>(context, listen: false).password_2)
                     ){
-                      Provider.of<AuthViewModel>(context, listen: false).signUp();
+                      viewModel.isSignInWithGoogle = false;
+                      viewModel.signUp();
                     }
                   },
                   child: const Text(TextStrings.registerForm_5,style: LoginButtonText),

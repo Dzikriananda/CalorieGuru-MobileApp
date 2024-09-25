@@ -1,10 +1,12 @@
 import 'package:ereport_mobile_app/src/core/constants/text_strings.dart';
+import 'package:ereport_mobile_app/src/core/utils/error_handler.dart';
 import 'package:ereport_mobile_app/src/data/auth/auth.dart';
 import 'package:ereport_mobile_app/src/data/auth/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:ereport_mobile_app/src/core/constants/result_state.dart';
 import 'package:ereport_mobile_app/src/core/utils/helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 
 class AuthViewModel extends ChangeNotifier {
@@ -16,6 +18,8 @@ class AuthViewModel extends ChangeNotifier {
 
 
   ResultState get state => _state;
+
+  bool get isLoading => _state == ResultState.loading;
 
   String? _email;
   String? _pwd;
@@ -49,6 +53,11 @@ class AuthViewModel extends ChangeNotifier {
     signIn();
   }
 
+  signInWithEmailAndPassword() {
+    isSignInWithGoogle = false;
+    signIn();
+  }
+
 
   void disposeViewModel(){
     _state = ResultState.started;
@@ -59,7 +68,6 @@ class AuthViewModel extends ChangeNotifier {
     final streamer = auth.authStateChanges.listen((event) async {
       if(event == null) debugPrint('unLogged');
       else {
-        print('berhasil login');
         try{
           final hasData = await firestore.hasFilledData(event.uid);
           if(hasData != null){
@@ -72,7 +80,7 @@ class AuthViewModel extends ChangeNotifier {
           }
           else{
             if(isSignInWithGoogle) {
-              await signUp();
+              signUp();
             } else {
               _state = ResultState.error;
             }
@@ -92,13 +100,8 @@ class AuthViewModel extends ChangeNotifier {
       } else {
         await auth.signInWithEmailAndPassword(email: _email!, password: _pwd!);
       }
-    }
-    on FirebaseAuthException catch(e){
-      _errorMessage = e.toString();
-      _state = ResultState.error;
-      notifyListeners();
     } catch(e) {
-      _errorMessage = e.toString();
+      _errorMessage = ErrorHandler().handleLoginError(e);
       _state = ResultState.error;
       notifyListeners();
     }
